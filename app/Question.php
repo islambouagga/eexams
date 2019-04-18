@@ -13,10 +13,8 @@ class Question extends Model
 {
     protected $primaryKey = 'id_Question';
     public function exams(){
-        return $this->belongsToMany('App\Exam','exam_questions','exams_id','questions_id')
-//            ->using('App\ExamQuestion')->withPivot([
-//            'order','score'
-//        ])
+        return $this->belongsToMany('App\Exam')
+
             ;
     }
 

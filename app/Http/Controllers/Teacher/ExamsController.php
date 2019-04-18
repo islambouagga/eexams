@@ -8,10 +8,12 @@ use App\Http\Controllers\Controller;
 use App\Exam;
 use App\Question;
 use App\TFQuestion;
+use Illuminate\Support\Facades\Input;
 
 class ExamsController extends Controller
 {
     public $iid_Exam;
+    public $ide;
     public function __construct()
     {
         $this->middleware('auth');
@@ -50,12 +52,12 @@ class ExamsController extends Controller
      */
     public function store(Request $request,Exam $exam)
     {
-//        $exam->id_Exam='100';
+
         $exam->title = $request->title ;
         $exam->Description = $request->Description;
         $exam->Time_limited= $request->Time_limited;
         $exam->save();
-//        return $exam->id_Exam;
+
         $this->iid_Exam=$exam->id_Exam;
 
         return redirect('teacher/questions/tfquestions/create?id='.$this->iid_Exam);
@@ -83,11 +85,8 @@ class ExamsController extends Controller
      */
     public function edit(Exam $exam)
     {
-//        $exams = Exam::find($id);
-//        $arr['exams']= Exam::find($id);
-//        foreach ($exam->questions()->orderBy('order')->get() as $Q) {
-//            echo $Q->expression;
-//        }
+       echo $exam->id_Exam;
+
         return view('teacher.exams.edit')->with('exams',$exam);
     }
 
@@ -100,34 +99,7 @@ class ExamsController extends Controller
      */
     public function update(Request $request,Exam $exam,TFQuestion $TFQuestion,Question $question)
     {
-      $nb = $exam->questions()->count();
-//      echo $nb;
-//      dd($nb);
-//     for ($i=1 ;$i<= $nb ; $i++) {
-//          echo $i;
-//        dd($request->get()) ;
-//        }
-//        for ($i=1 ;$i<= $nb ; $i++){
 
-        dd($request->allFiles());
-//$aar->split();
-
-//        foreach ($exam->questions()->orderBy('order')->get() as $Q) {
-////
-//
-//            $question=Question::find($Q->id_Question);
-//            $question->expression= request('expression'.$Q->id_Question);
-////            $question->expression=$request->expression;
-//            $question->save();
-//            return $question;
-//            dd(request('expression'.$Q->id_Question));
-//        }
-//            return $i;
-//        }
-//        foreach ($exam->questions()->orderBy('order')->get() as $Q) {
-//            return $Q->id_Question;
-//        }
-//        $courrntQ=request->id_Question;
 
     }
 
