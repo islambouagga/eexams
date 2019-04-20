@@ -60,7 +60,7 @@ class ExamsController extends Controller
 
         $this->iid_Exam=$exam->id_Exam;
 
-        return redirect('teacher/questions/tfquestions/create?id='.$this->iid_Exam);
+        return redirect('teacher/questions/tfquestions/create?id='.$this->iid_Exam.'&key=0');
     }
 
     /**
@@ -71,9 +71,7 @@ class ExamsController extends Controller
      */
     public function show(Exam $exam)
     {
-//        foreach ($exams->questions()->orderBy('order')->get() as $Q) {
-//            echo $Q->id;
-//        }
+
         return view('teacher.exams.show')->with('exams',$exam);
     }
 
@@ -85,7 +83,8 @@ class ExamsController extends Controller
      */
     public function edit(Exam $exam)
     {
-       echo $exam->id_Exam;
+
+
 
         return view('teacher.exams.edit')->with('exams',$exam);
     }
@@ -100,8 +99,32 @@ class ExamsController extends Controller
     public function update(Request $request,Exam $exam,TFQuestion $TFQuestion,Question $question)
     {
 
+        $exam_current = $request->id_Exam;
+        $e = Exam::find($exam_current);
+        foreach ($exam->questions()->orderBy('order')->get() as $Q) {
+            $question = Question::find($Q->id_Question);
+            $TFQuestion = TFQuestion::find($Q->id_Question);
+            $question->expression = request('expression'.$Q->id_Question);
+            $TFQuestion->correct_answer = request('correct_answer'.$Q->id_Question);
+            $TFQuestion->save();
+            $question->estimated_time = request('estimated_time'.$Q->id_Question);
+            $question->questiontable_id = $TFQuestion->id_t_f_questions;
+            $question->questiontable_type = "TFQuestion";
+            $exam_current = $request->id_Exam;
+            $question->save();
 
-    }
+            $e->questions()->updateExistingPivot($question->id_Question, ['score' => request('score'.$Q->id_Question),'order' => request('order'.$Q->id_Question)]);
+
+
+
+
+        }
+        return view('teacher.exams.show')->with('exams',$e);
+
+
+
+
+ }
 
     /**
      * Remove the specified resource from storage.
@@ -111,6 +134,12 @@ class ExamsController extends Controller
      */
     public function destroy(Exam $exam)
     {
-        //
+//        dd('hh');
+        foreach ($exam->questions()->orderBy('order')->get() as $Q) {
+//            echo $Q->id_Question;
+        $exam->questions()->detach([$Q->id_Question]);
+    }
+        $exam->delete();
+        return redirect('/teacher/exams');
     }
 }

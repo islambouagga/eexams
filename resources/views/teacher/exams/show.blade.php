@@ -148,10 +148,16 @@
             <div class="box-footer">
 
                 <button type="submit" class="btn btn-info pull-right" >
-                    <a href="/eexams/public/teacher/exams/{{$exams->id}}/edit">
+                    <a href="/eexams/public/teacher/exams/{{$exams->id_Exam}}/edit">
                     Edit
                     </a>
                 </button>
+                <form role="form" method="post" action="/eexams/public/teacher/exams/{{$exams->id_Exam}}">
+
+                    @method('DELETE')
+                    @csrf
+                <button type="submit"  class="btn btn-default btn-danger">Delete</button>
+                </form>
             </div>
             </table>
 

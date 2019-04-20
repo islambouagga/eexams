@@ -38,7 +38,11 @@ class TFQuestionsController extends Controller
     public function create()
     {
         $id_Exam = Input::get('id');
-        return view('teacher.questions.tfquestions.create', compact('id_Exam'));
+//        echo $id_Exam;
+        $test=Input::get('key');
+//        echo $test;
+//        echo $_GET['key']
+        return view('teacher.questions.tfquestions.create', compact('id_Exam','test'));
     }
 
     /**
@@ -63,15 +67,18 @@ class TFQuestionsController extends Controller
         $question->questiontable_type = "TFQuestion";
         $exam_current = $request->id_Exam;
 
+
         $question->save();
         Exam::find($exam_current)->questions()->attach($question, ['order' => $request->order, 'score' => $request->score]);
         switch ($request->submitbtn) {
             case'submit';
-
                 return redirect('teacher/exams?id=' . $exam_current);
                 break;
             case 'add';
                 return redirect('teacher/questions/tfquestions/create?id=' . $exam_current);
+                break;
+            case 'mit2';
+                return redirect('/teacher/exams/'.$exam_current.'/edit');
                 break;
         }
     }
@@ -108,19 +115,21 @@ class TFQuestionsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $question = Question::find($id);
-        $TFQuestion = TFQuestion::find($id);
-        $question->expression = $request->expression;
-        $TFQuestion->correct_answer = $request->correct_answer;
-        $TFQuestion->save();
-        $question->estimated_time = $request->estimated_time;
-        $question->questiontable_id = $TFQuestion->id_t_f_questions;
-        $question->questiontable_type = "TFQuestion";
-        $exam_current = $request->id_Exam;
-        $question->save();
-        $e = Exam::find($exam_current);
-        $e->questions()->updateExistingPivot($question->id_Question, ['score' => $request->score]);
-        return redirect('/teacher/exams/' . $request->id_Exam . '/edit');
+        dd($request->input('expression'));
+
+//        $question = Question::find($id);
+//        $TFQuestion = TFQuestion::find($id);
+//        $question->expression = $request->expression;
+//        $TFQuestion->correct_answer = $request->correct_answer;
+//        $TFQuestion->save();
+//        $question->estimated_time = $request->estimated_time;
+//        $question->questiontable_id = $TFQuestion->id_t_f_questions;
+//        $question->questiontable_type = "TFQuestion";
+//        $exam_current = $request->id_Exam;
+//        $question->save();
+//        $e = Exam::find($exam_current);
+//        $e->questions()->updateExistingPivot($question->id_Question, ['score' => $request->score]);
+//        return redirect('/teacher/exams/' . $request->id_Exam . '/edit');
 
     }
 

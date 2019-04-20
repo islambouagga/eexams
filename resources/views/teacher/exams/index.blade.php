@@ -135,7 +135,13 @@
                                             <i class="fa fa-fw fa-edit"></i>
                                         </a>
                                     </td>
-                                    <td><i class="glyphicon glyphicon-trash"></i></td>
+                                    <td>
+                                        <form role="form" method="post" action="/eexams/public/teacher/exams/{{$e->id_Exam}}">
+                                            @method('DELETE')
+                                            @csrf
+                                        <button class="glyphicon glyphicon-trash"></button>
+                                        </form>
+                                    </td>
                                 </tr>
                             @endforeach
                         </table>
