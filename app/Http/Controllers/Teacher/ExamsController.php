@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Teacher;
 
 
+use App\Teacher;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Exam;
@@ -26,10 +27,10 @@ class ExamsController extends Controller
      */
     public function index()
     {
+      $teacher=auth()->user();
 
-        $exams = Exam::all();
 
-        return view('teacher.exams.index')->with('exams',$exams);
+        return view('teacher.exams.index')->with('exams',$teacher->exams);
 
 
     }
@@ -55,7 +56,7 @@ class ExamsController extends Controller
 
         $exam->title = $request->title ;
         $exam->Description = $request->Description;
-        $exam->Time_limited= $request->Time_limited;
+        $exam->id_teacher=auth()->user()->getAuthIdentifier();
         $exam->save();
 
         $this->iid_Exam=$exam->id_Exam;
@@ -110,7 +111,6 @@ class ExamsController extends Controller
             $question->estimated_time = request('estimated_time'.$Q->id_Question);
             $question->questiontable_id = $TFQuestion->id_t_f_questions;
             $question->questiontable_type = "TFQuestion";
-            $exam_current = $request->id_Exam;
             $question->save();
 
             $e->questions()->updateExistingPivot($question->id_Question, ['score' => request('score'.$Q->id_Question),'order' => request('order'.$Q->id_Question)]);

@@ -8,12 +8,24 @@ class Exam extends Model
 {
     protected $primaryKey = 'id_Exam';
 
-    public function questions(){
-        return $this->belongsToMany('App\Question','exam_questions','id_Exam','id_Question')
+    public function questions()
+    {
+        return $this->belongsToMany('App\Question', 'exam_questions',
+            'id_Exam', 'id_Question')
             ->withPivot([
-                    'order','score'
+                    'order', 'score'
                 ]
-            )
-            ;
+            );
+    }
+
+    public function students()
+    {
+        return $this->belongsToMany('App\Student', 'student_exams',
+            'id_student', 'id_Exam')
+            ->withPivot(['date_passing', 'mark']);
+    }
+    public function groupes(){
+        return $this->belongsToMany('App\Group', 'exam_groups', 'id_Exam', 'id_Group')->withPivot(['date_scheduling','Time_limit']);
+
     }
 }

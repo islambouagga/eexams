@@ -31,37 +31,23 @@
                         <table class="table table-hover">
                             <tr>
                                 <th>ID</th>
-                                <th>Name</th>
-                                <th>Description</th>
-                                <th>Date</th>
-                                <th>Limited Time</th>
-                                <th>Status</th>
-                                <th>Download</th>
-                                <th>Edite</th>
-                                <th>Delete</th>
+                                <th>Full Name</th>
+                                <th></th>
+
 
                             </tr>
-                            @foreach($exams as $e)
+                            @foreach($student as $s)
                                 <tr>
-                                    <td>{{$e->id_Exam}}</td>
-                                    <td>{{$e->title}}</td>
-                                    <td>{{$e->Description}}</td>
-                                    <td>{{$e->created_at}}</td>
-                                    <td>{{$e->Time_limited}}</td>
-                                    <td><span class="label label-success">Approved</span></td>
-                                    <td><i class="glyphicon glyphicon-download-alt"></i></td>
+                                    <td>{{$s->id_student}}</td>
+                                    <td>{{$s->name}}</td>
                                     <td>
-                                        <a href="/eexams/public/teacher/exams/{{$e->id_Exam}}">
-                                            <i class="fa fa-fw fa-edit"></i>
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <form role="form" method="post" action="/eexams/public/teacher/exams/{{$e->id_Exam}}">
-                                            @method('DELETE')
-                                            @csrf
-                                        <button class="glyphicon glyphicon-trash"></button>
+                                        <form role="form" method="post" action="{{route('teacher.students.store')}}">
+                                        @csrf
+                                            <h1><input type="hidden" name="id_group" value="{{$id_group}}"></h1>
+                                        <button type="submit" name="id_student" class="add-on" value="{{$s->id_student}}"> add</button>
                                         </form>
                                     </td>
+
                                 </tr>
                             @endforeach
                         </table>

@@ -37,4 +37,11 @@ class Teacher extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function exams(){
+        return $this->hasMany('App\Exam','id_teacher');
+    }
+    public function groupes(){
+        return $this->hasMany('App\Group','id_teacher');
+    }
 }

@@ -33,33 +33,27 @@
                                 <th>ID</th>
                                 <th>Name</th>
                                 <th>Description</th>
-                                <th>Date</th>
-                                <th>Limited Time</th>
-                                <th>Status</th>
-                                <th>Download</th>
-                                <th>Edite</th>
+                                <th>Schedule</th>
+                                <th>Edit</th>
                                 <th>Delete</th>
 
                             </tr>
-                            @foreach($exams as $e)
+                            @foreach($groups as $g)
                                 <tr>
-                                    <td>{{$e->id_Exam}}</td>
-                                    <td>{{$e->title}}</td>
-                                    <td>{{$e->Description}}</td>
-                                    <td>{{$e->created_at}}</td>
-                                    <td>{{$e->Time_limited}}</td>
-                                    <td><span class="label label-success">Approved</span></td>
-                                    <td><i class="glyphicon glyphicon-download-alt"></i></td>
+                                    <td>{{$g->id_Group}}</td>
+                                    <td>{{$g->title}}</td>
+                                    <td>{{$g->Description}}</td>
+                                    <td><i class="glyphicon glyphicon-time"></i></td>
                                     <td>
-                                        <a href="/eexams/public/teacher/exams/{{$e->id_Exam}}">
+                                        <a href="/eexams/public/teacher/groups/{{$g->id_Group}}">
                                             <i class="fa fa-fw fa-edit"></i>
                                         </a>
                                     </td>
                                     <td>
-                                        <form role="form" method="post" action="/eexams/public/teacher/exams/{{$e->id_Exam}}">
+                                        <form role="form" method="post" action="/eexams/public/teacher/groupes/{{$g->id_Group}}">
                                             @method('DELETE')
                                             @csrf
-                                        <button class="glyphicon glyphicon-trash"></button>
+                                            <button class="glyphicon glyphicon-trash"></button>
                                         </form>
                                     </td>
                                 </tr>

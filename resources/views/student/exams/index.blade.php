@@ -1,4 +1,4 @@
-@extends('layouts.teacher')
+@extends('layouts.student')
 
 @section('content')
 
@@ -33,35 +33,17 @@
                                 <th>ID</th>
                                 <th>Name</th>
                                 <th>Description</th>
-                                <th>Date</th>
-                                <th>Limited Time</th>
-                                <th>Status</th>
-                                <th>Download</th>
-                                <th>Edite</th>
-                                <th>Delete</th>
 
                             </tr>
                             @foreach($exams as $e)
                                 <tr>
                                     <td>{{$e->id_Exam}}</td>
-                                    <td>{{$e->title}}</td>
-                                    <td>{{$e->Description}}</td>
-                                    <td>{{$e->created_at}}</td>
-                                    <td>{{$e->Time_limited}}</td>
-                                    <td><span class="label label-success">Approved</span></td>
-                                    <td><i class="glyphicon glyphicon-download-alt"></i></td>
                                     <td>
-                                        <a href="/eexams/public/teacher/exams/{{$e->id_Exam}}">
-                                            <i class="fa fa-fw fa-edit"></i>
+                                        <a href="/eexams/public/student/exams/create?id={{$e->id_Exam}}">
+                                        {{$e->title}}
                                         </a>
                                     </td>
-                                    <td>
-                                        <form role="form" method="post" action="/eexams/public/teacher/exams/{{$e->id_Exam}}">
-                                            @method('DELETE')
-                                            @csrf
-                                        <button class="glyphicon glyphicon-trash"></button>
-                                        </form>
-                                    </td>
+                                    <td>{{$e->Description}}</td>
                                 </tr>
                             @endforeach
                         </table>
@@ -71,6 +53,8 @@
                 <!-- /.box -->
             </div>
         </div>
+
+
 
     </section>
     <!-- /.content -->

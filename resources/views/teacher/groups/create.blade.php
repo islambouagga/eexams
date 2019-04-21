@@ -9,7 +9,7 @@
           | Your Page Content Here |
           -------------------------->
         <div class="box-body">
-            <form role="form" method="post" action="{{route('teacher.exams.store')}}">
+            <form role="form" method="post" action="{{route('teacher.groups.store')}}">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <!-- text input -->
                 <div class="form-group">
@@ -23,19 +23,15 @@
                     <textarea type="text" name="Description" class="form-control" rows="3"
                               placeholder="Enter ..."></textarea>
                 </div>
-{{--                <div class="form-group">--}}
-{{--                    <label>Limited Time:</label>--}}
-
-{{--                    <div class="input-group">--}}
-{{--                        <div class="input-group-addon">--}}
-{{--                            <i class="fa fa-clock-o"></i>--}}
-{{--                        </div>--}}
-{{--                        <input type="time" min="00:00:00" max="01:30:00" name="Time_limited"--}}
-{{--                               class="form-control pull-right">--}}
-
-{{--                    </div>--}}
-{{--                    <!-- /.input group -->--}}
-{{--                </div>--}}
+                <div class="form-group">
+                    <label>Multiple</label>
+                    <select class="form-control select2" multiple="multiple" data-placeholder="Select a State"
+                            style="width: 100%;">
+                        @foreach($student as $s)
+                        <option>{{$s->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
                 <div class="box-footer">
                     <button type="submit" class="btn btn-default">Cancel</button>
                     <button type="submit" class="btn btn-info pull-right">Create</button>

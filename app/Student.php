@@ -38,4 +38,23 @@ class Student extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function questions()
+    {
+        return $this->belongsToMany('App\Question',
+            'student_questions', 'id_student', 'id_Question')
+            ->withPivot(['answer']);
+    }
+
+    public function exams(){
+        return $this->belongsToMany('App\Exam',
+            'student_exams', 'id_student', 'id_Exam')
+            ->withPivot(['date_passing','mark']);
+
+    }
+    public function groups(){
+        return $this->belongsToMany('App\Group',
+            'student_groups', 'id_student', 'id_Group');
+
+    }
 }
