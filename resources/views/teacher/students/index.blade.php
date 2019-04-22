@@ -30,33 +30,60 @@
                     <div class="box-body table-responsive no-padding">
                         <table class="table table-hover">
                             <tr>
-                                <th>ID</th>
+                                <th>#</th>
                                 <th>Full Name</th>
-                                <th></th>
+
 
 
                             </tr>
-                            @foreach($student as $s)
+                            @foreach($group->students()->get() as $s)
                                 <tr>
                                     <td>{{$s->id_student}}</td>
                                     <td>{{$s->name}}</td>
-                                    <td>
-                                        <form role="form" method="post" action="{{route('teacher.students.store')}}">
-                                        @csrf
-                                            <h1><input type="hidden" name="id_group" value="{{$id_group}}"></h1>
-                                        <button type="submit" name="id_student" class="add-on" value="{{$s->id_student}}"> add</button>
-                                        </form>
-                                    </td>
 
                                 </tr>
                             @endforeach
+                            <tr>
+                                <form role="form" method="post" action="/eexams/public/teacher/groups/{{$group->id_Group}}">
+                                    {{method_field('PATCH')}}
+                                    {{csrf_field()}}
+                                <div class="form-group">
+                                    <label>students</label>
+                                    <select class="form-control select2" name="students[]"  multiple="multiple"  data-placeholder="Select a State"
+                                    >
+
+                                        @foreach($students as $ss)
+{{--                                            {{$exist=$group->students()->where('id_student', $s->id_student)}}--}}
+                                            {{$exist=$group->students()->
+                                            where('students.id_student', $ss->id_student)->exists()
+}}
+                                            <option @if($exist==true) disabled="disabled" @endif value="{{$ss->id_student}}">{{$ss->name}} @if($exist==true)is already exist @endif </option>
+                                        @endforeach
+                                    </select>
+
+
+                                </div>
+
+                                    <div class="box-footer">
+
+                                        <button type="submit" name="submitbtn" value="add" class="btn btn-info pull-right">
+                                            make edit
+                                        </button>
+
+                                    </div>
+
+                                </form>
+                            </tr>
                         </table>
+
+
                     </div>
                     <!-- /.box-body -->
                 </div>
                 <!-- /.box -->
             </div>
         </div>
+
 
     </section>
     <!-- /.content -->

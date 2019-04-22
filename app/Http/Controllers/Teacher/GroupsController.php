@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Teacher;
 
 use App\Group;
 use App\Student;
+use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -38,7 +39,7 @@ class GroupsController extends Controller
 
         $student= Student::all();
 
-        return view('teacher.groups.create')->with('studnet',$student);
+        return view('teacher.groups.create')->with('student',$student);
 
     }
 
@@ -48,14 +49,18 @@ class GroupsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request,Group $groupes)
+    public function store(Request $request,Group $groupes,Student $student)
     {
+//        dd($request);
         $groupes->title = $request->title ;
         $groupes->Description = $request->Description;
         $groupes->id_teacher=auth()->user()->getAuthIdentifier();
         $groupes->save();
-
-        return redirect('/teacher/students?id='.$groupes->id_Group);
+//        $student=Student::find($request->student);
+//        dd($student);
+        $groupes->students()->attach($request->students);
+//        session::flash('success','kolch mrigl ');
+        return redirect('teacher/groups');
     }
 
     /**
@@ -66,7 +71,10 @@ class GroupsController extends Controller
      */
     public function show(Group $group)
     {
-        return view('teacher.exams.show')->with('group',$group);
+        $students= Student::all();
+
+        return view('teacher.students.index')->with('students',$students)
+            ->with('group',$group);
 
     }
 
@@ -90,7 +98,11 @@ class GroupsController extends Controller
      */
     public function update(Request $request, Group $group)
     {
-        //
+        $group->students()->attach($request->students);
+        $students= Student::all();
+
+        return view('teacher.students.index')->with('students',$students)
+            ->with('group',$group);
     }
 
     /**

@@ -24,14 +24,17 @@
                               placeholder="Enter ..."></textarea>
                 </div>
                 <div class="form-group">
-                    <label>Multiple</label>
-                    <select class="form-control select2" multiple="multiple" data-placeholder="Select a State"
-                            style="width: 100%;">
+                    <label>students</label>
+                    <select class="form-control select2" name="students[]"  multiple="multiple"  data-placeholder="Select a State"
+                            >
                         @foreach($student as $s)
-                        <option>{{$s->name}}</option>
+                        <option  value="{{$s->id_student}}">{{$s->name}}</option>
                         @endforeach
                     </select>
+
+
                 </div>
+
                 <div class="box-footer">
                     <button type="submit" class="btn btn-default">Cancel</button>
                     <button type="submit" class="btn btn-info pull-right">Create</button>

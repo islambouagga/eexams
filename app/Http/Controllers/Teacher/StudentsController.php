@@ -15,8 +15,9 @@ class StudentsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id_Group)
     {
+        echo $id_Group ;
         $student=Student::all();
         $id_group=Input::get('id');
 //        dd($student);

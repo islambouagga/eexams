@@ -10,7 +10,7 @@ class Group extends Model
     public function students()
     {
         return $this->belongsToMany('App\Student', 'student_groups',
-            'id_student', 'id_Group')
+            'id_Group', 'id_student')
          ;
     }
     public function exams(){

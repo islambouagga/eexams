@@ -30,8 +30,8 @@
                     <div class="box-body table-responsive no-padding">
                         <table class="table table-hover">
                             <tr>
-                                <th>ID</th>
-                                <th>Name</th>
+                                <th>#</th>
+                                <th>Title</th>
                                 <th>Description</th>
                                 <th>Schedule</th>
                                 <th>Edit</th>
