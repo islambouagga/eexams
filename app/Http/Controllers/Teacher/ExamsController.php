@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Teacher;
 
 
 use App\Teacher;
+use DateTime;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Exam;
@@ -108,7 +109,13 @@ class ExamsController extends Controller
             $question->expression = request('expression'.$Q->id_Question);
             $TFQuestion->correct_answer = request('correct_answer'.$Q->id_Question);
             $TFQuestion->save();
-            $question->estimated_time = request('estimated_time'.$Q->id_Question);
+            $time=  request('estimated_time'.$Q->id_Question);
+            $time= str_replace('H','',$time);
+            $time=str_replace('M','',$time);
+            $time=$time.':00';
+            $format=    DateTime::createFromFormat('H:i:s',$time);
+
+            $question->estimated_time =$format ;
             $question->questiontable_id = $TFQuestion->id_t_f_questions;
             $question->questiontable_type = "TFQuestion";
             $question->save();

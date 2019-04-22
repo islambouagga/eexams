@@ -7,9 +7,11 @@ use App\Exam;
 use App\Exam_Question;
 use App\Question;
 use App\TFQuestion;
+use DateTime;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
+use Ramsey\Uuid\Converter\TimeConverterInterface;
 
 class TFQuestionsController extends Controller
 {
@@ -62,7 +64,15 @@ class TFQuestionsController extends Controller
         $question->expression = $request->expression;
         $TFQuestion->correct_answer = $request->correct_answer;
         $TFQuestion->save();
-        $question->estimated_time = $request->estimated_time;
+      $time=  $request->estimated_time;
+       $time= str_replace('H','',$time);
+        $time=str_replace('M','',$time);
+        $time=$time.':00';
+        $format=    DateTime::createFromFormat('H:i:s',$time);
+
+//dd($format->getTimestamp());
+
+        $question->estimated_time = $format;
         $question->questiontable_id = $TFQuestion->id_t_f_questions;
         $question->questiontable_type = "TFQuestion";
         $exam_current = $request->id_Exam;

@@ -66,15 +66,21 @@
                                 </div>
                                 <div class="form-group">
                                     <label>estimated time : {{$Q->estimated_time}}</label>
+{{--                                    <div class="input-group">--}}
+{{--                                        <div class="input-group-addon">--}}
+{{--                                            <i class="fa fa-clock-o"></i>--}}
+{{--                                        </div>--}}
+{{--                                        <input type="time" min="00:00:00" max="01:30:00" name="estimated_time{{$Q->id_Question}}"--}}
+{{--                                               class="form-control pull-right" value="{{$Q->estimated_time}}">--}}
+
+{{--                                    </div>--}}
                                     <div class="input-group">
-                                        <div class="input-group-addon">32
+                                        <div class="input-group-addon">
                                             <i class="fa fa-clock-o"></i>
                                         </div>
-                                        <input type="time" min="00:00:00" max="01:30:00" name="estimated_time{{$Q->id_Question}}"
-                                               class="form-control pull-right" value="{{$Q->estimated_time}}">
-
+                                        <input type="text" name="estimated_time{{$Q->id_Question}}" class="form-control" placeholder="00H:00M"
+                                               data-inputmask="'mask': ['99H:99M]', '00H:00M']" data-mask value="{{$Q->estimated_time}}">
                                     </div>
-
                                 </div>
                                 @endforeach
                             </div>

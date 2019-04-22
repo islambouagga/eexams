@@ -45,15 +45,25 @@
                     </div>
                     <div class="form-group">
                         <label> Estimated Time:</label>
-
                         <div class="input-group">
                             <div class="input-group-addon">
                                 <i class="fa fa-clock-o"></i>
                             </div>
-                            <input type="time" min="00:00:00" max="01:30:00" name="estimated_time"
-                                   class="form-control pull-right">
-
+                            <input type="text" name="estimated_time" class="form-control" placeholder="00H:00M"
+                                   data-inputmask="'mask': ['99H:99M]', '00H:00M']" data-mask>
                         </div>
+
+{{--                        <div class="input-group">--}}
+{{--                            <div class="input-group-addon">--}}
+{{--                                <i class="fa fa-clock-o"></i>--}}
+{{--                            </div>--}}
+{{--                            <input type="time" min="00:00:00" max="01:30:00" name="estimated_time"--}}
+{{--                                   class="form-control pull-right">--}}
+
+{{--                        </div>--}}
+                        <!-- /.input group -->
+                    </div>
+
                         <!-- /.input group -->
                     </div>
                     <div class="box-footer">
