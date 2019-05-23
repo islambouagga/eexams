@@ -62,7 +62,7 @@ class ExamsController extends Controller
 
         $this->iid_Exam=$exam->id_Exam;
 
-        return redirect('teacher/questions/tfquestions/create?id='.$this->iid_Exam.'&key=0');
+        return redirect('teacher/questions/mcquestions/create?id='.$this->iid_Exam.'&key=0');
     }
 
     /**

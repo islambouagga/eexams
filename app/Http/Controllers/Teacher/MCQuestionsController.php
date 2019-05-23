@@ -2,26 +2,17 @@
 
 namespace App\Http\Controllers\Teacher;
 
-use App\Http\Controllers\Teacher\ExamsController;
 use App\Exam;
-use App\Exam_Question;
+use App\MCQuestion;
 use App\Question;
-use App\TFQuestion;
 use DateTime;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
-use Ramsey\Uuid\Converter\TimeConverterInterface;
 
-class TFQuestionsController extends Controller
+class MCQuestionsController extends Controller
 {
     public $id_exam = 1;
-
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -44,36 +35,39 @@ class TFQuestionsController extends Controller
         $test=Input::get('key');
 //        echo $test;
 //        echo $_GET['key']
-        return view('teacher.questions.tfquestions.create', compact('id_Exam','test'));
+        return view('teacher.questions.mcquestions.create', compact('id_Exam','test'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, TFQuestion $TFQuestion, Question $question, ExamsController $examsController)
+    public function store(Request $request,MCQuestion $MCQuestion,Question $question, ExamsController $examsController)
     {
-
         $this->id_exam = $examsController->iid_Exam;
 
         $exam = Exam::Find($this->id_exam);
 
 
         $question->expression = $request->expression;
-        $TFQuestion->correct_answer = $request->correct_answer;
-        $TFQuestion->save();
-      $time=  $request->estimated_time;
-       $time= str_replace('H','',$time);
+        $MCQuestion->correct_answer = $request->correct_answer;
+        $MCQuestion->choice1=$request->choice1;
+        $MCQuestion->choice2=$request->choice2;
+        $MCQuestion->choice3=$request->choice3;
+        $MCQuestion->choice4=$request->choice4;
+        $MCQuestion->save();
+        $time=  $request->estimated_time;
+        $time= str_replace('H','',$time);
         $time=str_replace('M','',$time);
         $time=$time.':00';
         $format=    DateTime::createFromFormat('H:i:s',$time);
 //dd($format->getTimestamp());
 
         $question->estimated_time = $format;
-        $question->questiontable_id = $TFQuestion->id_t_f_questions;
-        $question->questiontable_type = "TFQuestion";
+        $question->questiontable_id = $MCQuestion->id_m_c_questions;
+        $question->questiontable_type = "MCQuestion";
         $exam_current = $request->id_Exam;
 
 
@@ -84,7 +78,7 @@ class TFQuestionsController extends Controller
                 return redirect('teacher/exams?id=' . $exam_current);
                 break;
             case 'add';
-                return redirect('teacher/questions/tfquestions/create?id=' . $exam_current);
+                return redirect('teacher/questions/mcquestions/create?id=' . $exam_current);
                 break;
             case 'mit2';
                 return redirect('/teacher/exams/'.$exam_current.'/edit');
@@ -92,14 +86,13 @@ class TFQuestionsController extends Controller
         }
     }
 
-
     /**
      * Display the specified resource.
      *
-     * @param int $id
+     * @param  \App\MCQuestion  $mCQuestion
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(MCQuestion $mCQuestion)
     {
         //
     }
@@ -107,10 +100,10 @@ class TFQuestionsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param int $id
+     * @param  \App\MCQuestion  $mCQuestion
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(MCQuestion $mCQuestion)
     {
         //
     }
@@ -118,37 +111,22 @@ class TFQuestionsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\MCQuestion  $mCQuestion
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, MCQuestion $mCQuestion)
     {
-        dd($request->input('expression'));
-
-//        $question = Question::find($id);
-//        $TFQuestion = TFQuestion::find($id);
-//        $question->expression = $request->expression;
-//        $TFQuestion->correct_answer = $request->correct_answer;
-//        $TFQuestion->save();
-//        $question->estimated_time = $request->estimated_time;
-//        $question->questiontable_id = $TFQuestion->id_t_f_questions;
-//        $question->questiontable_type = "TFQuestion";
-//        $exam_current = $request->id_Exam;
-//        $question->save();
-//        $e = Exam::find($exam_current);
-//        $e->questions()->updateExistingPivot($question->id_Question, ['score' => $request->score]);
-//        return redirect('/teacher/exams/' . $request->id_Exam . '/edit');
-
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
+     * @param  \App\MCQuestion  $mCQuestion
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(MCQuestion $mCQuestion)
     {
         //
     }

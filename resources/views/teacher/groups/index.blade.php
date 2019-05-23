@@ -43,7 +43,11 @@
                                     <td>{{$g->id_Group}}</td>
                                     <td>{{$g->title}}</td>
                                     <td>{{$g->Description}}</td>
-                                    <td><i class="glyphicon glyphicon-time"></i></td>
+                                    <td>
+                                        <a href="{{route('teacher.groups.schedule',$g->id_Group)}}">
+                                        <i class="glyphicon glyphicon-time"></i>
+                                        </a>
+                                    </td>
                                     <td>
                                         <a href="/eexams/public/teacher/groups/{{$g->id_Group}}">
                                             <i class="fa fa-fw fa-edit"></i>

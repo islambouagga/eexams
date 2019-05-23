@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 Relation::morphMap([
     'TFQuestion'=>'App\TFQuestion'
 ]);
+Relation::morphMap([
+    'TFQuestion'=>'App\MCQuestion'
+]);
 
 class Question extends Model
 {

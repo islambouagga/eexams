@@ -25,7 +25,7 @@
                 </div>
                 <div class="form-group">
                     <label>students</label>
-                    <select class="form-control select2" name="students[]"  multiple="multiple"  data-placeholder="Select a State"
+                    <select class="form-control select2" name="students[]"  multiple="multiple"  data-placeholder="Select a Student"
                             >
                         @foreach($student as $s)
                         <option  value="{{$s->id_student}}">{{$s->name}}</option>

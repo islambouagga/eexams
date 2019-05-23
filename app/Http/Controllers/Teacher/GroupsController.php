@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Teacher;
 
+use App\Exam;
 use App\Group;
 use App\Student;
+use Carbon\Carbon;
+use DateTime;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -114,5 +117,40 @@ class GroupsController extends Controller
     public function destroy(Group $group)
     {
         //
+    }
+
+    public function schedule(Group $group)
+    {
+
+        $exams=Exam::all();
+return view('teacher.groups.schedule')->with('exams',$exams)->with('group',$group);
+    }
+    public function doschedule(Request $request,Group $group)
+    {
+        $exam=Exam::find($request->exam);
+//        dd($request->exam);
+        $grup=Group::find($request->id_Group);
+//        dd($grup->id_Group);
+
+//        "date_scheduling" => "4/23 09:00 PM - 4/25 05:00 AM"
+        $text=$request->date_scheduling;
+$split= explode('-',$text,2);
+$startdate=$split[0];
+$enddate=$split[1];
+        $startTime = Carbon::parse($startdate);
+        $finishTime = Carbon::parse($enddate);
+        $hours = $finishTime->diff($startTime);
+        $minutes = $finishTime->diffInMinutes($startTime);
+        $seconds = $finishTime->diffInSeconds($startTime);
+
+
+//        $format=    DateTime::createFromFormat('H:i:s',$startdate);
+//dd($hours,$minutes,$seconds);
+$exam->groupes()->attach($grup,['date_scheduling'=> $startTime ,'Time_limit'=>$hours->format('%H:%I')]);
+    $teacher=auth()->user();
+
+
+        return view('teacher.groups.index')->with('groups',$teacher->groupes);
+
     }
 }

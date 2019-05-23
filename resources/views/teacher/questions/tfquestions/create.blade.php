@@ -9,6 +9,7 @@
           | Your Page Content Here |
           -------------------------->
 
+
         <!-- /.box-header -->
 
         <div class="box-body">
@@ -91,7 +92,6 @@
 
                     </div>
 
-                </div>
 
 
             </form>
