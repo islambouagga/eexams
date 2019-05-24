@@ -44,6 +44,12 @@
         <div class="box-body">
             <form role="form" method="post" action="{{route('teacher.mcquestions.store')}} ">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
+                <div class="alert alert-danger print-error-msg" style="display:none">
+
+                    <ul></ul>
+
+                </div>
                 <!-- text input -->
                 <div class="form-group">
                     <label><h2>Question</h2></label>
@@ -52,23 +58,22 @@
 
                 <!-- /.box -->
                 <h3>Answer Options</h3>
-                <div class="form-group">
-                    <label>(A)</label>
-                    <input type="text" name="choice1"  class="form-control" placeholder="Enter ..."  >
+
+                <div class="table-responsive">
+
+                    <table class="table table-bordered" id="dynamic_field">
+
+                        <tr>
+
+                            <td><input type="text" name="choice[]" placeholder="Enter your Answer option" class="form-control name_list" /></td>
+
+                            <td><button type="button" name="add" id="add" class="btn btn-success">Add More</button></td>
+
+                        </tr>
+
+                    </table>
                 </div>
-                <div class="form-group">
-                    <label>(B)</label>
-                    <input type="text" name="choice2"  class="form-control" placeholder="Enter ..."  >
-                </div>
-                <div class="form-group">
-                    <label>(C)</label>
-                    <input type="text" name="choice3"  class="form-control" placeholder="Enter ..."  >
-                </div>
-                <div class="form-group">
-                    <label>(D)</label>
-                    <input type="text" name="choice4"  class="form-control" placeholder="Enter ..."  >
-                </div>
-                <h3>Right Answer</h3>
+                    <h3>Right Answer</h3>
 
                 <h3><input type="hidden" name="id_Exam" value="{{ $id_Exam }}"></h3>
                 <h3><input type="hidden" name="test" value="{{ $test }}"></h3>
@@ -95,11 +100,8 @@
             <!-- select -->
                 <div class="form-group">
 
-                    <select class="form-control" name="correct_answer">
-                        <option  value="1">(A)</option>
-                        <option  value="2">(B)</option>
-                        <option  value="3">(C)</option>
-                        <option  value="4">(D)</option>
+                    <select class="form-control" name="correct_answer" id="dynamic_field2">
+                        <option  value="1">1</option>
                     </select>
                 </div>
                     <div class="form-group">

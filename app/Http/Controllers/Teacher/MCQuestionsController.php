@@ -9,6 +9,8 @@ use DateTime;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Validation\Validator;
+use App\Choice;
 
 class MCQuestionsController extends Controller
 {
@@ -38,6 +40,42 @@ class MCQuestionsController extends Controller
         return view('teacher.questions.mcquestions.create', compact('id_Exam','test'));
     }
 
+    public function addMorePost(Request $request)
+
+    {
+
+        $rules = [];
+
+
+        foreach($request->input('choice') as $key => $value) {
+
+            $rules["choice.{$key}"] = 'required';
+
+        }
+
+
+        $validator = Validator::make($request->all(), $rules);
+
+
+        if ($validator->passes()) {
+
+
+            foreach($request->input('choice') as $key => $value) {
+
+                choice::create(['choice'=>$value]);
+
+            }
+
+
+            return response()->json(['success'=>'done']);
+
+        }
+
+
+        return response()->json(['error'=>$validator->errors()->all()]);
+
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -53,10 +91,6 @@ class MCQuestionsController extends Controller
 
         $question->expression = $request->expression;
         $MCQuestion->correct_answer = $request->correct_answer;
-        $MCQuestion->choice1=$request->choice1;
-        $MCQuestion->choice2=$request->choice2;
-        $MCQuestion->choice3=$request->choice3;
-        $MCQuestion->choice4=$request->choice4;
         $MCQuestion->save();
         $time=  $request->estimated_time;
         $time= str_replace('H','',$time);
@@ -71,6 +105,16 @@ class MCQuestionsController extends Controller
         $exam_current = $request->id_Exam;
 
 
+        $choices = [];
+        foreach ($request->choice as $ch) {
+            $choix= new Choice();
+            $choix->choice=$ch;
+            $choices[] = $choix;
+        }
+
+        $MCQuestion->choices()->saveMany($choices);
+
+//        $MCQuestion->choices()->saveMany($choice);
         $question->save();
         Exam::find($exam_current)->questions()->attach($question, ['order' => $request->order, 'score' => $request->score]);
         switch ($request->submitbtn) {

@@ -10,4 +10,8 @@ class MCQuestion extends Model
     public function questions(){
         return $this->morphMany('App\Questtion','questiontable');
     }
+    public function choices()
+    {
+        return $this->hasMany('App\Choice','id_m_c_questions');
+    }
 }

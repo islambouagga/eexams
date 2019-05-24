@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMCQuestionsTable extends Migration
+class CreateChoicesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,11 @@ class CreateMCQuestionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('m_c_questions', function (Blueprint $table) {
-            $table->bigIncrements('id_m_c_questions');
-            $table->integer('correct_answer');
+        Schema::create('choices', function (Blueprint $table) {
+            $table->bigIncrements('id_choice');
+            $table->unsignedBigInteger('id_m_c_questions');
+            $table->foreign('id_m_c_questions')->references('id_m_c_questions')->on('m_c_questions');
+            $table->string('choice');
             $table->timestamps();
         });
     }
@@ -27,6 +29,6 @@ class CreateMCQuestionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('m_c_questions');
+        Schema::dropIfExists('choices');
     }
 }

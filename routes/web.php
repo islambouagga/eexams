@@ -28,4 +28,6 @@ Route::resource('/teacher/groups','Teacher\GroupsController',['as'=>'teacher']);
 Route::resource('/teacher/students','Teacher\StudentsController',['as'=>'teacher']);
 
 Route::resource('/teacher/questions/tfquestions','Teacher\TFQuestionsController',['as'=>'teacher']);
+Route::get("/teacher/questions/mcquestions/create","Teacher\MCQuestionsController@addMore");
+Route::post("/teacher/questions/mcquestions/create","Teacher\MCQuestionsController@addMorePost");
 Route::resource('/teacher/questions/mcquestions','Teacher\MCQuestionsController',['as'=>'teacher']);
