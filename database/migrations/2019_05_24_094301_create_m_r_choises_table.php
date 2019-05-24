@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateChoicesTable extends Migration
+class CreateMRChoisesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class CreateChoicesTable extends Migration
      */
     public function up()
     {
-        Schema::create('choices', function (Blueprint $table) {
-            $table->bigIncrements('id_choice');
-            $table->unsignedBigInteger('id_m_c_questions');
-            $table->foreign('id_m_c_questions')->references('id_m_c_questions')->on('m_c_questions');
+        Schema::create('m_r_choises', function (Blueprint $table) {
+            $table->bigIncrements('id_m_r_choices');
+            $table->unsignedBigInteger('id_m_r_questions');
+            $table->foreign('id_m_r_questions')->references('id_m_r_questions')->on('m_r_questions');
             $table->string('choice');
+            $table->boolean('is_correct')->default('0');
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ class CreateChoicesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('choices');
+        Schema::dropIfExists('m_r_choises');
     }
 }

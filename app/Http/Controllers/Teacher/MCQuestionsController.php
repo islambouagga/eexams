@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Teacher;
 
 use App\Exam;
+use App\MCChoice;
 use App\MCQuestion;
 use App\Question;
 use DateTime;
@@ -62,7 +63,7 @@ class MCQuestionsController extends Controller
 
             foreach($request->input('choice') as $key => $value) {
 
-                choice::create(['choice'=>$value]);
+                MCChoice::create(['choice'=>$value]);
 
             }
 
@@ -107,7 +108,7 @@ class MCQuestionsController extends Controller
 
         $choices = [];
         foreach ($request->choice as $ch) {
-            $choix= new Choice();
+            $choix= new MCChoice();
             $choix->choice=$ch;
             $choices[] = $choix;
         }

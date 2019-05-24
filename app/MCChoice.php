@@ -4,11 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Choice extends Model
+class MCChoice extends Model
 {
-    protected $primaryKey = 'id_choice';
+    protected $primaryKey = 'id_m_c_choices';
 
-    public $table = "choices";
+    public $table = "m_c_choices";
     public $fillable = ['choice'];
     public function mcquestion()
     {

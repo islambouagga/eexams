@@ -31,3 +31,7 @@ Route::resource('/teacher/questions/tfquestions','Teacher\TFQuestionsController'
 Route::get("/teacher/questions/mcquestions/create","Teacher\MCQuestionsController@addMore");
 Route::post("/teacher/questions/mcquestions/create","Teacher\MCQuestionsController@addMorePost");
 Route::resource('/teacher/questions/mcquestions','Teacher\MCQuestionsController',['as'=>'teacher']);
+
+Route::get("/teacher/questions/mrquestions/create","Teacher\MRQuestionsController@addMore");
+Route::post("/teacher/questions/mrquestions/create","Teacher\MRQuestionsController@addMorePost");
+Route::resource('/teacher/questions/mrquestions','Teacher\MRQuestionsController',['as'=>'teacher']);

@@ -8,7 +8,30 @@
         <!--------------------------
           | Your Page Content Here |
           -------------------------->
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Modal Examples</h3>
+                    </div>
+                    <div class="box-body">
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-default">
+                            <a href="{{url('/teacher/questions/tfquestions/create?id='.$id_Exam.'&key=0')}}">   Treu & false
+                            </a></button>
+                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-info">
+                            <a href="{{url('/teacher/questions/mcquestions/create?id='.$id_Exam.'&key=0')}}"> Multiple Choices
+                            </a></button>
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-danger">
+                            <a href="{{url('/teacher/questions/mrquestions/create?id='.$id_Exam.'&key=0')}}"> multiple Responses
+                            </a></button>
+                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-warning">
+                            Launch Warning Modal
+                        </button>
 
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- /.box-header -->
 
