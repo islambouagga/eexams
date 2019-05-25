@@ -106,6 +106,7 @@ class MRQuestionsController extends Controller
     public function store(Request $request,MRQuestion $MRQuestion,Question $question, ExamsController $examsController)
     {
 
+
         $this->id_exam = $examsController->iid_Exam;
 
         $exam = Exam::Find($this->id_exam);
@@ -119,7 +120,7 @@ class MRQuestionsController extends Controller
         $time=str_replace('M','',$time);
         $time=$time.':00';
         $format=    DateTime::createFromFormat('H:i:s',$time);
-//dd($format->getTimestamp());
+
 
         $question->estimated_time = $format;
         $question->questiontable_id = $MRQuestion->id_m_r_questions;
@@ -128,14 +129,20 @@ class MRQuestionsController extends Controller
 
 
         $choices = [];
-        foreach ($request->choice as $ch) {
+        $coc=0;
+        $coidc=0;
+        while($coidc<count($request->is_correct)) {
             $choix= new MRChoice();
+            $ch=$request->choice[$coc];
+            $isc=$request->is_correct[$coidc];
             $choix->choice=$ch;
-            foreach ($request->is_correct as $isc){
             $choix->is_correct=$isc;
-                $choices[] = $choix;
+            $choices[] = $choix;
+            if($isc==1){
+                $coidc++;
             }
-
+            $coc++;
+            $coidc++;
         }
 
         $MRQuestion->choices()->saveMany($choices);

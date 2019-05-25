@@ -115,17 +115,30 @@
                                     <h2>{{$Q->expression}}</h2>
 
                                 </div>
-                                {{--                        @if($Q->questiontable_type=="MCQuestion")--}}
-                                {{--                            <h3>Answer Options</h3>--}}
-                                {{--                           --}}
-                                {{--                            @foreach ($mcq->choices()->get() as $mc)--}}
+                                <div class="col-lg-12">
+                                    @foreach ($Q->questiontable->choices()->get() as $mc)
+                                    <div class="input-group">
 
-                                {{--                            <label> {{$mc->choice}}</label>--}}
+                        <span class="input-group-addon">
+                          <input type="checkbox"     @if($mc->is_correct==1)
 
-                                {{--                            @endforeach--}}
-                                {{--                         --}}
-                                {{--                        @endif--}}
+                          checked
+                                 @endif
+                                 disabled>
+                        </span>
 
+
+                                            <label> {{$mc->choice}}</label>
+
+
+
+                                    </div>
+                                @endforeach
+                                    <!-- /input-group -->
+                                </div>
+</br>
+</br>
+</br>
                                 <div class="form-group">
                                     <label>Score : {{$Q->pivot->score}}</label>
 
