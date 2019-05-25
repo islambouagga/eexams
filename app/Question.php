@@ -9,7 +9,10 @@ Relation::morphMap([
     'TFQuestion'=>'App\TFQuestion'
 ]);
 Relation::morphMap([
-    'TFQuestion'=>'App\MCQuestion'
+    'MCQuestion'=>'App\MCQuestion'
+]);
+Relation::morphMap([
+    'MRQuestion'=>'App\MRQuestion'
 ]);
 
 class Question extends Model

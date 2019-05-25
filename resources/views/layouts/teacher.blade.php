@@ -570,7 +570,7 @@ desired effect
 
         var postURL = "<?php echo url('addmore'); ?>";
 
-        var i=1;
+        var i=0;
 
 
         $('#add').click(function(){
@@ -579,7 +579,7 @@ desired effect
 
             $('#dynamic_field').append('<tr id="row'+i+'" class="dynamic-added"><td><input type="text" name="choice[]" placeholder="Enter your Name" class="form-control name_list" /></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td></tr>');
             $('#dynamic_field2').append('<option  value="'+i+'">'+i+'</option>');
-            $('#dynamic_field3').append('<tr id="row'+i+'" class="dynamic-added"><td><div class="col-lg-12"><div class="input-group"><span class="input-group-addon"><input type="checkbox" name="is_correct[]"  value="1" > </span><input type="text" name="choice[] " class="form-control"></div><!-- /input-group --></div></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td></tr>');
+            $('#dynamic_field3').append('<tr id="row'+i+'" class="dynamic-added"><td><div class="col-lg-12"><div class="input-group"><span class="input-group-addon"><input type="checkbox" name="is_correct[]"  value="1" ></span><input type="text" name="choice[] " class="form-control"></div><!-- /input-group --></div></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td></tr>');
 
         });
 

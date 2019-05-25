@@ -63,7 +63,8 @@
 
                         <tr>
 
-                            <td><input type="text" name="choice[]" placeholder="Enter your Answer option" class="form-control name_list" /></td>
+
+                            <td></td>
 
                             <td><button type="button" name="add" id="add" class="btn btn-success">Add More</button></td>
 
@@ -75,31 +76,12 @@
 
                 <h3><input type="hidden" name="id_Exam" value="{{ $id_Exam }}"></h3>
                 <h3><input type="hidden" name="test" value="{{ $test }}"></h3>
-                <!-- radio -->
-{{--                <div class="form-group">--}}
-{{--                    <div class="radio ">--}}
-{{--                        <label>--}}
-{{--                            <input type="radio" name="correct_answer" id="optionsRadios2" value="1">--}}
-{{--                            (A)--}}
-{{--                        </label>--}}
-{{--                        <label>--}}
-{{--                            <input type="radio" name="correct_answer" id="optionsRadios2" value="2">--}}
-{{--                            (B)--}}
-{{--                        </label>--}}
-{{--                        <label>--}}
-{{--                            <input type="radio" name="correct_answer" id="optionsRadios2" value="3">--}}
-{{--                            (C)--}}
-{{--                        </label>--}}
-{{--                        <label>--}}
-{{--                            <input type="radio" name="correct_answer" id="optionsRadios2" value="4">--}}
-{{--                            (D)--}}
-{{--                        </label>--}}
-{{--                    </div>--}}
+
             <!-- select -->
                 <div class="form-group">
 
                     <select class="form-control" name="correct_answer" id="dynamic_field2">
-                        <option  value="1">1</option>
+{{--                        <option  value="1">1</option>--}}
                     </select>
                 </div>
                     <div class="form-group">

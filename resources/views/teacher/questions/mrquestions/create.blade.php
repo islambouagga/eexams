@@ -63,14 +63,7 @@
 
                         <tr>
 
-                            {{--                            <td><input type="text" name="choice[]" placeholder="Enter your Answer option" class="form-control name_list" /></td>--}}
-                            <td>
-                                <div class="col-lg-12">
-                                    <div class="input-group"><span class="input-group-addon"><input type="checkbox"
-                                                                                                    name="is_correct[]" value="1" @if (empty($_POST['is_correct[]'] )) value="1" @else value="0" @endif></span>
-                                        <input type="text" name="choice[]" class="form-control"></div>
-                                    <!-- /input-group --></div>
-                            </td>
+                            <td></td>
 
 
 

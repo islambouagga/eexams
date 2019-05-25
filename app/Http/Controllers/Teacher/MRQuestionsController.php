@@ -105,55 +105,55 @@ class MRQuestionsController extends Controller
      */
     public function store(Request $request,MRQuestion $MRQuestion,Question $question, ExamsController $examsController)
     {
-        dd($request->all());
-//        $this->id_exam = $examsController->iid_Exam;
-//
-//        $exam = Exam::Find($this->id_exam);
-//
-//
-//        $question->expression = $request->expression;
-//
-//        $MRQuestion->save();
-//        $time=  $request->estimated_time;
-//        $time= str_replace('H','',$time);
-//        $time=str_replace('M','',$time);
-//        $time=$time.':00';
-//        $format=    DateTime::createFromFormat('H:i:s',$time);
-////dd($format->getTimestamp());
-//
-//        $question->estimated_time = $format;
-//        $question->questiontable_id = $MRQuestion->id_m_r_questions;
-//        $question->questiontable_type = "MRQuestion";
-//        $exam_current = $request->id_Exam;
-//
-//
-//        $choices = [];
-//        foreach ($request->choice as $ch) {
-//            $choix= new MRChoice();
-//            $choix->choice=$ch;
-//            foreach ($request->is_correct as $isc){
-//            $choix->is_correct=$isc;
-//                $choices[] = $choix;
-//            }
-//
-//        }
-//
-//        $MRQuestion->choices()->saveMany($choices);
-//
-//        $question->save();
-//
-//        Exam::find($exam_current)->questions()->attach($question, ['order' => $request->order, 'score' => $request->score]);
-//        switch ($request->submitbtn) {
-//            case'submit';
-//                return redirect('teacher/exams?id=' . $exam_current);
-//                break;
-//            case 'add';
-//                return redirect('teacher/questions/mcquestions/create?id=' . $exam_current);
-//                break;
-//            case 'mit2';
-//                return redirect('/teacher/exams/'.$exam_current.'/edit');
-//                break;
-//        }
+
+        $this->id_exam = $examsController->iid_Exam;
+
+        $exam = Exam::Find($this->id_exam);
+
+
+        $question->expression = $request->expression;
+
+        $MRQuestion->save();
+        $time=  $request->estimated_time;
+        $time= str_replace('H','',$time);
+        $time=str_replace('M','',$time);
+        $time=$time.':00';
+        $format=    DateTime::createFromFormat('H:i:s',$time);
+//dd($format->getTimestamp());
+
+        $question->estimated_time = $format;
+        $question->questiontable_id = $MRQuestion->id_m_r_questions;
+        $question->questiontable_type = "MRQuestion";
+        $exam_current = $request->id_Exam;
+
+
+        $choices = [];
+        foreach ($request->choice as $ch) {
+            $choix= new MRChoice();
+            $choix->choice=$ch;
+            foreach ($request->is_correct as $isc){
+            $choix->is_correct=$isc;
+                $choices[] = $choix;
+            }
+
+        }
+
+        $MRQuestion->choices()->saveMany($choices);
+
+        $question->save();
+
+        Exam::find($exam_current)->questions()->attach($question, ['order' => $request->order, 'score' => $request->score]);
+        switch ($request->submitbtn) {
+            case'submit';
+                return redirect('teacher/exams?id=' . $exam_current);
+                break;
+            case 'add';
+                return redirect('teacher/questions/mrquestions/create?id=' . $exam_current);
+                break;
+            case 'mit2';
+                return redirect('/teacher/exams/'.$exam_current.'/edit');
+                break;
+        }
     }
 
     /**

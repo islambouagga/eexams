@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Teacher;
 
 
+use App\MCQuestion;
+use App\MRQuestion;
 use App\Teacher;
 use DateTime;
+use foo\bar;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Exam;
@@ -16,6 +19,9 @@ class ExamsController extends Controller
 {
     public $iid_Exam;
     public $ide;
+    public $mrq=null;
+    public $mcq=null;
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -73,8 +79,55 @@ class ExamsController extends Controller
      */
     public function show(Exam $exam)
     {
+//        $mrq=null;
+//        $mcq=null;
+//        foreach ($exam->questions()->orderBy('order')->get() as $Q) {
+//            if($Q->questiontable_type=="MCQuestion") {
+//                echo $Q->questiontable->correct_answer;
+//            }
+//            foreach ($Q->questiontable->choices()->get() as $i){
+//
+//                echo $i;
+//
+//            }
+//echo $Q;
+//            if($Q->questiontable_type=="MRQuestion"){
+//
+//
+//                $mrq=MRQuestion::find($Q->questiontable_id);
+//
+//
+//
+//}
 
+//            foreach ($exam->questions()->where('questiontable_type','MCQuestion')->get() as $q) {
+
+
+
+//                $mcq=MCQuestion::find($q->questiontable_id);
+//                if($mcq!=null){
+//                    echo $mcq->choices()->get();
+//                    break;
+//
+//                }
+//                echo $mcq->choices()->get();
+
+
+//            }
+//        echo $mcq->choices()->get();
+//            if($Q->questiontable_type=="MCQuestion"){
+//                $mcq=MCQuestion::find($Q->questiontable_id);
+//                $mcqs=$mcq;
+
+//echo $mcq->correct_answer;echo "------";
+//dd($mcq->correct_answer);
+//            }
+
+//        }
+//        dd($mcqs) ;
+//        echo $mq;
         return view('teacher.exams.show')->with('exams',$exam);
+//            ->with('mcq',$mcq)->with('mrq',$mrq);
     }
 
     /**
