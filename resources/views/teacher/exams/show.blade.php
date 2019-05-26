@@ -78,18 +78,18 @@
 
                                 </div>
 
-                                                            <h3>Answer Options</h3>
+                                <h3>Answer Options</h3>
 
-                                                            @foreach ($Q->questiontable->choices()->get() as $mc)
+                                @foreach ($Q->questiontable->choices()->get() as $mc)
 
-                                                            <label> {{$mc->choice}}</label> </br>
+                                    <label> {{$mc->choice}}</label> </br>
 
                                 @endforeach
-                                    <h3>Right Answer</h3>
+                                <h3>Right Answer</h3>
 
-                                    <select class="form-control" name="correct_answer" id="dynamic_field2" disabled>
-                                        <option  >{{$Q->questiontable->correct_answer}}</option>
-                                    </select>
+                                <select class="form-control" name="correct_answer" id="dynamic_field2" disabled>
+                                    <option>{{$Q->questiontable->correct_answer}}</option>
+                                </select>
 
 
                                 <div class="form-group">
@@ -117,10 +117,10 @@
                                 </div>
                                 <div class="col-lg-12">
                                     @foreach ($Q->questiontable->choices()->get() as $mc)
-                                    <div class="input-group">
+                                        <div class="input-group">
 
                         <span class="input-group-addon">
-                          <input type="checkbox"     @if($mc->is_correct==1)
+                          <input type="checkbox" @if($mc->is_correct==1)
 
                           checked
                                  @endif
@@ -131,14 +131,13 @@
                                             <label> {{$mc->choice}}</label>
 
 
-
-                                    </div>
+                                        </div>
                                 @endforeach
-                                    <!-- /input-group -->
+                                <!-- /input-group -->
                                 </div>
-</br>
-</br>
-</br>
+                                </br>
+                                </br>
+                                </br>
                                 <div class="form-group">
                                     <label>Score : {{$Q->pivot->score}}</label>
 

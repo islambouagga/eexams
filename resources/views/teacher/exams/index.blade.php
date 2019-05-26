@@ -56,10 +56,11 @@
                                         </a>
                                     </td>
                                     <td>
-                                        <form role="form" method="post" action="/eexams/public/teacher/exams/{{$e->id_Exam}}">
+                                        <form role="form" method="post"
+                                              action="/eexams/public/teacher/exams/{{$e->id_Exam}}">
                                             @method('DELETE')
                                             @csrf
-                                        <button class="glyphicon glyphicon-trash"></button>
+                                            <button class="glyphicon glyphicon-trash"></button>
                                         </form>
                                     </td>
                                 </tr>

@@ -17,11 +17,10 @@ class StudentsController extends Controller
      */
     public function index($id_Group)
     {
-        echo $id_Group ;
-        $student=Student::all();
-        $id_group=Input::get('id');
-//        dd($student);
-        return view('teacher.students.index',compact('student','id_group'));
+        echo $id_Group;
+        $student = Student::all();
+        $id_group = Input::get('id');
+        return view('teacher.students.index', compact('student', 'id_group'));
 
     }
 
@@ -38,20 +37,20 @@ class StudentsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-$student=Student::find($request->id_student);
-$group=Group::find($request->id_group);
-$student->groups()->attach($group);
+        $student = Student::find($request->id_student);
+        $group = Group::find($request->id_group);
+        $student->groups()->attach($group);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Student  $student
+     * @param \App\Student $student
      * @return \Illuminate\Http\Response
      */
     public function show(Student $student)
@@ -62,7 +61,7 @@ $student->groups()->attach($group);
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Student  $student
+     * @param \App\Student $student
      * @return \Illuminate\Http\Response
      */
     public function edit(Student $student)
@@ -73,8 +72,8 @@ $student->groups()->attach($group);
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Student  $student
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Student $student
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Student $student)
@@ -85,7 +84,7 @@ $student->groups()->attach($group);
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Student  $student
+     * @param \App\Student $student
      * @return \Illuminate\Http\Response
      */
     public function destroy(Student $student)

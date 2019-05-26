@@ -22,11 +22,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- daterange picker -->
     <link rel="stylesheet" href="{{asset('bower_components/bootstrap-daterangepicker/daterangepicker.css')}}">
     <!-- bootstrap datepicker -->
-    <link rel="stylesheet" href="{{asset('bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css')}}">
+    <link rel="stylesheet"
+          href="{{asset('bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css')}}">
     <!-- iCheck for checkboxes and radio inputs -->
     <link rel="stylesheet" href="{{asset('plugins/iCheck/all.css')}}">
     <!-- Bootstrap Color Picker -->
-    <link rel="stylesheet" href="{{asset('bower_components/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css')}}">
+    <link rel="stylesheet"
+          href="{{asset('bower_components/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css')}}">
     <!-- Bootstrap time Picker -->
     <link rel="stylesheet" href="{{asset('plugins/timepicker/bootstrap-timepicker.min.css')}}">
     <!-- Select2 -->
@@ -130,7 +132,8 @@ desired effect
                                         <a href="#">
                                             <div class="pull-left">
                                                 <!-- User Image -->
-                                                <img src="{{ asset('dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image">
+                                                <img src="{{ asset('dist/img/user2-160x160.jpg') }}" class="img-circle"
+                                                     alt="User Image">
                                             </div>
                                             <!-- Message title and timestamp -->
                                             <h4>
@@ -195,7 +198,8 @@ desired effect
                                             <!-- The progress bar -->
                                             <div class="progress xs">
                                                 <!-- Change the css width attribute to simulate progress -->
-                                                <div class="progress-bar progress-bar-aqua" style="width: 20%" role="progressbar"
+                                                <div class="progress-bar progress-bar-aqua" style="width: 20%"
+                                                     role="progressbar"
                                                      aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
                                                     <span class="sr-only">20% Complete</span>
                                                 </div>
@@ -222,7 +226,8 @@ desired effect
                         <ul class="dropdown-menu">
                             <!-- The user image in the menu -->
                             <li class="user-header">
-                                <img src="{{ asset('dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image">
+                                <img src="{{ asset('dist/img/user2-160x160.jpg') }}" class="img-circle"
+                                     alt="User Image">
 
                                 <p>
                                     Alexander Pierce - Web Developer
@@ -265,7 +270,6 @@ desired effect
     </header>
 
 
-
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
 
@@ -304,11 +308,14 @@ desired effect
                     <li class="header">HEADER</li>
                     <!-- Optionally, you can add icons to the links -->
                     <li><a href="{{url('/teacher')}}"><i class="fa fa-link"></i> <span>Home</span></a></li>
-                    <li><a href="{{route('teacher.exams.create')}}"><i class="fa fa-link"></i> <span>Create a new exam</span></a>
+                    <li><a href="{{route('teacher.exams.create')}}"><i class="fa fa-link"></i>
+                            <span>Create a new exam</span></a>
                     </li>
-                    <li><a href="{{route('teacher.exams.index')}}"><i class="fa fa-link"></i> <span>Exams' list</span></a>
+                    <li><a href="{{route('teacher.exams.index')}}"><i class="fa fa-link"></i>
+                            <span>Exams' list</span></a>
                     </li>
-                    <li><a href="{{route('teacher.groups.create')}}"><i class="fa fa-link"></i> <span>Create a new group</span></a>
+                    <li><a href="{{route('teacher.groups.create')}}"><i class="fa fa-link"></i>
+                            <span>Create a new group</span></a>
                     </li>
                     <li><a href="{{route('teacher.groups.index')}}"><i class="fa fa-link"></i> <span>Groups' List</span></a>
                     </li>
@@ -343,7 +350,7 @@ desired effect
         </aside>
         <!-- Content Header (Page header) -->
         <section class="content-header">
-        </br>
+            </br>
             <h1>
 
                 <!--  <small>Optional description</small> -->
@@ -499,33 +506,35 @@ desired effect
         $('.select2').select2()
 
         //Datemask dd/mm/yyyy
-        $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
+        $('#datemask').inputmask('dd/mm/yyyy', {'placeholder': 'dd/mm/yyyy'})
         //Datemask2 mm/dd/yyyy
-        $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
+        $('#datemask2').inputmask('mm/dd/yyyy', {'placeholder': 'mm/dd/yyyy'})
         //Money Euro
         $('[data-mask]').inputmask()
 
         //Date range picker
         $('#reservation').daterangepicker()
         //Date range picker with time picker
-        $('#reservationtime').daterangepicker({ timePicker: true,  startDate: moment().startOf('hour'),
+        $('#reservationtime').daterangepicker({
+            timePicker: true, startDate: moment().startOf('hour'),
             endDate: moment().startOf('hour').add(32, 'hour'),
             locale: {
                 format: 'HH:mm'
-            } })
+            }
+        })
         //Date range as a button
         $('#daterange-btn').daterangepicker(
             {
-                ranges   : {
-                    'Today'       : [moment(), moment()],
-                    'Yesterday'   : [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                    'Last 7 Days' : [moment().subtract(6, 'days'), moment()],
+                ranges: {
+                    'Today': [moment(), moment()],
+                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
                     'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-                    'This Month'  : [moment().startOf('month'), moment().endOf('month')],
-                    'Last Month'  : [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                    'This Month': [moment().startOf('month'), moment().endOf('month')],
+                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
                 },
                 startDate: moment().subtract(29, 'days'),
-                endDate  : moment()
+                endDate: moment()
             },
             function (start, end) {
                 $('#daterange-btn span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
@@ -540,17 +549,17 @@ desired effect
         //iCheck for checkbox and radio inputs
         $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
             checkboxClass: 'icheckbox_minimal-blue',
-            radioClass   : 'iradio_minimal-blue'
+            radioClass: 'iradio_minimal-blue'
         })
         //Red color scheme for iCheck
         $('input[type="checkbox"].minimal-red, input[type="radio"].minimal-red').iCheck({
             checkboxClass: 'icheckbox_minimal-red',
-            radioClass   : 'iradio_minimal-red'
+            radioClass: 'iradio_minimal-red'
         })
         //Flat red color scheme for iCheck
         $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
             checkboxClass: 'icheckbox_flat-green',
-            radioClass   : 'iradio_flat-green'
+            radioClass: 'iradio_flat-green'
         })
 
         //Colorpicker
@@ -566,29 +575,38 @@ desired effect
 </script>
 <script type="text/javascript">
 
-    $(document).ready(function(){
+    $(document).ready(function () {
 
         var postURL = "<?php echo url('addmore'); ?>";
 
-        var i=0;
-        var b=1;
+        var i = 0;
+        var b = 1;
 
-        $('#add').click(function(){
+        $('#add1').click(function () {
 
             i++;
 
-            $('#dynamic_field').append('<tr id="row'+i+'" class="dynamic-added"><td><input type="text" name="choice[]" placeholder="Enter your Name" class="form-control name_list" /></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td></tr>');
-            $('#dynamic_field2').append('<option  value="'+i+'">'+i+'</option>');
-            $('#dynamic_field3').append('<tr id="row'+b+'" class="dynamic-added"><td><div class="col-lg-12"><div class="input-group"><span class="input-group-addon"><input type="checkbox" name="is_correct[]" value="1"><input type="hidden" name="is_correct[]" value="0"></span><input type="text" name="choice[]" class="form-control"></div><!-- /input-group --></div></td><td><button type="button" name="remove" id="'+b+'" class="btn btn-danger btn_remove">X</button></td></tr>');
+            $('#dynamic_field').append('<tr id="row' + i + '" class="dynamic-added"><td><input type="text" name="choice[]" placeholder="Enter your Name" class="form-control name_list" /></td><td><button type="button" name="remove" id="' + i + '" class="btn btn-danger btn_remove">X</button></td></tr>');
+            $('#dynamic_field2').append('<option id="op" value="' + i + '">' + i + '</option>');
+
+
+        });
+        $('#add').click(function () {
+
+            b++;
+
+
+            $('#dynamic_field3').append('<tr id="row' + b + '" class="dynamic-added"><td><div class="col-lg-12"><div class="input-group"><span class="input-group-addon"><input type="checkbox" name="is_correct[]" value="1"><input type="hidden" name="is_correct[]" value="0"></span><input type="text" name="choice[]" class="form-control"></div><!-- /input-group --></div></td><td><button type="button" name="remove" id="' + b + '" class="btn btn-danger btn_remove">X</button></td></tr>');
 
         });
 
-
-        $(document).on('click', '.btn_remove', function(){
+        $(document).on('click', '.btn_remove', function () {
 
             var button_id = $(this).attr("id");
+            var op_id=$(this).attr("op")
 
-            $('#row'+button_id+'').remove();
+            $('#row' + button_id + '').remove();
+            $('#op' ) .remove();
 
         });
 
@@ -604,29 +622,27 @@ desired effect
         });
 
 
-        $('#submit').click(function(){
+        $('#submit').click(function () {
 
             $.ajax({
 
-                url:postURL,
+                url: postURL,
 
-                method:"POST",
+                method: "POST",
 
-                data:$('#add_name').serialize(),
+                data: $('#add_name').serialize(),
 
-                type:'json',
+                type: 'json',
 
-                success:function(data)
+                success: function (data) {
 
-                {
-
-                    if(data.error){
+                    if (data.error) {
 
                         printErrorMsg(data.error);
 
-                    }else{
+                    } else {
 
-                        i=1;
+                        i = 1;
 
                         $('.dynamic-added').remove();
 
@@ -634,9 +650,9 @@ desired effect
 
                         $(".print-success-msg").find("ul").html('');
 
-                        $(".print-success-msg").css('display','block');
+                        $(".print-success-msg").css('display', 'block');
 
-                        $(".print-error-msg").css('display','none');
+                        $(".print-error-msg").css('display', 'none');
 
                         $(".print-success-msg").find("ul").append('<li>Record Inserted Successfully.</li>');
 
@@ -649,17 +665,17 @@ desired effect
         });
 
 
-        function printErrorMsg (msg) {
+        function printErrorMsg(msg) {
 
             $(".print-error-msg").find("ul").html('');
 
-            $(".print-error-msg").css('display','block');
+            $(".print-error-msg").css('display', 'block');
 
-            $(".print-success-msg").css('display','none');
+            $(".print-success-msg").css('display', 'none');
 
-            $.each( msg, function( key, value ) {
+            $.each(msg, function (key, value) {
 
-                $(".print-error-msg").find("ul").append('<li>'+value+'</li>');
+                $(".print-error-msg").find("ul").append('<li>' + value + '</li>');
 
             });
 

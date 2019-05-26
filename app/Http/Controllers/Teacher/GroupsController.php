@@ -26,10 +26,8 @@ class GroupsController extends Controller
      */
     public function index()
     {
-        $teacher=auth()->user();
-
-
-        return view('teacher.groups.index')->with('groups',$teacher->groupes);
+        $teacher = auth()->user();
+        return view('teacher.groups.index')->with('groups', $teacher->groupes);
     }
 
     /**
@@ -39,52 +37,43 @@ class GroupsController extends Controller
      */
     public function create()
     {
-
-        $student= Student::all();
-
-        return view('teacher.groups.create')->with('student',$student);
-
+        $student = Student::all();
+        return view('teacher.groups.create')->with('student', $student);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request,Group $groupes,Student $student)
+    public function store(Request $request, Group $groupes, Student $student)
     {
-//        dd($request);
-        $groupes->title = $request->title ;
+        $groupes->title = $request->title;
         $groupes->Description = $request->Description;
-        $groupes->id_teacher=auth()->user()->getAuthIdentifier();
+        $groupes->id_teacher = auth()->user()->getAuthIdentifier();
         $groupes->save();
-//        $student=Student::find($request->student);
-//        dd($student);
         $groupes->students()->attach($request->students);
-//        session::flash('success','kolch mrigl ');
         return redirect('teacher/groups');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Group  $group
+     * @param \App\Group $group
      * @return \Illuminate\Http\Response
      */
     public function show(Group $group)
     {
-        $students= Student::all();
-
-        return view('teacher.students.index')->with('students',$students)
-            ->with('group',$group);
-
+        $students = Student::all();
+        return view('teacher.students.index')->with('students', $students)
+            ->with('group', $group);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Group  $group
+     * @param \App\Group $group
      * @return \Illuminate\Http\Response
      */
     public function edit(Group $group)
@@ -95,23 +84,22 @@ class GroupsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Group  $group
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Group $group
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Group $group)
     {
         $group->students()->attach($request->students);
-        $students= Student::all();
-
-        return view('teacher.students.index')->with('students',$students)
-            ->with('group',$group);
+        $students = Student::all();
+        return view('teacher.students.index')->with('students', $students)
+            ->with('group', $group);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Group  $group
+     * @param \App\Group $group
      * @return \Illuminate\Http\Response
      */
     public function destroy(Group $group)
@@ -121,36 +109,25 @@ class GroupsController extends Controller
 
     public function schedule(Group $group)
     {
-
-        $exams=Exam::all();
-return view('teacher.groups.schedule')->with('exams',$exams)->with('group',$group);
+        $exams = Exam::all();
+        return view('teacher.groups.schedule')->with('exams', $exams)->with('group', $group);
     }
-    public function doschedule(Request $request,Group $group)
-    {
-        $exam=Exam::find($request->exam);
-//        dd($request->exam);
-        $grup=Group::find($request->id_Group);
-//        dd($grup->id_Group);
 
-//        "date_scheduling" => "4/23 09:00 PM - 4/25 05:00 AM"
-        $text=$request->date_scheduling;
-$split= explode('-',$text,2);
-$startdate=$split[0];
-$enddate=$split[1];
+    public function doschedule(Request $request, Group $group)
+    {
+        $exam = Exam::find($request->exam);
+        $grup = Group::find($request->id_Group);
+        $text = $request->date_scheduling;
+        $split = explode('-', $text, 2);
+        $startdate = $split[0];
+        $enddate = $split[1];
         $startTime = Carbon::parse($startdate);
         $finishTime = Carbon::parse($enddate);
         $hours = $finishTime->diff($startTime);
         $minutes = $finishTime->diffInMinutes($startTime);
         $seconds = $finishTime->diffInSeconds($startTime);
-
-
-//        $format=    DateTime::createFromFormat('H:i:s',$startdate);
-//dd($hours,$minutes,$seconds);
-$exam->groupes()->attach($grup,['date_scheduling'=> $startTime ,'Time_limit'=>$hours->format('%H:%I')]);
-    $teacher=auth()->user();
-
-
-        return view('teacher.groups.index')->with('groups',$teacher->groupes);
-
+        $exam->groupes()->attach($grup, ['date_scheduling' => $startTime, 'Time_limit' => $hours->format('%H:%I')]);
+        $teacher = auth()->user();
+        return view('teacher.groups.index')->with('groups', $teacher->groupes);
     }
 }

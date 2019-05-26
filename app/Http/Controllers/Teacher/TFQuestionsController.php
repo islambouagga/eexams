@@ -40,11 +40,8 @@ class TFQuestionsController extends Controller
     public function create()
     {
         $id_Exam = Input::get('id');
-//        echo $id_Exam;
-        $test=Input::get('key');
-//        echo $test;
-//        echo $_GET['key']
-        return view('teacher.questions.tfquestions.create', compact('id_Exam','test'));
+        $test = Input::get('key');
+        return view('teacher.questions.tfquestions.create', compact('id_Exam', 'test'));
     }
 
     /**
@@ -55,28 +52,20 @@ class TFQuestionsController extends Controller
      */
     public function store(Request $request, TFQuestion $TFQuestion, Question $question, ExamsController $examsController)
     {
-
         $this->id_exam = $examsController->iid_Exam;
-
         $exam = Exam::Find($this->id_exam);
-
-
         $question->expression = $request->expression;
         $TFQuestion->correct_answer = $request->correct_answer;
         $TFQuestion->save();
-      $time=  $request->estimated_time;
-       $time= str_replace('H','',$time);
-        $time=str_replace('M','',$time);
-        $time=$time.':00';
-        $format=    DateTime::createFromFormat('H:i:s',$time);
-//dd($format->getTimestamp());
-
+        $time = $request->estimated_time;
+        $time = str_replace('H', '', $time);
+        $time = str_replace('M', '', $time);
+        $time = $time . ':00';
+        $format = DateTime::createFromFormat('H:i:s', $time);
         $question->estimated_time = $format;
         $question->questiontable_id = $TFQuestion->id_t_f_questions;
         $question->questiontable_type = "TFQuestion";
         $exam_current = $request->id_Exam;
-
-
         $question->save();
         Exam::find($exam_current)->questions()->attach($question, ['order' => $request->order, 'score' => $request->score]);
         switch ($request->submitbtn) {
@@ -87,11 +76,10 @@ class TFQuestionsController extends Controller
                 return redirect('teacher/questions/tfquestions/create?id=' . $exam_current);
                 break;
             case 'mit2';
-                return redirect('/teacher/exams/'.$exam_current.'/edit');
+                return redirect('/teacher/exams/' . $exam_current . '/edit');
                 break;
         }
     }
-
 
     /**
      * Display the specified resource.
@@ -124,22 +112,6 @@ class TFQuestionsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        dd($request->input('expression'));
-
-//        $question = Question::find($id);
-//        $TFQuestion = TFQuestion::find($id);
-//        $question->expression = $request->expression;
-//        $TFQuestion->correct_answer = $request->correct_answer;
-//        $TFQuestion->save();
-//        $question->estimated_time = $request->estimated_time;
-//        $question->questiontable_id = $TFQuestion->id_t_f_questions;
-//        $question->questiontable_type = "TFQuestion";
-//        $exam_current = $request->id_Exam;
-//        $question->save();
-//        $e = Exam::find($exam_current);
-//        $e->questions()->updateExistingPivot($question->id_Question, ['score' => $request->score]);
-//        return redirect('/teacher/exams/' . $request->id_Exam . '/edit');
-
     }
 
     /**
