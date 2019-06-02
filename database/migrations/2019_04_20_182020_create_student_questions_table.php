@@ -19,7 +19,7 @@ class CreateStudentQuestionsTable extends Migration
 
             $table->unsignedBigInteger('id_Question');
 
-            $table->boolean('answer');
+            $table->string('answer');
             $table->timestamps();
         });
         Schema::table('student_questions', function (Blueprint $table) {

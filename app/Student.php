@@ -46,13 +46,16 @@ class Student extends Authenticatable
             ->withPivot(['answer']);
     }
 
-    public function exams(){
+    public function exams()
+    {
         return $this->belongsToMany('App\Exam',
             'student_exams', 'id_student', 'id_Exam')
-            ->withPivot(['date_passing','mark']);
+            ->withPivot(['date_passing', 'mark']);
 
     }
-    public function groups(){
+
+    public function groups()
+    {
         return $this->belongsToMany('App\Group',
             'student_groups', 'id_student', 'id_Group');
 

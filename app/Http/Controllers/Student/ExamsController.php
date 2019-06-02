@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Student;
 
 use App\Exam;
+use App\MRChoice;
 use App\Student;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -25,9 +26,15 @@ class ExamsController extends Controller
 
     public function index()
     {
-        $exams = Exam::all();
 
-        return view('student.exams.index')->with('exams',$exams);
+        $student=auth()->user();
+        $timezone = date_default_timezone_get();
+        $date = date('Y-m-d H:i:s');
+        echo "The current server timezone is: " . $timezone;
+        echo $date;
+
+        return view('student.exams.index')->with('groups',$student->groups)
+            ->with('date',$date);
 
     }
 
@@ -51,22 +58,69 @@ class ExamsController extends Controller
      */
     public function store(Request $request)
     {
+//        dd($request->all());
         $mark=0;
         $student=auth()->user();
         $id_exam=$request->id_Exam;
         $exam=Exam::find($id_exam);
+
         $current_date_time = Carbon::now()->toDateTimeString();
         foreach ($exam->questions()->orderBy('order')->get() as $Q) {
+            if ($Q->questiontable_type == "MRQuestion") {
 
+                $a=request('answer'.$Q->id_Question);
+              $z=  collect([ $a]);
+                  $z->implode('.');
+                $z = str_replace('[', '', $z);
+                $z = str_replace('"', '', $z);
+                $z = str_replace(']', '', $z);
+//                dd($z);
+                $student->questions()->attach($Q, ['answer' => $z]);
+
+                foreach ($student->questions->where('id_Question',$Q->id_Question) as $f){
+//                    dd($f->pivot);
+                    $g=$f->pivot->answer;
+                    $g = str_replace('[', '', $g);
+                    $g = str_replace('"', '', $g);
+                    $g = str_replace(']', '', $g);
+                    $split= explode(',',$g);
+//                    dd($split);
+                    $i=0;
+                    $co=0;
+//dd($split);
+                    while ($i<count($split)){
+                        $op=MRChoice::where('choice',$split[$i])->firstOrFail();
+//                        dd($op->is_correct);
+                        if ($op->is_correct==1){
+//dd("dfg");
+                            $co++;
+
+
+                        }else{
+                            break;
+                        }
+                        $i++;
+                    }
+                    if ($co==count($split)){
+                        $mark=$mark+$Q->pivot->score;
+
+                    }
+
+                }
+
+            }else{
+//
             $student->questions()->attach($Q, ['answer' => request('answer'.$Q->id_Question)]);
             $AQ=$Q->questiontable;
 
             if ($AQ->correct_answer == request('answer'.$Q->id_Question) ){
                 $mark=$mark+$Q->pivot->score;
             }
-
+//
+            }
         }
         $student->exams()->attach($exam,['date_passing' =>$current_date_time ,'mark'=>$mark]);
+        return redirect('student/exams/result?id='.$id_exam );
     }
 
     /**
@@ -77,7 +131,7 @@ class ExamsController extends Controller
      */
     public function show(Exam $exam)
     {
-        //
+      //
     }
 
     /**
@@ -112,5 +166,24 @@ class ExamsController extends Controller
     public function destroy(Exam $exam)
     {
         //
+    }
+    public function result(){
+        $student=auth()->user();
+//        dd($student);
+        $id_Exam = Input::get('id');
+        $exam=Exam::find($id_Exam);
+//        dd($exam);
+        foreach ($exam->students()->get() as $e){
+//            dd($e);
+
+            if ($e->id_student==$student->id_student){
+
+                $mark=$e->pivot->mark;
+//                dd($mark);
+                return view('student.exams.result')->with('mark',$mark);
+            }
+
+        }
+
     }
 }

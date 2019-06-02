@@ -19,6 +19,7 @@ Auth::routes();
 Route::get('/student/login','Auth\StudentLoginController@showLoginForm')->name('student.login');
 Route::post('/student/login','Auth\StudentLoginController@login')->name('student.login.submit');
 Route::get('/student', 'StudentController@index')->name('student');
+Route::get('/student/exams/result','Student\ExamsController@result',['as'=>'student'])->name('student.exams.result');
 Route::resource('/student/exams','Student\ExamsController',['as'=>'student']);
 Route::get('/teacher', 'HomeController@index');
 Route::resource('/teacher/exams','Teacher\ExamsController',['as'=>'teacher']);

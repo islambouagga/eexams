@@ -14,41 +14,57 @@
                     <div class="box-header">
                         <h3 class="box-title">Responsive Hover Table</h3>
 
-                        <div class="box-tools">
-                            <div class="input-group input-group-sm" style="width: 150px;">
-                                <input type="text" name="table_search" class="form-control pull-right"
-                                       placeholder="Search">
 
-                                <div class="input-group-btn">
-                                    <button type="submit" class="btn btn-default"><i class="fa fa-fw fa-filter"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                     <!-- /.box-header -->
-                    <div class="box-body table-responsive no-padding">
-                        <table class="table table-hover">
+                    <div class="box-body">
+                        <table id="example1" class="table table-bordered table-striped">
+                            <thead>
                             <tr>
                                 <th>ID</th>
                                 <th>Name</th>
                                 <th>Description</th>
-
+                                <th>Exam's date and time</th>
                             </tr>
-                            @foreach($exams as $e)
+                            </thead>
+                            <tbody>
+                            @foreach($groups as $g)
+                                @foreach($g->exams as $e)
                                 <tr>
+
+
                                     <td>{{$e->id_Exam}}</td>
                                     <td>
+                                        @if($date>=$e->pivot->date_scheduling)
+                                            @if($date>=$e->pivot->Time_limit)
                                         <a href="/eexams/public/student/exams/create?id={{$e->id_Exam}}">
                                         {{$e->title}}
                                         </a>
+                                            @endif
+                                            @else
+                                            {{$e->title}}
+                                            @endif
                                     </td>
                                     <td>{{$e->Description}}</td>
+                                    <td>{{$e->pivot->date_scheduling}}</td>
+
+
+
                                 </tr>
+                                @endforeach
                             @endforeach
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Exam's date and time</th>
+                            </tr>
+                            </tfoot>
                         </table>
                     </div>
-                    <!-- /.box-body -->
+                    <!-- /.box-body     -->
                 </div>
                 <!-- /.box -->
             </div>

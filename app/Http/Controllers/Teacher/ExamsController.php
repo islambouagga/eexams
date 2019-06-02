@@ -35,6 +35,7 @@ class ExamsController extends Controller
     public function index()
     {
         $teacher = auth()->user();
+
         return view('teacher.exams.index')->with('exams', $teacher->exams);
     }
     /**

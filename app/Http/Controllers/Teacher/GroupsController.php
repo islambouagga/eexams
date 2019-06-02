@@ -118,10 +118,12 @@ class GroupsController extends Controller
         $exam = Exam::find($request->exam);
         $grup = Group::find($request->id_Group);
         $text = $request->date_scheduling;
+//        dd($text);
         $split = explode('-', $text, 2);
         $startdate = $split[0];
         $enddate = $split[1];
         $startTime = Carbon::parse($startdate);
+//        dd($startTime);
         $finishTime = Carbon::parse($enddate);
         $hours = $finishTime->diff($startTime);
         $minutes = $finishTime->diffInMinutes($startTime);

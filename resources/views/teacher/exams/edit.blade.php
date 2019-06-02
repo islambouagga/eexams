@@ -70,9 +70,9 @@
                                                         <td><input type="text" name="choice{{$Q->id_Question}}[]"
                                                                    class="form-control name_list"
                                                                    value="{{$mc->choice}}"/></td>
-
+                                                    @endforeach
                                                         <td>
-                                                            @endforeach
+
                                                             <button type="button" name="add1" id="add1"
                                                                     class="btn btn-success">Add More
                                                             </button>
@@ -181,10 +181,8 @@
                                         make edit
                                     </button>
                                     <button class="btn btn-info ">
-
                                         <a href="/eexams/public/teacher/questions/tfquestions/create?id={{$exams->id_Exam}}&key=2">
                                             Edit
-
                                         </a>
                                     </button>
                                 </div>
