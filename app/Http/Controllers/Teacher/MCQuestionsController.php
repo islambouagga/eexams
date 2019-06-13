@@ -15,6 +15,7 @@ use App\Choice;
 
 class MCQuestionsController extends Controller
 {
+
     public $id_exam = 1;
 
     /**
@@ -34,9 +35,19 @@ class MCQuestionsController extends Controller
      */
     public function create()
     {
+ $sum=0;
         $id_Exam = Input::get('id');
         $test = Input::get('key');
-        return view('teacher.questions.mcquestions.create', compact('id_Exam', 'test'));
+        $exam=Exam::find($id_Exam);
+        $ecount=count($exam->questions) ;
+        foreach($exam->questions  as $e){
+            $sum=$sum+$e->pivot->score;
+        }
+
+
+        return view('teacher.questions.mcquestions.create', compact('id_Exam', 'test'))
+            ->with('sumS',$sum)
+            ->with('ecount',$ecount);
     }
 
     public function addMorePost(Request $request)

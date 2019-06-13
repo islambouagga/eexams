@@ -34,9 +34,17 @@ class MRQuestionsController extends Controller
      */
     public function create()
     {
+        $sum=0;
         $id_Exam = Input::get('id');
         $test = Input::get('key');
-        return view('teacher.questions.mrquestions.create', compact('id_Exam', 'test'));
+        $exam=Exam::find($id_Exam);
+        $ecount=count($exam->questions) ;
+        foreach($exam->questions  as $e){
+            $sum=$sum+$e->pivot->score;
+        }
+
+        return view('teacher.questions.mrquestions.create', compact('id_Exam', 'test'))
+            ->with('ecount',$ecount)->with('sumS',$sum);;
     }
 
     public function addMorePost(Request $request)
