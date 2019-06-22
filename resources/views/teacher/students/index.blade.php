@@ -76,8 +76,8 @@
                 <!--  <small>Optional description</small> -->
             </h1>
             <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li class="active">Create Exam</li>
+                <li><a href="{{route('teacher.groups.index')}}"><i class="fa fa-dashboard"></i> Group's List</a></li>
+                <li class="active">Edit Group</li>
             </ol>
         </section>
 
@@ -87,27 +87,57 @@
         <!--------------------------
           | Your Page Content Here |
           -------------------------->
+
+
+        <form role="form" method="post" action="/eexams/public/teacher/groups/{{$group->id_Group}}">
+            {{method_field('PATCH')}}
+            {{csrf_field()}}
+
+            <div class="form-group">
+                <h2 class="col-md-3">Group Title</h2>
+                <input type="hidden" name="title" class="form-control"
+                       value="222{{$group}}">
+                <input type="text" name="title" class="form-control" value="{{$group->title}}">
+            </div>
+
+            <!-- textarea -->
+            <div class="form-group">
+                <h2 class="col-md-3">Group Description</h2>
+                <textarea type="text" name="Description" class="form-control" rows="3"
+                          placeholder="Enter ...">{{$group->Description}}</textarea>
+            </div>
+            <div class="form-group">
+                <h2>students</h2>
+                <select class="form-control select2" name="students[]"  multiple="multiple"  data-placeholder="Select a State"
+                >
+
+                    @foreach($students as $ss)
+                        {{--                                            {{$exist=$group->students()->where('id_student', $s->id_student)}}--}}
+                        {{$exist=$group->students()->
+                        where('students.id_student', $ss->id_student)->exists()
+}}
+                        <option @if($exist==true) disabled="disabled" @endif value="{{$ss->id_student}}">{{$ss->name}} @if($exist==true)is already exist @endif </option>
+                    @endforeach
+                </select>
+
+
+            </div>
+
+            <div class="box-footer" style="background-color: #ecf0f5;">
+
+                <button type="submit" name="submitbtn" value="add" class="btn btn-info pull-right">
+                    Update Group
+                </button>
+
+            </div>
+
+        </form>
         <div class="row">
             <div class="col-xs-12">
                 <div class="box">
                     <div class="box-header">
-                        <h3 class="box-title">Responsive Hover Table</h3>
-
-                        <div class="box-tools">
-                            <div class="input-group input-group-sm" style="width: 150px;">
-                                <input type="text" name="table_search" class="form-control pull-right"
-                                       placeholder="Search">
-
-                                <div class="input-group-btn">
-                                    <button type="submit" class="btn btn-default"><i class="fa fa-fw fa-filter"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /.box-header -->
-                    <div class="box-body table-responsive no-padding">
-                        <table class="table table-hover">
+                        <table id="example1" class="table table-bordered table-striped">
+                            <thead>
                             <tr>
                                 <th>#</th>
                                 <th>Full Name</th>
@@ -115,6 +145,8 @@
 
 
                             </tr>
+                            </thead>
+                            <tbody>
                             @foreach($group->students()->get() as $s)
                                 <tr>
                                     <td>{{$s->id_student}}</td>
@@ -122,37 +154,11 @@
 
                                 </tr>
                             @endforeach
+                            </tbody>
                             <tr>
-                                <form role="form" method="post" action="/eexams/public/teacher/groups/{{$group->id_Group}}">
-                                    {{method_field('PATCH')}}
-                                    {{csrf_field()}}
-                                <div class="form-group">
-                                    <label>students</label>
-                                    <select class="form-control select2" name="students[]"  multiple="multiple"  data-placeholder="Select a State"
-                                    >
 
-                                        @foreach($students as $ss)
-{{--                                            {{$exist=$group->students()->where('id_student', $s->id_student)}}--}}
-                                            {{$exist=$group->students()->
-                                            where('students.id_student', $ss->id_student)->exists()
-}}
-                                            <option @if($exist==true) disabled="disabled" @endif value="{{$ss->id_student}}">{{$ss->name}} @if($exist==true)is already exist @endif </option>
-                                        @endforeach
-                                    </select>
-
-
-                                </div>
-
-                                    <div class="box-footer">
-
-                                        <button type="submit" name="submitbtn" value="add" class="btn btn-info pull-right">
-                                            make edit
-                                        </button>
-
-                                    </div>
-
-                                </form>
                             </tr>
+
                         </table>
 
 
@@ -166,5 +172,5 @@
 
     </section>
     <!-- /.content -->
-
+    </div>
 @endsection

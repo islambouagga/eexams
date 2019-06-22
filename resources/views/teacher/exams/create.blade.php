@@ -28,7 +28,7 @@
                     <li class="header">HEADER</li>
                     <!-- Optionally, you can add icons to the links -->
                     <li><a href="{{url('/')}}"><i class="fa fa-link"></i> <span>Home</span></a></li>
-                    <li><a href="{{route('teacher.exams.create')}}"><i class="fa fa-link"></i>
+                    <li class="active"><a href="{{route('teacher.exams.create')}}"><i class="fa fa-link"></i>
                             <span>Create a new exam</span></a>
                     </li>
                     <li><a href="{{route('teacher.exams.index')}}"><i class="fa fa-link"></i>
@@ -162,8 +162,8 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close
                                 </button>
-                                <button type="button" class="btn btn-outline"><a href="{{url('/')}}">Go Ahead </a>
-                                </button>
+                                <a href="{{url('/')}}"> <button type="button" class="btn btn-outline">Go Ahead
+                                </button></a>
                             </div>
                         </div>
                         <!-- /.modal-content -->

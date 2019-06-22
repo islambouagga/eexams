@@ -76,8 +76,8 @@
                 <!--  <small>Optional description</small> -->
             </h1>
             <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li class="active">Create Exam</li>
+                <li><a href="{{url('/')}}"><i class="fa fa-dashboard"></i> Home</a></li>
+                <li class="active">Group's List</li>
             </ol>
         </section>
 
@@ -88,26 +88,59 @@
           | Your Page Content Here |
           -------------------------->
         <div class="row">
+            <div class="col-lg-4 col-xs-6">
+                <!-- small box -->
+                <div class="small-box bg-aqua">
+                    <div class="inner">
+                        <h3>{{$gcout}}</h3>
+
+                        <p>Group number</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa  fa-file-text-o"></i>
+                    </div>
+
+                </div>
+            </div>
+            <!-- ./col -->
+            <!-- ./col -->
+            <div class="col-lg-4 col-xs-6">
+                <!-- small box -->
+                <div class="small-box bg-yellow">
+                    <div class="inner">
+                        <h3>{{$gschu}}</h3>
+
+                        <p>Scheduled Exams</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-clock-o"></i>
+                    </div>
+
+                </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-4 col-xs-6">
+                <!-- small box -->
+                <div class="small-box bg-red">
+                    <div class="inner">
+                        <h3>{{$gcout-$gschu}}</h3>
+
+                        <p>Rest of Exams</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa   fa-file-text"></i>
+                    </div>
+
+                </div>
+            </div>
+            <!-- ./col -->
+        </div>
+        <div class="row">
             <div class="col-xs-12">
                 <div class="box">
                     <div class="box-header">
-                        <h3 class="box-title">Responsive Hover Table</h3>
-
-                        <div class="box-tools">
-                            <div class="input-group input-group-sm" style="width: 150px;">
-                                <input type="text" name="table_search" class="form-control pull-right"
-                                       placeholder="Search">
-
-                                <div class="input-group-btn">
-                                    <button type="submit" class="btn btn-default"><i class="fa fa-fw fa-filter"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /.box-header -->
-                    <div class="box-body table-responsive no-padding">
-                        <table class="table table-hover">
+                        <table id="example1" class="table table-bordered table-striped">
+                            <thead>
                             <tr>
                                 <th>#</th>
                                 <th>Title</th>
@@ -117,6 +150,8 @@
                                 <th>Delete</th>
 
                             </tr>
+                            </thead>
+                            <tbody>
                             @foreach($groups as $g)
                                 <tr>
                                     <td>{{$g->id_Group}}</td>
@@ -141,6 +176,7 @@
                                     </td>
                                 </tr>
                             @endforeach
+                            </tbody>
                         </table>
                     </div>
                     <!-- /.box-body -->
@@ -151,5 +187,5 @@
 
     </section>
     <!-- /.content -->
-
+    </div>
 @endsection

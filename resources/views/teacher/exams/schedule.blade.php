@@ -77,7 +77,7 @@
             </h1>
             <ol class="breadcrumb">
                 <li><a href="{{route('teacher.groups.index')}}"><i class="fa fa-dashboard"></i> Group's List</a></li>
-                <li class="active">Schedule Group</li>
+                <li class="active">Schedule Exam</li>
             </ol>
         </section>
 
@@ -87,16 +87,16 @@
         <!--------------------------
           | Your Page Content Here |
           -------------------------->
-        <form role="form" method="post" action="{{route('teacher.groups.doschedule')}}">
+        <form role="form" method="post" action="{{route('teacher.exams.doschedule')}}">
             @csrf
-            <h3><input type="hidden" name="id_Group" value="{{$group->id_Group}}"> </h3>
+            <h3><input type="hidden" name="id_Exam" value="{{$exam->id_Exam}}"> </h3>
 
 
             <div class="form-group">
                 <h2>Select exam please </h2>
-                <select class="form-control select2" name="exam"  style="width: 100%;">
-                    @foreach($exams as $e)
-                    <option value="{{$e->id_Exam}}">{{$e->title}}</option>
+                <select class="form-control select2" name="group"  style="width: 100%;">
+                    @foreach($groups as $g)
+                    <option value="{{$g->id_Group}}">{{$g->title}}</option>
                   @endforeach
                 </select>
             </div>
@@ -113,7 +113,7 @@
                 <!-- /.input group -->
             </div>
             <div class="box-footer">
-                <button type="submit" class="btn btn-info btn-flat pull-right">Schedule Group</button>
+                <button type="submit" class="btn btn-info btn-flat pull-right">Schedule Exam</button>
                 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-warning">
                     Cancel
                 </button>

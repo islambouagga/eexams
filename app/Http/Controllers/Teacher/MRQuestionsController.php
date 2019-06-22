@@ -82,16 +82,23 @@ class MRQuestionsController extends Controller
      */
     public function store(Request $request, MRQuestion $MRQuestion, Question $question, ExamsController $examsController)
     {
+//        dd($request->all());
+        $exam_current = $request->id_Exam;
+        if($request->expression!=null and $request->score!=null and $request->order!=null ){
         $this->id_exam = $examsController->iid_Exam;
         $exam = Exam::Find($this->id_exam);
         $question->expression = $request->expression;
         $MRQuestion->save();
+            if ($request->estimated_time == null) {
+                $question->estimated_time = "0";
+            }else{
         $time = $request->estimated_time;
         $time = str_replace('H', '', $time);
         $time = str_replace('M', '', $time);
         $time = $time . ':00';
         $format = DateTime::createFromFormat('H:i:s', $time);
         $question->estimated_time = $format;
+            }
         $question->questiontable_id = $MRQuestion->id_m_r_questions;
         $question->questiontable_type = "MRQuestion";
         $exam_current = $request->id_Exam;
@@ -114,6 +121,7 @@ class MRQuestionsController extends Controller
         $MRQuestion->choices()->saveMany($choices);
         $question->save();
         Exam::find($exam_current)->questions()->attach($question, ['order' => $request->order, 'score' => $request->score]);
+        }
         switch ($request->submitbtn) {
             case'submit';
                 return redirect('teacher/exams?id=' . $exam_current);

@@ -26,8 +26,18 @@ class GroupsController extends Controller
      */
     public function index()
     {
+        $gschu=0;
         $teacher = auth()->user();
-        return view('teacher.groups.index')->with('groups', $teacher->groupes);
+        $gcout=count($teacher->groupes);
+
+        foreach ($teacher->groupes as $g){
+            if (count($g->exams)!=0){
+                $gschu++;
+
+            }
+        }
+        return view('teacher.groups.index')->with('groups', $teacher->groupes)
+            ->with('gcout',$gcout)->with('gschu',$gschu);
     }
 
     /**
@@ -90,6 +100,9 @@ class GroupsController extends Controller
      */
     public function update(Request $request, Group $group)
     {
+        $group->title=$request->title;
+        $group->Description=$request->Description;
+        $group->save();
         $group->students()->attach($request->students);
         $students = Student::all();
         return view('teacher.students.index')->with('students', $students)
@@ -115,6 +128,7 @@ class GroupsController extends Controller
 
     public function doschedule(Request $request, Group $group)
     {
+//        dd($request->all());
         $exam = Exam::find($request->exam);
         $grup = Group::find($request->id_Group);
         $text = $request->date_scheduling;

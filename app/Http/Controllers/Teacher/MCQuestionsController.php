@@ -74,17 +74,23 @@ class MCQuestionsController extends Controller
      */
     public function store(Request $request, MCQuestion $MCQuestion, Question $question, ExamsController $examsController)
     {
+        $exam_current = $request->id_Exam;
+        if($request->expression!=null and $request->score!=null and $request->order!=null and $request->correct_answer!=null ){
         $this->id_exam = $examsController->iid_Exam;
         $exam = Exam::Find($this->id_exam);
         $question->expression = $request->expression;
         $MCQuestion->correct_answer = $request->correct_answer;
         $MCQuestion->save();
+            if ($request->estimated_time == null) {
+                $question->estimated_time = "0";
+            }else{
         $time = $request->estimated_time;
         $time = str_replace('H', '', $time);
         $time = str_replace('M', '', $time);
         $time = $time . ':00';
         $format = DateTime::createFromFormat('H:i:s', $time);
         $question->estimated_time = $format;
+            }
         $question->questiontable_id = $MCQuestion->id_m_c_questions;
         $question->questiontable_type = "MCQuestion";
         $exam_current = $request->id_Exam;
@@ -97,6 +103,7 @@ class MCQuestionsController extends Controller
         $MCQuestion->choices()->saveMany($choices);
         $question->save();
         Exam::find($exam_current)->questions()->attach($question, ['order' => $request->order, 'score' => $request->score]);
+        }
         switch ($request->submitbtn) {
             case'submit';
                 return redirect('teacher/exams?id=' . $exam_current);

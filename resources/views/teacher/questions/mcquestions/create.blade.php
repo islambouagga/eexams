@@ -28,7 +28,7 @@
                     <li class="header">HEADER</li>
                     <!-- Optionally, you can add icons to the links -->
                     <li><a href="{{url('/teacher')}}"><i class="fa fa-link"></i> <span>Home</span></a></li>
-                    <li><a href="{{route('teacher.exams.create')}}"><i class="fa fa-link"></i>
+                    <li class="active"><a href="{{route('teacher.exams.create')}}"><i class="fa fa-link"></i>
                             <span>Create a new exam</span></a>
                     </li>
                     <li><a href="{{route('teacher.exams.index')}}"><i class="fa fa-link"></i>
@@ -168,9 +168,6 @@
                     <div>
 
                         <h2 style="float:left ;margin-right: 25px; padding: 0px">Right Answer</h2>
-
-
-                        <!-- select -->
 
                         <select class="form-control" name="correct_answer" id="dynamic_field2"
                                 style="width: 150px; float:left ;margin-top: 20px">

@@ -1,5 +1,5 @@
 @extends('layouts.teacher')
-
+{{--@section('title',"Exam's List")--}}
 @section('content')
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -31,7 +31,7 @@
                     <li><a href="{{route('teacher.exams.create')}}"><i class="fa fa-link"></i>
                             <span>Create a new exam</span></a>
                     </li>
-                    <li><a href="{{route('teacher.exams.index')}}"><i class="fa fa-link"></i>
+                    <li class="active"><a href="{{route('teacher.exams.index')}}"><i class="fa fa-link"></i>
                             <span>Exams' list</span></a>
                     </li>
                     <li><a href="{{route('teacher.groups.create')}}"><i class="fa fa-link"></i>
@@ -76,77 +76,136 @@
                 <!--  <small>Optional description</small> -->
             </h1>
             <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li class="active">Create Exam</li>
+                <li><a href="{{url('/')}}"><i class="fa fa-dashboard"></i> Home</a></li>
+                <li class="active">Exam's List</li>
             </ol>
         </section>
 
-    <!-- Main content -->
-    <section class="content container-fluid">
+        <!-- Main content -->
+        <section class="content container-fluid">
 
-        <!--------------------------
-          | Your Page Content Here |
-          -------------------------->
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box">
-                    <div class="box-header">
-                        <h3 class="box-title">Responsive Hover Table</h3>
+            <!--------------------------
+              | Your Page Content Here |
+              -------------------------->
+            <div class="row">
+                <div class="col-lg-3 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-aqua">
+                        <div class="inner">
+                            <h3>{{$ecount}}</h3>
 
+                            <p>Exams number</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa  fa-file-text-o"></i>
+                        </div>
 
-                    <!-- /.box-header -->
-                    <div class="box-body">
-                        <table id="example1" class="table table-bordered table-striped">
-                            <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Description</th>
-                                <th>Date</th>
-
-                                <th>Status</th>
-                                <th>Download</th>
-                                <th>Edite</th>
-                                <th>Delete</th>
-
-                            </tr>
-                            </thead>
-                        <tbody>
-
-                        @foreach($exams as $e)
-                                <tr>
-                                    <td>{{$e->id_Exam}}</td>
-                                    <td>{{$e->title}}</td>
-                                    <td>{{$e->Description}}</td>
-                                    <td>{{$e->created_at}}</td>
-                                    <td><span class="label label-success">Approved</span></td>
-                                    <td><i class="glyphicon glyphicon-download-alt"></i></td>
-                                    <td>
-                                        <a href="/eexams/public/teacher/exams/{{$e->id_Exam}}">
-                                            <i class="fa fa-fw fa-edit"></i>
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <form role="form" method="post"
-                                              action="/eexams/public/teacher/exams/{{$e->id_Exam}}">
-                                            @method('DELETE')
-                                            @csrf
-                                            <button class="glyphicon glyphicon-trash"></button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-
-                        </table>
                     </div>
-                    <!-- /.box-body -->
                 </div>
-                <!-- /.box -->
+                <!-- ./col -->
+                <div class="col-lg-3 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-green">
+                        <div class="inner">
+                            <h3>{{$epassed}}<sup style="font-size: 20px"></sup></h3>
+
+                            <p>Exams passed</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-stats-bars"></i>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-yellow">
+                        <div class="inner">
+                            <h3>{{$eschu}}</h3>
+
+                            <p>Scheduled Exams</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-clock-o"></i>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-red">
+                        <div class="inner">
+                            <h3>{{$ecount-$eschu-$epassed}}</h3>
+
+                            <p>Rest of Exams</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa   fa-file-text"></i>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- ./col -->
             </div>
-        </div>
-        </div>
-    </section>
-    <!-- /.content -->
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="box">
+                        <div class="box-header">
+                            <!-- /.box-header -->
+                            <div class="box-body">
+                                <table id="example1" class="table table-bordered table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Description</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                        <th>Download</th>
+                                        <th>Edite</th>
+                                        <th>Delete</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($exams as $e)
+                                        <tr>
+                                            <td>{{$e->title}}</td>
+                                            <td>{{$e->Description}}</td>
+                                            <td>{{$e->created_at}}</td>
+                                            @if(count($e->students)!=0)
+                                            <td><span class="label label-success">Approved</span></td>
+                                            @elseif(count($e->groupes)!=0)
+                                            <td><span class="label label-warning">Pending</span></td>
+                                            @else
+                                            <td><span class="label label-danger">Denied</span></td>
+                                            @endif
+                                            <td><i class="glyphicon glyphicon-download-alt"></i></td>
+                                            <td>
+                                                <a href="/eexams/public/teacher/exams/{{$e->id_Exam}}">
+                                                    <i class="fa fa-fw fa-edit"></i>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <form role="form" method="post"
+                                                      action="/eexams/public/teacher/exams/{{$e->id_Exam}}">
+                                                    @method('DELETE')
+                                                    @csrf
+                                                    <button class="fa fa-trash-o"></button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.box-body -->
+                        </div>
+                        <!-- /.box -->
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- /.content -->
     </div>
 @endsection
