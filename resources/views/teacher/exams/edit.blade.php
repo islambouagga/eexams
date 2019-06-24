@@ -200,6 +200,36 @@
 
                                             </div>
                                         @endif
+                                        @if($Q->questiontable_type=="SAQuestion")
+
+                                            <h2>Answer Options</h2>
+
+                                            <div class="table-responsive">
+
+                                                <table class="table table-bordered" id="dynamic_field1">
+                                                    <button type="button" name="add2" id="add2"
+                                                            class="btn btn-success">Add More
+                                                    </button>
+
+                                                    @foreach ($Q->questiontable->choices()->get() as $mc) <tr>
+
+
+                                                        <td style="float: left"><input style="width: 500px" type="text" name="choice{{$Q->id_Question}}[]"
+                                                                                       class="form-control name_list"
+                                                                                       value="{{$mc->choice}}"/></td>
+
+                                                        <td style="float: left">
+
+                                                            <button type="button" name="remove" id="0" class="btn btn-danger btn_remove">X
+                                                            </button>
+
+                                                        </td>
+
+                                                    </tr>
+                                                    @endforeach
+                                                </table>
+                                            </div>
+                                            @endif
                                         @if($Q->questiontable_type=="MRQuestion")
                                             <h2>Answer Options</h2>
 
@@ -288,12 +318,13 @@
                                                 class="btn btn-success pull-right">
                                             Submit Exam
                                         </button>
-                                        <a href="/eexams/public/teacher/questions/tfquestions/create?id={{$exams->id_Exam}}&key=2">  <button class="btn btn-info ">
+
+                                        <a href="/eexams/public/teacher/questions/tfquestions/create?id={{$exams->id_Exam}}&key=2" class="btn btn-info">
 
                                                 Create Question
 
-                                        </button></a>
-                                    </div>
+                                        </a>
+                                </div>
 
 
                         </tr>

@@ -88,7 +88,7 @@
                     </div>
                 </div>
                 <!-- ./col -->
-                <div class="col-lg-3 col-xs-6">
+                <div class="col-lg-2 col-xs-6">
                     <!-- small box -->
                     <div class="small-box bg-green">
                         <div class="inner">
@@ -103,7 +103,7 @@
                     </div>
                 </div>
                 <!-- ./col -->
-                <div class="col-lg-3 col-xs-6">
+                <div class="col-lg-2 col-xs-6">
                     <!-- small box -->
                     <div class="small-box bg-yellow">
                         <div class="inner">
@@ -118,13 +118,27 @@
                     </div>
                 </div>
                 <!-- ./col -->
-                <div class="col-lg-3 col-xs-6">
+                <div class="col-lg-2 col-xs-6">
                     <!-- small box -->
                     <div class="small-box bg-red">
                         <div class="inner">
                             <h3>{{$tfq}}</h3>
 
                             <p>TFQ number</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa   fa-file-text"></i>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-lg-2 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-red">
+                        <div class="inner">
+                            <h3>{{$saq}}</h3>
+
+                            <p>SAQ number</p>
                         </div>
                         <div class="icon">
                             <i class="fa   fa-file-text"></i>
@@ -298,6 +312,38 @@
                                     </div>
                                 </tr>
                             @endif
+                                @if($Q->questiontable_type=="SAQuestion")
+                                    <tr>
+                                        <div class="callout callout-success">
+                                            <form role="form">
+                                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                                <!-- text input -->
+                                                <div class="form-group">
+                                                    <h2> {{$Q->expression}}</h2>
+                                                </div>
+                                                <h4>Right options :</h4>
+                                                @foreach ($Q->questiontable->choices()->get() as $mc)
+                                                    <h3 style="margin-right: 10px;font-size: larger;"> {{$mc->choice}}</h3>
+                                                @endforeach
+                                                <br>
+                                                <div class="box box-default"
+                                                     style="border-top-color: #00a65a;background-color: #00a65a;">
+
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <h4>Score : {{$Q->pivot->score}}</h4>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <div class="form-group">
+                                                            <h4>estimated time : {{$Q->estimated_time}}</h4>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </tr>
+                                @endif
                             @if($Q->questiontable_type=="MRQuestion")
                                 <tr>
                                     <div class="callout callout-warning">
@@ -337,6 +383,20 @@
                                     </div>
                                 </tr>
                             @endif
+
+                                <form role="form" method="post" action="/eexams/public/teacher/questions/{{$exams->id_Exam}}">
+                                    {{method_field('PATCH')}}
+                                    {{csrf_field()}}
+                                    <input type="hidden" name="id_Question" value="{{$Q->id_Question}}">
+                                    <input type="hidden" name="id_Exam" value="{{$exams->id_Exam}}">
+                                    <button style="color: white;@if(count($exams->groupes)!=0) display:none @endif "
+                                            type="submit" class="btn btn-default btn-danger pull-right">Delete
+                                        question
+                                    </button>
+                                </form>
+                            <br>
+                            <br>
+
                         @endforeach
 
                         <div style="background-color: #ecf0f5;" class="box-footer">

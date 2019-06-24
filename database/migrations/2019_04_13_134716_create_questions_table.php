@@ -19,6 +19,8 @@ class CreateQuestionsTable extends Migration
             $table->time('estimated_time');
             $table->integer('questiontable_id');
             $table->string('questiontable_type');
+            $table->unsignedBigInteger('id_teacher');
+            $table->foreign('id_teacher')->references('id_teacher')->on('teachers');
             $table->timestamps();
         });
     }

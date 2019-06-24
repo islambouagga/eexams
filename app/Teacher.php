@@ -42,6 +42,10 @@ class Teacher extends Authenticatable
     {
         return $this->hasMany('App\Exam', 'id_teacher');
     }
+    public function questions()
+    {
+        return $this->hasMany('App\Question', 'id_teacher');
+    }
 
     public function groupes()
     {

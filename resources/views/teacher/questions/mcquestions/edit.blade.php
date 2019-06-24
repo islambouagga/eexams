@@ -87,76 +87,88 @@
             <!--------------------------
               | Your Page Content Here |
               -------------------------->
-            <div class="row">
-
-                <div class="box-body">
-                    <a href="{{url('/teacher/questions/tfquestions/create?id='.$id_Exam.'&key=0')}}">
-                        <button type="button" class="btn btn-danger" data-toggle="modal"
-                                data-target="#modal-default">
-                            True &
-                            false
-                        </button>
-                    </a>
-                    <a href="{{url('/teacher/questions/mcquestions/create?id='.$id_Exam.'&key=0')}}">
-                        <button type="button" class="btn btn-info" data-toggle="modal"
-                                data-target="#modal-info">
-                            Multiple Choices
-                        </button>
-                    </a>
-                    <a href="{{url('/teacher/questions/mrquestions/create?id='.$id_Exam.'&key=0')}}">
-                        <button type="button" class="btn btn-info" data-toggle="modal"
-                                data-target="#modal-danger">
-                            Multiple Responses
-                        </button>
-                    </a>
-                    <a href="{{url('/teacher/questions/saquestions/create?id='.$id_Exam.'&key=0')}}">
-                        <button type="button" class="btn btn-info" data-toggle="modal"
-                                data-target="#modal-warning">
-                            Short Answer
-                        </button>
-                    </a>
-
-                </div>
 
 
-            </div>
 
             <!-- /.box-header -->
-            <div class="panel box box-body">
+            <div style="margin-bottom:0px " class="panel box box-body">
 
-                <p><strong>description for True & False Question</strong></p>
+                <p><strong>description for Multiple Choices Question</strong></p>
             </div>
 
             <div class="box-body">
-                <form role="form" method="post" action="{{route('teacher.tfquestions.store')}} ">
+                <form role="form" method="post" action="{{route('teacher.mcquestions.store')}} ">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    <!-- text input -->
-                    <div class="form-group">
-                        <h2>Question Expression</h2>
-                        <input type="text" name="expression" class="form-control {{$errors->has('expression') ? 'has-error ' : ''}}" value="{{old('expression')}}">
-                        @if($errors->has('expression'))
-                            <span class="invalid-feedback help-block" style="color: red;" role="alert">
+                    <h3><input type="hidden" name="id_Exam" value="{{ $id_exam }}"></h3>
+
+
+                        @if($sm!=0)
+                        <div class="alert alert-danger">
+                            <h3>you can't add this question with score {{$note}} your exam note still {{20-$sm}}</h3>
+                        </div>
+                    @endif
+                    <h2>Question</h2>
+                    <input type="text" name="expression" class="form-control {{$errors->has('expression') ? 'has-error ' : ''}}" value="{{$question->expression}}">
+                    @if($errors->has('expression'))
+                        <span class="invalid-feedback help-block" style="color: red;" role="alert">
                             <strong>{{$errors->first('expression')}}</strong>
                         </span>
-                        @endif
-                    </div>
-                    <h2> Correct Answer</h2>
+                @endif
 
-                    <h3><input type="hidden" name="id_Exam" value="{{ $id_Exam }}"></h3>
-                    <h3><input type="hidden" name="test" value="{{ $test }}"></h3>
-                    <!-- radio -->
-                    <div class="form-group">
-                        <div class="radio">
-                            <label>
-                                <input type="radio" name="correct_answer" id="optionsRadios2" value="1">
-                                True
-                            </label>
-                            <label>
-                                <input type="radio" name="correct_answer" id="optionsRadios2" value="0">
-                                False
-                            </label>
-                        </div>
+
+                    <!-- /.box -->
+                    <h2>Answer Options</h2>
+
+                    <div class="table-responsive">
+
+                        <table class="table table-bordered" id="dynamic_field1">
+                            <button type="button" name="add2" id="add2"
+                                    class="btn btn-success">Add More
+                            </button>
+
+                            @foreach ($question->questiontable->choices()->get() as $mc) <tr>
+
+
+                                <td style="float: left"><input style="width: 500px" type="text" name="choice[]"
+                                                               class="form-control name_list"
+                                                               value="{{$mc->choice}}"/></td>
+
+                                <td style="float: left">
+
+                                    <button type="button" name="remove" id="0" class="btn btn-danger btn_remove">X
+                                    </button>
+
+                                </td>
+
+                            </tr>
+                            @endforeach
+                        </table>
                     </div>
+
+                    <h2 style="float:left ;margin-right: 25px; padding: 0px;margin-top: 40px;">Right Answer</h2>
+
+
+                    <!-- select -->
+                    <div class="form-group">
+                        <h3><input type="hidden" value="{{$d=1}}"></h3>
+                        <select style="width: 150px; float:left ;margin-top: 20px" class="form-control" name="correct_answer"
+                                id="dynamic_field22">
+                            <option value="{{$question->questiontable->correct_answer}}">{{$question->questiontable->correct_answer}}</option>
+                            @while(count($question->questiontable->choices()->get())>=$d)
+                                @if($question->questiontable->correct_answer==$d)
+                                    {{$d++}}
+                                    <option value="{{$d}}">{{$d}}</option>
+                                @else
+                                    <option value="{{$d}}">{{$d}}</option>
+                                @endif
+                                {{$d++}}
+
+                            @endwhile
+                        </select>
+                        <hr style="clear:both;"/>
+
+                    </div>
+
                     <div class="box box-default" style="border-top-color: #ecf0f5">
                         <div class="col-md-1">
                             <div class="form-group">
@@ -167,8 +179,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <h2>Score</h2>
-                                <input type="number" name="score" class="form-control
-{{$errors->has('score') ? 'has-error ' : ''}}" >
+                                <input type="number" name="score" class="form-control {{$errors->has('score') ? 'has-error ' : ''}}" >
                                 @if($errors->has('score'))
                                     <span class="invalid-feedback help-block" style="color: red;" role="alert">
                             <strong>{{$errors->first('score')}}</strong>
@@ -178,11 +189,13 @@
                         </div>
 
                         <div class="progress col-md-3" style="margin-top: 69px;padding-left: 0px ;padding-right: 0px">
-                            <div class="progress-bar progress-bar-green" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: {{$sumS*5}}%">
+                            <div class="progress-bar progress-bar-green" role="progressbar" aria-valuenow="40"
+                                 aria-valuemin="0" aria-valuemax="100" style="width: {{$sumS*5}}%">
 
                             </div>
                         </div>
-                        <div class="col-md-1" style="margin-top: 69px;padding-left: 0px ;padding-right: 0px;margin-left: 50px">
+                        <div class="col-md-1"
+                             style="margin-top: 69px;padding-left: 0px ;padding-right: 0px;margin-left: 50px">
                             <p class="text-red"><strong>rest:{{20-$sumS}}/20</strong></p>
                         </div>
                         <div class="col-md-3">
@@ -202,41 +215,29 @@
                     <br>
                     <br>
                     <br>
-                    <!-- /.input group -->
-
+                    <br>
                     <div class="box-footer"
                          style="margin-top: 26px;border-top-color: #ecf0f5;background-color: #ecf0f5  ">
-                        <a href="{{url('/teacher/questions/tfquestions/create?id='.$id_Exam.'&key=0')}}">
-                            <button type="button" class="btn btn-danger" >
+                        <a href="{{url('/teacher/questions/mcquestions/create?id='.$id_exam.'&key=0')}}">
+                            <button type="button" class="btn btn-danger">
                                 Cancel
                             </button>
                         </a>
-                        @if($test == 2 )
-                            <button type="submit"  name="submitbtn" value="add"
-                                    class="btn btn-info pull-center">Create Question
-                            </button>
-                            <button type="submit" name="submitbtn" value="mit2" class="btn btn-info pull-right">Submit
-                                Eghhxam
-                            </button>
 
-                        @else
                             <button type="submit" name="submitbtn" value="add" class="btn btn-info pull-center">
                                 Create Question
                             </button>
-                            <button type="submit" name="submitbtn" value="add3" class="btn btn-info pull-center">
-                                import Question from bank
-                            </button>
-                            <button type="submit" name="submitbtn" value="submit" class="btn btn-info pull-right">Submit
+                            <button type="submit" name="submitbtn" value="submit" class="btn btn-success pull-right">Submit
                                 Exam
                             </button>
-                        @endif
+
+
 
 
                     </div>
 
 
                 </form>
-
             </div>
             <!-- /.box-body -->
         </section>

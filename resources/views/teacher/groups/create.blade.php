@@ -128,16 +128,26 @@
                 <form role="form" method="post" action="{{route('teacher.groups.store')}}">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <!-- text input -->
-                    <div class="form-group">
+                    <div class="form-group {{$errors->has('title') ? 'has-error ' : ''}}">
                         <h2 class="col-md-3">Title</h2>
                         <input type="text" name="title" class="form-control" placeholder="Enter ...">
+                        @if($errors->has('title'))
+                            <span class="invalid-feedback help-block" role="alert">
+                            <strong>{{$errors->first('title')}}</strong>
+                        </span>
+                        @endif
                     </div>
 
                     <!-- textarea -->
-                    <div class="form-group">
+                    <div class="form-group {{$errors->has('Description') ? 'has-error ' : ''}}">
                         <h2 class="col-md-3">Description</h2>
                         <textarea type="text" name="Description" class="form-control" rows="3"
                                   placeholder="Enter ..."></textarea>
+                        @if($errors->has('Description'))
+                            <span class="invalid-feedback help-block" role="alert">
+                            <strong>{{$errors->first('Description')}}</strong>
+                        </span>
+                        @endif
                     </div>
                     <div class="form-group">
                         <h2>students</h2>

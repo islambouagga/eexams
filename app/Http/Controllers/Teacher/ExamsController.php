@@ -6,6 +6,8 @@ namespace App\Http\Controllers\Teacher;
 use App\Group;
 use App\MCChoice;
 use App\MCQuestion;
+use App\SAChoice;
+use App\SAQuestion;
 use App\MRChoice;
 use App\MRQuestion;
 use App\Teacher;
@@ -92,7 +94,10 @@ class ExamsController extends Controller
      */
     public function store(Request $request, Exam $exam)
     {
-
+        $validated = request()->validate([
+            'title' =>['required','min:3'],
+            'Description' =>['required','min:3']
+        ]);
         $exam->title = $request->title;
         $exam->Description = $request->Description;
         $exam->id_teacher = auth()->user()->getAuthIdentifier();
@@ -114,6 +119,7 @@ class ExamsController extends Controller
         $tfq = 0;
         $mcq = 0;
         $mrq = 0;
+        $saq = 0;
         $r = null;
         $c = 0;
         $m = 0;
@@ -128,6 +134,9 @@ class ExamsController extends Controller
             }
             if ($q->questiontable_type == "MRQuestion") {
                 $mrq++;
+            }
+            if ($q->questiontable_type == "SAQuestion") {
+                $saq++;
             }
         }
         foreach ($exam->students as $st) {
@@ -148,7 +157,7 @@ class ExamsController extends Controller
 
         return view('teacher.exams.show')->with('exams', $exam)
             ->with('tfq', $tfq)->with('mrq', $mrq)->with('mcq', $mcq)->with('qcount', $qcount)
-            ->with('tst', $c)->with('pst', $m)
+            ->with('tst', $c)->with('pst', $m)->with('saq', $saq)
             ->with('stn', $r - 1)->with('dsch', $d);
     }
 
@@ -160,6 +169,7 @@ class ExamsController extends Controller
      */
     public function edit(Exam $exam)
     {
+
         return view('teacher.exams.edit')->with('exams', $exam);
     }
 
@@ -170,7 +180,7 @@ class ExamsController extends Controller
      * @param \App\Exam $exam
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Exam $exam, TFQuestion $TFQuestion, MCQuestion $MCQuestion, MRQuestion $MRQuestion, Question $question)
+    public function update(Request $request, Exam $exam, TFQuestion $TFQuestion, SAQuestion $SAQuestion, MCQuestion $MCQuestion, MRQuestion $MRQuestion, Question $question)
     {
 //dd($request->all());
         $exam_current = $request->id_Exam;
@@ -220,6 +230,30 @@ class ExamsController extends Controller
                 $MCQuestion->choices()->saveMany($choices);
                 $e->questions()->updateExistingPivot($question->id_Question, ['score' => request('score' . $Q->id_Question), 'order' => request('order' . $Q->id_Question)]);
             }
+            if ($question->questiontable_type == "SAQuestion") {
+                $SAQuestion = SAQuestion::find($Q->questiontable_id);
+                $question->expression = request('expression' . $Q->id_Question);
+
+                $SAQuestion->save();
+                $time = request('estimated_time' . $Q->id_Question);
+                $time = str_replace('H', '', $time);
+                $time = str_replace('M', '', $time);
+                $time = $time . ':00';
+                $format = DateTime::createFromFormat('H:i:s', $time);
+                $question->estimated_time = $format;
+                $question->questiontable_id = $SAQuestion->id_s_a_questions;
+                $question->questiontable_type = "SAQuestion";
+                $question->save();
+                $SAQuestion->choices()->delete();
+                $choices = [];
+                foreach (request('choice' . $Q->id_Question) as $ch) {
+                    $choix = new SAChoice();
+                    $choix->choice = $ch;
+                    $choices[] = $choix;
+                }
+                $SAQuestion->choices()->saveMany($choices);
+                $e->questions()->updateExistingPivot($question->id_Question, ['score' => request('score' . $Q->id_Question), 'order' => request('order' . $Q->id_Question)]);
+            }
             if ($question->questiontable_type == "MRQuestion") {
                 $MRQuestion = MRQuestion::find($Q->questiontable_id);
                 $question->expression = request('expression' . $Q->id_Question);
@@ -259,6 +293,7 @@ class ExamsController extends Controller
         $tfq = 0;
         $mcq = 0;
         $mrq = 0;
+        $saq = 0;
         $r = null;
         $c = 0;
         $m = 0;
@@ -283,6 +318,9 @@ class ExamsController extends Controller
             if ($st->pivot->mark >= 10) {
                 $m++;
             }
+            if ($q->questiontable_type == "SAQuestion") {
+                $saq++;
+            }
         }
         foreach ($e->groupes as $gr) {
 
@@ -290,7 +328,7 @@ class ExamsController extends Controller
             $d = $gr->pivot->date_scheduling;
         }
         return view('teacher.exams.show')->with('exams', $e)->with('tfq', $tfq)->with('mrq', $mrq)->with('mcq', $mcq)->with('qcount', $qcount)
-            ->with('tst', $c)->with('pst', $m)
+            ->with('tst', $c)->with('pst', $m)->with('saq', $saq)
             ->with('stn', $r - 1)->with('dsch', $d);
     }
 

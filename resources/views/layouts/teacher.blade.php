@@ -777,5 +777,17 @@ co--;
         setTimeout(mdraw, mrefreshinterval);
     }
 </script>
+<script>
+  $('#btn').on('click',function ()
+  {
+     $('#tit').each(function () {
+         if(!$(this).val())
+         {
+             $(this).css('borderColor','red');
+         }
+     })
+  });
+
+</script>
 </body>
 </html>

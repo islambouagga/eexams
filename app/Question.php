@@ -12,6 +12,9 @@ Relation::morphMap([
     'MCQuestion'=>'App\MCQuestion'
 ]);
 Relation::morphMap([
+    'SAQuestion'=>'App\SAQuestion'
+]);
+Relation::morphMap([
     'MRQuestion'=>'App\MRQuestion'
 ]);
 

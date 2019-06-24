@@ -36,9 +36,7 @@
                     </li>
                     <li><a href="{{route('teacher.groups.create')}}"><i class="fa fa-link"></i>
                             <span>Create a new group</span></a>
-                    </li>
-                    <li><a href="{{route('teacher.groups.index')}}"><i class="fa fa-link"></i> <span>Groups' List</span></a>
-                    </li>
+
 
                     <li class="treeview">
                         <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
@@ -90,5 +88,5 @@
 
     </section>
     <!-- /.content -->
-
+    </div>
 @endsection

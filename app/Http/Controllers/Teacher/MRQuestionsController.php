@@ -82,7 +82,14 @@ class MRQuestionsController extends Controller
      */
     public function store(Request $request, MRQuestion $MRQuestion, Question $question, ExamsController $examsController)
     {
-//        dd($request->all());
+        if ($request->submitbtn!='add3'){
+            $validated = request()->validate([
+                'expression' =>['required','min:3'],
+                'score' =>['required','min:1','max:20']
+            ]);
+        }
+        $sum=0;
+        $teacher = auth()->user();
         $exam_current = $request->id_Exam;
         if($request->expression!=null and $request->score!=null and $request->order!=null ){
         $this->id_exam = $examsController->iid_Exam;
@@ -119,18 +126,45 @@ class MRQuestionsController extends Controller
             $coidc++;
         }
         $MRQuestion->choices()->saveMany($choices);
+            $question->id_teacher = auth()->user()->getAuthIdentifier();
         $question->save();
         Exam::find($exam_current)->questions()->attach($question, ['order' => $request->order, 'score' => $request->score]);
+            $exam=Exam::find($exam_current);
+            foreach($exam->questions  as $e){
+                $sum=$sum+$e->pivot->score;
+            }
+
         }
         switch ($request->submitbtn) {
             case'submit';
+                if ($sum>20){
+                    Exam::find($exam_current)->questions()->detach($question);
+                    $sm=$sum-$request->score;
+                    return redirect('teacher/questions/mrquestions/'.$question->id_Question.'/edit?id='.$question->id_Question.'&key='.$exam_current.'&sm='.$sm.'&note='.$request->score)
+                        ->with('sm',$sm)->with('note',$request->score);
+                }
                 return redirect('teacher/exams?id=' . $exam_current);
                 break;
             case 'add';
+                if ($sum>20){
+                    Exam::find($exam_current)->questions()->detach($question);
+                    $sm=$sum-$request->score;
+                    return redirect('teacher/questions/mrquestions/'.$question->id_Question.'/edit?id='.$question->id_Question.'&key='.$exam_current.'&sm='.$sm.'&note='.$request->score)
+                        ->with('sm',$sm)->with('note',$request->score);
+                }
                 return redirect('teacher/questions/mrquestions/create?id=' . $exam_current);
                 break;
             case 'mit2';
+                if ($sum>20){
+                    Exam::find($exam_current)->questions()->detach($question);
+                    $sm=$sum-$request->score;
+                    return redirect('teacher/questions/mrquestions/'.$question->id_Question.'/edit?id='.$question->id_Question.'&key='.$exam_current.'&sm='.$sm.'&note='.$request->score)
+                        ->with('sm',$sm)->with('note',$request->score);
+                }
                 return redirect('/teacher/exams/' . $exam_current . '/edit');
+                break;
+            case 'add3';
+                return view ('teacher.questions.index')->with('questions',$teacher->questions)->with('id_exam',$exam_current);
                 break;
         }
     }
@@ -154,7 +188,21 @@ class MRQuestionsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $sum=0;
+        $id_question = Input::get('id');
+        $id_exam = Input::get('key');
+        $sm = Input::get('sm');
+        $note = Input::get('note');
+        $exam=Exam::find($id_exam);
+        $ecount=count($exam->questions) ;
+        foreach($exam->questions  as $e){
+            $sum=$sum+$e->pivot->score;
+        }
+        $question=Question::find($id_question);
+//        dd($question->id_Question);
+
+        return view('teacher.questions.mrquestions.edit')->with('question', $question)->with('id_exam',$id_exam)
+            ->with('ecount',$ecount)->with('sm',$sm)->with('sumS',$sum)->with('note',$note);
     }
 
     /**

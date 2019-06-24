@@ -124,24 +124,34 @@
               | Your Page Content Here |
               -------------------------->
             <div class="box-body">
-                <form role="form" method="post" action="{{route('teacher.exams.store')}}">
+                <form role="form" method="post" action="{{route('teacher.exams.store')}} ">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <!-- text input -->
-                    <div class="form-group">
+                    <div class="form-group {{$errors->has('title') ? 'has-error ' : ''}}" >
                         <h2 class="col-md-3">Title</h2>
-                        <input type="text" name="title" class="form-control" placeholder="Enter ...">
+                        <input type="text" name="title" id="tit" class="form-control "  value="{{old('title')}}">
+                       @if($errors->has('title'))
+                        <span class="invalid-feedback help-block" role="alert">
+                            <strong>{{$errors->first('title')}}</strong>
+                        </span>
+                           @endif
                     </div>
 
                     <!-- textarea -->
-                    <div class="form-group">
+                    <div class="form-group {{$errors->has('Description') ? 'has-error ' : ''}}">
                         <h2 class="col-md-3">Description</h2>
                         <textarea type="text" name="Description" class="form-control" rows="3"
                                   placeholder="Enter ..."></textarea>
+                        @if($errors->has('Description'))
+                            <span class="invalid-feedback help-block" role="alert">
+                            <strong>{{$errors->first('Description')}}</strong>
+                        </span>
+                        @endif
                     </div>
 
                     <div class="box-footer">
                         <button type="submit" class="btn btn-info btn-flat pull-right">Create</button>
-                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-warning">
+                        <button type="button" id="btn" class="btn btn-danger" data-toggle="modal" data-target="#modal-warning">
                             Cancel
                         </button>
                     </div>
@@ -171,7 +181,6 @@
                     <!-- /.modal-dialog -->
                 </div>
                 <!-- /.modal -->
-
 
             </div>
 

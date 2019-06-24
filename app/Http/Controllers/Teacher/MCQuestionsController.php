@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Validation\Validator;
-use App\Choice;
+
 
 class MCQuestionsController extends Controller
 {
@@ -75,6 +75,18 @@ class MCQuestionsController extends Controller
     public function store(Request $request, MCQuestion $MCQuestion, Question $question, ExamsController $examsController)
     {
         $exam_current = $request->id_Exam;
+
+        if ($request->submitbtn!='add3'){
+            $validated = request()->validate([
+                'expression' =>['required','min:3'],
+                'score' =>['required','min:1','max:20']
+            ]);
+        }
+
+        $sum=0;
+        $teacher = auth()->user();
+
+
         if($request->expression!=null and $request->score!=null and $request->order!=null and $request->correct_answer!=null ){
         $this->id_exam = $examsController->iid_Exam;
         $exam = Exam::Find($this->id_exam);
@@ -94,6 +106,7 @@ class MCQuestionsController extends Controller
         $question->questiontable_id = $MCQuestion->id_m_c_questions;
         $question->questiontable_type = "MCQuestion";
         $exam_current = $request->id_Exam;
+
         $choices = [];
         foreach ($request->choice as $ch) {
             $choix = new MCChoice();
@@ -101,18 +114,48 @@ class MCQuestionsController extends Controller
             $choices[] = $choix;
         }
         $MCQuestion->choices()->saveMany($choices);
+            $question->id_teacher = auth()->user()->getAuthIdentifier();
         $question->save();
         Exam::find($exam_current)->questions()->attach($question, ['order' => $request->order, 'score' => $request->score]);
+
+
+            $exam=Exam::find($exam_current);
+            foreach($exam->questions  as $e){
+                $sum=$sum+$e->pivot->score;
+            }
+
         }
+
         switch ($request->submitbtn) {
             case'submit';
+            if ($sum>20){
+                Exam::find($exam_current)->questions()->detach($question);
+                $sm=$sum-$request->score;
+                return redirect('teacher/questions/mcquestions/'.$question->id_Question.'/edit?id='.$question->id_Question.'&key='.$exam_current.'&sm='.$sm.'&note='.$request->score)
+                    ->with('sm',$sm)->with('note',$request->score);
+            }
                 return redirect('teacher/exams?id=' . $exam_current);
                 break;
             case 'add';
+                if ($sum>20){
+                    Exam::find($exam_current)->questions()->detach($question);
+                    $sm=$sum-$request->score;
+                    return redirect('teacher/questions/mcquestions/'.$question->id_Question.'/edit?id='.$question->id_Question.'&key='.$exam_current.'&sm='.$sm.'&note='.$request->score)
+                        ->with('sm',$sm)->with('note',$request->score);
+                }
                 return redirect('teacher/questions/mcquestions/create?id=' . $exam_current);
                 break;
             case 'mit2';
+                if ($sum>20){
+                    Exam::find($exam_current)->questions()->detach($question);
+                    $sm=$sum-$request->score;
+                    return redirect('teacher/questions/mcquestions/'.$question->id_Question.'/edit?id='.$question->id_Question.'&key='.$exam_current.'&sm='.$sm.'&note='.$request->score)
+                        ->with('sm',$sm)->with('note',$request->score);
+                }
                 return redirect('/teacher/exams/' . $exam_current . '/edit');
+                break;
+            case 'add3';
+                return view ('teacher.questions.index')->with('questions',$teacher->questions)->with('id_exam',$exam_current);
                 break;
         }
     }
@@ -134,9 +177,23 @@ class MCQuestionsController extends Controller
      * @param \App\MCQuestion $mCQuestion
      * @return \Illuminate\Http\Response
      */
-    public function edit(MCQuestion $mCQuestion)
+    public function edit(Question $question)
     {
-        //
+        $sum=0;
+        $id_question = Input::get('id');
+        $id_exam = Input::get('key');
+        $sm = Input::get('sm');
+        $note = Input::get('note');
+        $exam=Exam::find($id_exam);
+        $ecount=count($exam->questions) ;
+        foreach($exam->questions  as $e){
+            $sum=$sum+$e->pivot->score;
+        }
+        $question=Question::find($id_question);
+//        dd($question->id_Question);
+
+        return view('teacher.questions.mcquestions.edit')->with('question', $question)->with('id_exam',$id_exam)
+            ->with('ecount',$ecount)->with('sm',$sm)->with('sumS',$sum)->with('note',$note);
     }
 
     /**

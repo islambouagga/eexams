@@ -109,11 +109,12 @@
                             Multiple Responses
                         </button>
                     </a>
+                    <a href="{{url('/teacher/questions/saquestions/create?id='.$id_Exam.'&key=0')}}">
                     <button type="button" class="btn btn-info" data-toggle="modal"
                             data-target="#modal-warning">
                         Short Answer
                     </button>
-
+                    </a>
                 </div>
 
 
@@ -136,8 +137,12 @@
 
 
                     <h2>Question</h2>
-                    <input type="text" name="expression" class="form-control" placeholder="Enter ...">
-
+                    <input type="text" name="expression" class="form-control {{$errors->has('expression') ? 'has-error ' : ''}}" value="{{old('expression')}}">
+                    @if($errors->has('expression'))
+                        <span class="invalid-feedback help-block" style="color: red;" role="alert">
+                            <strong>{{$errors->first('expression')}}</strong>
+                        </span>
+                @endif
 
                     <!-- /.box -->
                     <h3>Answer Options</h3>
@@ -150,7 +155,9 @@
                             <tr id="row0">
 
                                 <td><input type="text" name="choice[]" placeholder="Enter your Name"
-                                           class="form-control name_list"/></td>
+                                           class="form-control name_list"/>
+
+                                </td>
                                 <td>
                                     <button type="button" name="remove" id="0" class="btn btn-danger btn_remove">X
                                     </button>
@@ -184,14 +191,20 @@
                                 <input type="number" name="order" class="form-control" value="{{$ecount+1}}">
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <h2>Score</h2>
-                                <input type="number" name="score" class="form-control">
+                                <input type="number" name="score" class="form-control
+                                {{$errors->has('score') ? 'has-error ' : ''}}" >
+                                @if($errors->has('score'))
+                                    <span class="invalid-feedback help-block" style="color: red;" role="alert">
+                            <strong>{{$errors->first('score')}}</strong>
+                        </span>
+                                @endif
                             </div>
                         </div>
 
-                        <div class="progress col-md-4" style="margin-top: 69px;padding-left: 0px ;padding-right: 0px">
+                        <div class="progress col-md-3" style="margin-top: 69px;padding-left: 0px ;padding-right: 0px">
                             <div class="progress-bar progress-bar-green" role="progressbar" aria-valuenow="40"
                                  aria-valuemin="0" aria-valuemax="100" style="width: {{$sumS*5}}%">
 
@@ -217,6 +230,9 @@
                     <br>
                     <br>
                     <br>
+                    <br>
+
+                    <br>
                     <div class="box-footer"
                          style="margin-top: 26px;border-top-color: #ecf0f5;background-color: #ecf0f5  ">
                         <a href="{{url('/teacher/questions/mcquestions/create?id='.$id_Exam.'&key=0')}}">
@@ -236,9 +252,15 @@
                             <button type="submit" name="submitbtn" value="add" class="btn btn-info pull-center">
                                 Create Question
                             </button>
-                            <button type="submit" name="submitbtn" value="submit" class="btn btn-info pull-right">Submit
+
+
+                            <button type="submit" name="submitbtn" value="add3" class="btn btn-info pull-center">
+                                import Question from bank
+                            </button>
+                            <button type="submit" name="submitbtn" value="submit" class="btn btn-success pull-right">Submit
                                 Exam
                             </button>
+
                         @endif
 
 

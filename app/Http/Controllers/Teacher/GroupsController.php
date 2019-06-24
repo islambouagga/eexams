@@ -47,6 +47,10 @@ class GroupsController extends Controller
      */
     public function create()
     {
+        $validated = request()->validate([
+            'title' =>['required','min:3'],
+            'Description' =>['required','min:3']
+        ]);
         $student = Student::all();
         return view('teacher.groups.create')->with('student', $student);
     }
@@ -144,6 +148,16 @@ class GroupsController extends Controller
         $seconds = $finishTime->diffInSeconds($startTime);
         $exam->groupes()->attach($grup, ['date_scheduling' => $startTime, 'Time_limit' => $hours->format('%H:%I')]);
         $teacher = auth()->user();
-        return view('teacher.groups.index')->with('groups', $teacher->groupes);
+        $gschu=0;
+
+        $gcout=count($teacher->groupes);
+
+        foreach ($teacher->groupes as $g){
+            if (count($g->exams)!=0){
+                $gschu++;
+
+            }
+        }
+        return view('teacher.groups.index')->with('groups', $teacher->groupes) ->with('gcout',$gcout)->with('gschu',$gschu);
     }
 }

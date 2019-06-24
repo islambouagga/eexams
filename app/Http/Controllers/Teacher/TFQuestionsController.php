@@ -61,6 +61,13 @@ class TFQuestionsController extends Controller
      */
     public function store(Request $request, TFQuestion $TFQuestion, Question $question, ExamsController $examsController)
     {
+        if ($request->submitbtn!='add3'){
+            $validated = request()->validate([
+                'expression' =>['required','min:3'],
+                'score' =>['required','min:1','max:20']
+            ]);
+        }
+        $teacher = auth()->user();
         $exam_current = $request->id_Exam;
         if($request->expression!=null and $request->score!=null and $request->order!=null and $request->correct_answer!=null ){
 
@@ -82,6 +89,7 @@ class TFQuestionsController extends Controller
         $question->questiontable_id = $TFQuestion->id_t_f_questions;
         $question->questiontable_type = "TFQuestion";
         $exam_current = $request->id_Exam;
+            $question->id_teacher = auth()->user()->getAuthIdentifier();
         $question->save();
         Exam::find($exam_current)->questions()->attach($question, ['order' => $request->order, 'score' => $request->score]);
         }
@@ -94,6 +102,9 @@ class TFQuestionsController extends Controller
                 break;
             case 'mit2';
                 return redirect('/teacher/exams/' . $exam_current . '/edit');
+                break;
+            case 'add3';
+                return view ('teacher.questions.index')->with('questions',$teacher->questions)->with('id_exam',$exam_current);
                 break;
         }
 
@@ -118,7 +129,19 @@ class TFQuestionsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $sum=0;
+        $id_question = Input::get('id');
+        $id_exam = Input::get('key');
+        $exam=Exam::find($id_exam);
+        $ecount=count($exam->questions) ;
+        foreach($exam->questions  as $e){
+            $sum=$sum+$e->pivot->score;
+        }
+        $question=Question::find($id_question);
+//        dd($question->id_Question);
+
+        return view('teacher.questions.tfquestions.edit')->with('question', $question)->with('id_exam',$id_exam)
+            ->with('ecount',$ecount)->with('sumS',$sum);
     }
 
     /**

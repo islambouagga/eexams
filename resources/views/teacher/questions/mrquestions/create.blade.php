@@ -109,10 +109,12 @@
                             Multiple Responses
                         </button>
                     </a>
-                    <button type="button" class="btn btn-info" data-toggle="modal"
-                            data-target="#modal-warning">
-                        Short answer
-                    </button>
+                    <a href="{{url('/teacher/questions/saquestions/create?id='.$id_Exam.'&key=0')}}">
+                        <button type="button" class="btn btn-info" data-toggle="modal"
+                                data-target="#modal-warning">
+                            Short Answer
+                        </button>
+                    </a>
 
                 </div>
 
@@ -138,7 +140,12 @@
                     <!-- text input -->
                     <div class="form-group">
                         <label><h2>Question</h2></label>
-                        <input type="text" name="expression" class="form-control" placeholder="Enter ...">
+                        <input type="text" name="expression" class="form-control {{$errors->has('expression') ? 'has-error ' : ''}}" >
+                        @if($errors->has('expression'))
+                            <span class="invalid-feedback help-block" style="color: red;" role="alert">
+                            <strong>{{$errors->first('expression')}}</strong>
+                        </span>
+                        @endif
                     </div>
 
                     <!-- /.box -->
@@ -182,14 +189,19 @@
                                 <input type="number" name="order" class="form-control" value="{{$ecount+1}}">
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <h2>Score</h2>
-                                <input type="number" name="score" class="form-control">
+                                <input type="number" name="score" class="form-control    {{$errors->has('score') ? 'has-error ' : ''}}" >
+                                @if($errors->has('score'))
+                                    <span class="invalid-feedback help-block" style="color: red;" role="alert">
+                            <strong>{{$errors->first('score')}}</strong>
+                        </span>
+                                @endif
                             </div>
                         </div>
 
-                        <div class="progress col-md-4" style="margin-top: 69px;padding-left: 0px ;padding-right: 0px">
+                        <div class="progress col-md-3" style="margin-top: 69px;padding-left: 0px ;padding-right: 0px">
                             <div class="progress-bar progress-bar-green" role="progressbar" aria-valuenow="40"
                                  aria-valuemin="0" aria-valuemax="100" style="width: {{$sumS*5}}%">
 
@@ -215,6 +227,8 @@
                     <br>
                     <br>
                     <br>
+                    <br>
+                    <br>
                     <div class="box-footer"
                          style="margin-top: 26px;border-top-color: #ecf0f5;background-color: #ecf0f5  ">
                         <a href="{{url('/teacher/questions/mrquestions/create?id='.$id_Exam.'&key=0')}}">
@@ -233,6 +247,9 @@
                         @else
                             <button type="submit" name="submitbtn" value="add" class="btn btn-info pull-center">
                                 Create Question
+                            </button>
+                            <button type="submit" name="submitbtn" value="add3" class="btn btn-info pull-center">
+                                import Question from bank
                             </button>
                             <button type="submit" name="submitbtn" value="submit" class="btn btn-info pull-right">Submit
                                 Exam

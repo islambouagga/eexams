@@ -28,10 +28,13 @@ class ExamsController extends Controller
     {
 
         $student=auth()->user();
+        date_default_timezone_set('CET');
         $timezone = date_default_timezone_get();
         $date = date('Y-m-d H:i:s');
+//        $endTime = $date->addMinutes(30);
         echo "The current server timezone is: " . $timezone;
-        echo $date;
+        dd($date) ;
+
 
         return view('student.exams.index')->with('groups',$student->groups)
             ->with('date',$date);
