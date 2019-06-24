@@ -15,7 +15,13 @@
                 <tr>
                     <form role="form" method="post" action="{{route('student.exams.store')}}">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                        @foreach ($exam->questions()->orderBy('order')->get() as $Q)
+                        @foreach($order as $o)
+
+                        @foreach($exam->questions()->where('order',$o)->get() as $Q)
+
+
+
+
                             <h3><input type="hidden" name="id_Question{{$Q->id_Question}}" value="{{$Q->id_Question}}">
                             </h3>
                             <!-- text input -->
@@ -55,13 +61,20 @@
                                 </select>
 
                             @endif
+                        @if($Q->questiontable_type=="SAQuestion")
+                                <div class="form-group " >
+                                    <h3 class="col-md-3">write the answer</h3>
+                                    <input type="text" name="answer{{$Q->id_Question}}" id="tit" class="form-control ">
+
+                                </div>
+                            @endif
                             @if($Q->questiontable_type=="MRQuestion")
                                 <div class="col-lg-12">
                                     @foreach ($Q->questiontable->choices()->get() as $mc)
                                         <div class="input-group">
 
                         <span class="input-group-addon">
-                          <input type="checkbox" name="answer{{$Q->id_Question}}[]" value="{{$mc->choice}}">
+                          <input type="checkbox" name="answer{{$Q->id_Question}}[]" value="{{$mc->id_m_r_choices}}">
                         </span>
                                             <label> {{$mc->choice}}</label>
                                         </div>
@@ -69,6 +82,7 @@
                                 <!-- /input-group -->
                                 </div>
                             @endif
+                        @endforeach
                         @endforeach
                         <h3><input type="hidden" name="id_Exam" value="{{$exam->id_Exam }}"> </h3>
                         <div class="box-footer">

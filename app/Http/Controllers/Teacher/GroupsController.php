@@ -47,10 +47,7 @@ class GroupsController extends Controller
      */
     public function create()
     {
-        $validated = request()->validate([
-            'title' =>['required','min:3'],
-            'Description' =>['required','min:3']
-        ]);
+
         $student = Student::all();
         return view('teacher.groups.create')->with('student', $student);
     }
@@ -63,6 +60,10 @@ class GroupsController extends Controller
      */
     public function store(Request $request, Group $groupes, Student $student)
     {
+        $validated = request()->validate([
+            'title' =>['required','min:3'],
+            'Description' =>['required','min:3']
+        ]);
         $groupes->title = $request->title;
         $groupes->Description = $request->Description;
         $groupes->id_teacher = auth()->user()->getAuthIdentifier();

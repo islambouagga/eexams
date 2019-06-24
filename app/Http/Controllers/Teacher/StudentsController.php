@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Teacher;
 
+use App\Exam;
 use App\Group;
 use App\Student;
 use Illuminate\Http\Request;
@@ -87,8 +88,10 @@ class StudentsController extends Controller
      * @param \App\Student $student
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Student $student)
+    public function destroy(Student $student,Request $request)
     {
-        //
+        $group=Group::find($request->id_Group);
+        $group->students()->detach([$student->id_student]);
+        return redirect('/teacher/groups/'.$request->id_Group);
     }
 }

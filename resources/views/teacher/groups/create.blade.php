@@ -128,7 +128,7 @@
                 <form role="form" method="post" action="{{route('teacher.groups.store')}}">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <!-- text input -->
-                    <div class="form-group {{$errors->has('title') ? 'has-error ' : ''}}">
+                    <div class="form-group {{$errors->has('title') ? 'has-error ' : ''}} ">
                         <h2 class="col-md-3">Title</h2>
                         <input type="text" name="title" class="form-control" placeholder="Enter ...">
                         @if($errors->has('title'))

@@ -141,6 +141,7 @@
                             <tr>
                                 <th>#</th>
                                 <th>Full Name</th>
+                                <th>delete</th>
 
 
 
@@ -151,6 +152,15 @@
                                 <tr>
                                     <td>{{$s->id_student}}</td>
                                     <td>{{$s->name}}</td>
+                                    <td>
+                                        <form role="form" method="post"
+                                              action="/eexams/public/teacher/students/{{$s->id_student}}">
+                                            <input type="hidden" name="id_Group" value="{{$group->id_Group}}">
+                                            @method('DELETE')
+                                            @csrf
+                                            <button class="fa fa-trash-o"></button>
+                                        </form>
+                                    </td>
 
                                 </tr>
                             @endforeach

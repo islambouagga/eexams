@@ -36,7 +36,7 @@
                                     <td>{{$e->id_Exam}}</td>
                                     <td>
                                         @if($date>=$e->pivot->date_scheduling)
-                                            @if($date<=($e->pivot->date_scheduling))
+                                            @if($date>=($e->pivot->date_scheduling))
                                         <a href="/eexams/public/student/exams/create?id={{$e->id_Exam}}">
                                         {{$e->title}}
                                         </a>
