@@ -30,7 +30,7 @@ class Question extends Model
             ;
     }
     public function students(){
-    return $this->belongsToMany('App\Student','student_questions','id_student','id_Question')->withPivot(['answer']);
+    return $this->belongsToMany('App\Student','student_questions','id_Question','id_student')->withPivot(['answer']);
 
     }
 

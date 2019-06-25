@@ -366,7 +366,7 @@
                                                     </span>
                                                         <h4 style="margin-top: 7px;"> {{$mc->choice}}</h4>
                                                     </div>
-                                            @endforeach
+                                                 @endforeach
                                             <!-- /input-group -->
                                             </div>
                                             <div class="col-md-4">

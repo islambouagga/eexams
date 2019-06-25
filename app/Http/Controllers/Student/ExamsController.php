@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Student;
 use App\Exam;
 use App\MRChoice;
 use App\MRQuestion;
+use App\Question;
 use App\SAQuestion;
 use App\Student;
 use Carbon\Carbon;
@@ -122,7 +123,7 @@ class ExamsController extends Controller
                     while ($i < count($split)) {
 //                        dd('ddd');
                         $op = MRChoice::where('id_m_r_choices', $split[$i])->firstOrFail();
-                        echo $op;
+//                        echo $op;
                         if ($op->is_correct == 1) {
 
                             $co++;
@@ -153,6 +154,7 @@ class ExamsController extends Controller
 
             }
             if ($Q->questiontable_type == "SAQuestion") {
+                $student->questions()->attach($Q, ['answer' => request('answer' . $Q->id_Question)]);
                 $saq = SAQuestion::find($Q->questiontable_id);
                 $count = 0;
                 $lentghco=0;
@@ -181,10 +183,10 @@ class ExamsController extends Controller
 //
             }
         }
-        dd($mark);
+//        dd($mark);
 
         $student->exams()->attach($exam, ['date_passing' => $current_date_time, 'mark' => $mark]);
-        return redirect('student/exams/result?id=' . $id_exam);
+        return redirect('student/exams/result?id=' . $id_exam.'$key='.$m)->with('m',$m);
     }
 
     /**
@@ -234,19 +236,36 @@ class ExamsController extends Controller
 
     public function result()
     {
+//        $st='ho';
+//        if (strpos("holla",$st)!== false){
+//            dd('ko');
+//        }
         $student = auth()->user();
-//        dd($student);
+
         $id_Exam = Input::get('id');
+        $m = Input::get('key');
         $exam = Exam::find($id_Exam);
-//        dd($exam);
+        $numbers = range(1, count($exam->questions));
+        shuffle($numbers);
+        $order=[];
+        foreach ($numbers as $number) {
+            $order[]=$number;
+        }
+        $q=Question::find(71);
+//dd(count($q->students->where('id_student',$student->id_student)));
+//foreach ($q->students->where('id_student',$student->id_student) as $s){
+//////    dd('svsdg');
+//////            dd($s->pivot->answer);
+////}
         foreach ($exam->students()->get() as $e) {
-//            dd($e);
+
 
             if ($e->id_student == $student->id_student) {
 
                 $mark = $e->pivot->mark;
-//                dd($mark);
-                return view('student.exams.result')->with('mark', $mark);
+
+                return view('student.exams.result')->with('mark', $mark)->with('exam',$exam)
+                    ->with('order',$order)->with('id_student',$student->id_student)->with('m',$m);
             }
 
         }
