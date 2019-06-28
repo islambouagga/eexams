@@ -16,7 +16,7 @@
                         <img src="{{ asset('dist/img/avatar.png') }}" class="img-circle" alt="User Image">
                     </div>
                     <div class="pull-left info">
-                        <p>Alexander Pierce</p>
+                        <p>Hamza Djebli</p>
                         <!-- Status -->
                         <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                     </div>
@@ -25,44 +25,44 @@
 
                 <!-- Sidebar Menu -->
                 <ul class="sidebar-menu" data-widget="tree">
-                    <li class="header">HEADER</li>
+
                     <!-- Optionally, you can add icons to the links -->
-                    <li><a href="{{url('/teacher')}}"><i class="fa fa-link"></i> <span>Home</span></a></li>
-                    <li><a href="{{route('teacher.exams.create')}}"><i class="fa fa-link"></i>
+                    <li><a href="{{url('/')}}"><i class="fa fa-dashboard"></i> <span>Home</span></a></li>
+                    <li><a href="{{route('teacher.exams.create')}}"><i class="fa fa-file-text"></i>
                             <span>Create a new exam</span></a>
                     </li>
-                    <li class="active"><a href="{{route('teacher.exams.index')}}"><i class="fa fa-link"></i>
-                            <span>Exams' list</span></a>
+                    <li class="active"><a href="{{route('teacher.exams.index')}}"><i class="fa fa-files-o"></i>
+                            <span>View exams list</span></a>
                     </li>
-                    <li><a href="{{route('teacher.groups.create')}}"><i class="fa fa-link"></i>
+                    <li><a href="{{route('teacher.groups.create')}}"><i class="fa fa-group"></i>
                             <span>Create a new group</span></a>
                     </li>
-                    <li><a href="{{route('teacher.groups.index')}}"><i class="fa fa-link"></i> <span>Groups' List</span></a>
+                    <li><a href="{{route('teacher.groups.index')}}"><i class="fa fa-group"></i> <span>View groups list</span></a>
                     </li>
 
-                    <li class="treeview">
-                        <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
-                            <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li><a href="#">Link in level 2</a></li>
-                            <li><a href="#">Link in level 2</a></li>
-                        </ul>
-                    </li>
+                    {{--                    <li class="treeview">--}}
+                    {{--                        <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>--}}
+                    {{--                            <span class="pull-right-container">--}}
+                    {{--                <i class="fa fa-angle-left pull-right"></i>--}}
+                    {{--              </span>--}}
+                    {{--                        </a>--}}
+                    {{--                        <ul class="treeview-menu">--}}
+                    {{--                            <li><a href="#">Link in level 2</a></li>--}}
+                    {{--                            <li><a href="#">Link in level 2</a></li>--}}
+                    {{--                        </ul>--}}
+                    {{--                    </li>--}}
 
-                    <a href="{{ route('logout') }}"
-                       onclick="event.preventDefault();
+                    <li>  <a href="{{ route('logout') }}"
+                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                        <i class="fa fa-circle-o text-red"></i><span>
+                            <i class="fa fa-sign-out"></i><span>
                     {{ __('Logout') }}
                </span> </a>
 
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                        @csrf
-                    </form>
-
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+                    </li>
                 </ul>
                 <!-- /.sidebar-menu -->
             </section>
@@ -77,7 +77,7 @@
             </h1>
             <ol class="breadcrumb">
                 <li><a href="{{url('/')}}"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li class="active">Exam's List</li>
+                <li class="active">Exams List</li>
             </ol>
         </section>
 
@@ -94,7 +94,7 @@
                         <div class="inner">
                             <h3>{{$ecount}}</h3>
 
-                            <p>Exams number</p>
+                            <p>Total</p>
                         </div>
                         <div class="icon">
                             <i class="fa  fa-file-text-o"></i>
@@ -109,10 +109,10 @@
                         <div class="inner">
                             <h3>{{$epassed}}<sup style="font-size: 20px"></sup></h3>
 
-                            <p>Exams passed</p>
+                            <p>Passed Exams</p>
                         </div>
                         <div class="icon">
-                            <i class="ion ion-stats-bars"></i>
+                            <i class="fa  fa-file-text-o"></i>
                         </div>
 
                     </div>
@@ -139,10 +139,10 @@
                         <div class="inner">
                             <h3>{{$ecount-$eschu-$epassed}}</h3>
 
-                            <p>Rest of Exams</p>
+                            <p>Created Exams</p>
                         </div>
                         <div class="icon">
-                            <i class="fa   fa-file-text"></i>
+                            <i class="fa  fa-file-text-o"></i>
                         </div>
 
                     </div>
@@ -158,12 +158,12 @@
                                 <table id="example1" class="table table-bordered table-striped">
                                     <thead>
                                     <tr>
-                                        <th>Name</th>
+                                        <th>Title</th>
                                         <th>Description</th>
-                                        <th>Date</th>
+                                        <th>Creation date</th>
                                         <th>Status</th>
                                         <th>Download</th>
-                                        <th>Edite</th>
+                                        <th>Edit</th>
                                         <th>Delete</th>
                                     </tr>
                                     </thead>
@@ -174,11 +174,11 @@
                                             <td>{{$e->Description}}</td>
                                             <td>{{$e->created_at}}</td>
                                             @if(count($e->students)!=0)
-                                            <td><span class="label label-success">Approved</span></td>
+                                            <td><span class="label label-success">Passed</span></td>
                                             @elseif(count($e->groupes)!=0)
-                                            <td><span class="label label-warning">Pending</span></td>
+                                            <td><span class="label label-warning">Schedule</span></td>
                                             @else
-                                            <td><span class="label label-danger">Denied</span></td>
+                                            <td><span class="label label-danger">Created</span></td>
                                             @endif
                                             <td><i class="glyphicon glyphicon-download-alt"></i></td>
                                             <td>

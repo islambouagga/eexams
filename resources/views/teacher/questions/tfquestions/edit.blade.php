@@ -16,7 +16,7 @@
                         <img src="{{ asset('dist/img/avatar.png') }}" class="img-circle" alt="User Image">
                     </div>
                     <div class="pull-left info">
-                        <p>Alexander Pierce</p>
+                        <p>Hamza Djebli</p>
                         <!-- Status -->
                         <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                     </div>
@@ -25,44 +25,44 @@
 
                 <!-- Sidebar Menu -->
                 <ul class="sidebar-menu" data-widget="tree">
-                    <li class="header">HEADER</li>
+
                     <!-- Optionally, you can add icons to the links -->
-                    <li><a href="{{url('/teacher')}}"><i class="fa fa-link"></i> <span>Home</span></a></li>
-                    <li class="active"><a href="{{route('teacher.exams.create')}}"><i class="fa fa-link"></i>
+                    <li><a href="{{url('/')}}"><i class="fa fa-dashboard"></i> <span>Home</span></a></li>
+                    <li class="active"><a href="{{route('teacher.exams.create')}}"><i class="fa fa-file-text"></i>
                             <span>Create a new exam</span></a>
                     </li>
-                    <li><a href="{{route('teacher.exams.index')}}"><i class="fa fa-link"></i>
-                            <span>Exams' list</span></a>
+                    <li><a href="{{route('teacher.exams.index')}}"><i class="fa fa-files-o"></i>
+                            <span>View exams list</span></a>
                     </li>
-                    <li><a href="{{route('teacher.groups.create')}}"><i class="fa fa-link"></i>
+                    <li><a href="{{route('teacher.groups.create')}}"><i class="fa fa-group"></i>
                             <span>Create a new group</span></a>
                     </li>
-                    <li><a href="{{route('teacher.groups.index')}}"><i class="fa fa-link"></i> <span>Groups' List</span></a>
+                    <li><a href="{{route('teacher.groups.index')}}"><i class="fa fa-group"></i> <span>View groups ist</span></a>
                     </li>
 
-                    <li class="treeview">
-                        <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
-                            <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li><a href="#">Link in level 2</a></li>
-                            <li><a href="#">Link in level 2</a></li>
-                        </ul>
-                    </li>
+                    {{--                    <li class="treeview">--}}
+                    {{--                        <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>--}}
+                    {{--                            <span class="pull-right-container">--}}
+                    {{--                <i class="fa fa-angle-left pull-right"></i>--}}
+                    {{--              </span>--}}
+                    {{--                        </a>--}}
+                    {{--                        <ul class="treeview-menu">--}}
+                    {{--                            <li><a href="#">Link in level 2</a></li>--}}
+                    {{--                            <li><a href="#">Link in level 2</a></li>--}}
+                    {{--                        </ul>--}}
+                    {{--                    </li>--}}
 
-                    <a href="{{ route('logout') }}"
-                       onclick="event.preventDefault();
+                    <li>  <a href="{{ route('logout') }}"
+                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                        <i class="fa fa-circle-o text-red"></i><span>
+                            <i class="fa fa-sign-out"></i><span>
                     {{ __('Logout') }}
                </span> </a>
 
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                        @csrf
-                    </form>
-
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+                    </li>
                 </ul>
                 <!-- /.sidebar-menu -->
             </section>
@@ -92,7 +92,8 @@
             <!-- /.box-header -->
             <div class="panel box box-body">
 
-                <p><strong>description for True & False Question</strong></p>
+                <p>In this page you can create a<strong> True/False </strong>question. you have just to writhe the question's expression and choose correct answer. </p>
+                <p>You may also specify the question's order, score, and estimated.</p>
             </div>
 
             <div class="box-body">
@@ -100,8 +101,13 @@
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <!-- text input -->
                     <h3><input type="hidden" name="id_Exam" value="{{ $id_exam }}"></h3>
+                    @if($sm!=0)
+                        <div class="alert alert-danger">
+                            <h3>The score should not be more than {{20-$sm}} point </h3>
+                        </div>
+                    @endif
                     <div class="form-group">
-                        <h2>Question Expression</h2>
+                        <h2>Question </h2>
                         <input type="text" name="expression" class="form-control {{$errors->has('expression') ? 'has-error ' : ''}}" value="{{$question->expression}}">
                         @if($errors->has('expression'))
                             <span class="invalid-feedback help-block" style="color: red;" role="alert">
@@ -141,6 +147,14 @@
                                 <input type="number" name="order" class="form-control" value="{{$ecount+1}}">
                             </div>
                         </div>
+                        <div class="progress col-md-3" style="margin-top: 69px;padding-left: 0px ;padding-right: 0px">
+                            <div class="progress-bar progress-bar-green" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: {{$sumS*5}}%">
+
+                            </div>
+                        </div>
+                        <div class="col-md-1" style="margin-top: 69px;padding-left: 0px ;padding-right: 0px;margin-left: 50px">
+                            <p class="text-red"><strong>rest:{{20-$sumS}}/20</strong></p>
+                        </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <h2>Score</h2>
@@ -153,14 +167,7 @@
                             </div>
                         </div>
 
-                        <div class="progress col-md-3" style="margin-top: 69px;padding-left: 0px ;padding-right: 0px">
-                            <div class="progress-bar progress-bar-green" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: {{$sumS*5}}%">
 
-                            </div>
-                        </div>
-                        <div class="col-md-1" style="margin-top: 69px;padding-left: 0px ;padding-right: 0px;margin-left: 50px">
-                            <p class="text-red"><strong>rest:{{20-$sumS}}/20</strong></p>
-                        </div>
                         <div class="col-md-3">
                             <h2> Estimated Time:</h2>
                             <div class="input-group">

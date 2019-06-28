@@ -55,8 +55,14 @@ class SAQuestionController extends Controller
      */
     public function store(Request $request,SAQuestion $SAQuestion, Question $question, ExamsController $examsController)
     {
+        if ($request->submitbtn!='add3'){
+            $validated = request()->validate([
+                'expression' =>['required','min:3'],
+                'score' =>['required','min:1','max:20']
+            ]);
+        }
         $teacher = auth()->user();
-
+        $sum=0;
         $exam_current = $request->id_Exam;
         if($request->expression!=null and $request->score!=null and $request->order!=null  ){
 
@@ -87,15 +93,38 @@ class SAQuestionController extends Controller
             $question->id_teacher = auth()->user()->getAuthIdentifier();
             $question->save();
             Exam::find($exam_current)->questions()->attach($question, ['order' => $request->order, 'score' => $request->score]);
+            $exam=Exam::find($exam_current);
+            foreach($exam->questions  as $e){
+                $sum=$sum+$e->pivot->score;
+            }
+
         }
         switch ($request->submitbtn) {
             case'submit';
+                if ($sum>20){
+                    Exam::find($exam_current)->questions()->detach($question);
+                    $sm=$sum-$request->score;
+                    return redirect('teacher/questions/saquestions/'.$question->id_Question.'/edit?id='.$question->id_Question.'&key='.$exam_current.'&sm='.$sm.'&note='.$request->score)
+                        ->with('sm',$sm)->with('note',$request->score);
+                }
                 return redirect('teacher/exams?id=' . $exam_current);
                 break;
             case 'add';
+                if ($sum>20){
+                    Exam::find($exam_current)->questions()->detach($question);
+                    $sm=$sum-$request->score;
+                    return redirect('teacher/questions/saquestions/'.$question->id_Question.'/edit?id='.$question->id_Question.'&key='.$exam_current.'&sm='.$sm.'&note='.$request->score)
+                        ->with('sm',$sm)->with('note',$request->score);
+                }
                 return redirect('teacher/questions/saquestions/create?id=' . $exam_current);
                 break;
             case 'mit2';
+                if ($sum>20){
+                    Exam::find($exam_current)->questions()->detach($question);
+                    $sm=$sum-$request->score;
+                    return redirect('teacher/questions/saquestions/'.$question->id_Question.'/edit?id='.$question->id_Question.'&key='.$exam_current.'&sm='.$sm.'&note='.$request->score)
+                        ->with('sm',$sm)->with('note',$request->score);
+                }
                 return redirect('/teacher/exams/' . $exam_current . '/edit');
                 break;
             case 'add3';
@@ -123,7 +152,21 @@ class SAQuestionController extends Controller
      */
     public function edit(SAQuestion $sAQuestion)
     {
-        //
+        $sum=0;
+        $id_question = Input::get('id');
+        $id_exam = Input::get('key');
+        $sm = Input::get('sm');
+        $note = Input::get('note');
+        $exam=Exam::find($id_exam);
+        $ecount=count($exam->questions) ;
+        foreach($exam->questions  as $e){
+            $sum=$sum+$e->pivot->score;
+        }
+        $question=Question::find($id_question);
+//        dd($question->id_Question);
+
+        return view('teacher.questions.saquestions.edit')->with('question', $question)->with('id_exam',$id_exam)
+            ->with('ecount',$ecount)->with('sm',$sm)->with('sumS',$sum)->with('note',$note);
     }
 
     /**

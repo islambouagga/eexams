@@ -18,36 +18,26 @@
 
                 <!-- Sidebar Menu -->
                 <ul class="sidebar-menu" data-widget="tree">
-                    <li class="header">HEADER</li>
+
                     <!-- Optionally, you can add icons to the links -->
-                    <li><a href="{{url('/student')}}"><i class="fa fa-link"></i> <span>Home</span></a></li>
+                    <li><a href="{{url('/student')}}"><i class="fa fa-dashboard"></i> <span>Home</span></a></li>
 
-                    <li><a href="{{route('student.exams.index')}}"><i class="fa fa-link"></i> <span>Exams List</span></a>
+                    <li class="active"><a href="{{route('student.exams.index')}}"><i class="fa fa-files-o"></i> <span>Exams List</span></a>
                     </li>
 
-                    <li class="treeview">
-                        <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
-                            <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li><a href="#">Link in level 2</a></li>
-                            <li><a href="#">Link in level 2</a></li>
-                        </ul>
-                    </li>
 
-                    <a href="{{ route('logout') }}"
-                       onclick="event.preventDefault();
+                    <li>
+                        <a href="{{ route('logout') }}"
+                           onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                        <i class="fa fa-circle-o text-red"></i><span>
+                            <i class="fa fa-sign-out"></i><span>
                     {{ __('Logout') }}
                </span> </a>
 
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                        @csrf
-                    </form>
-
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+                    </li>
                 </ul>
                 <!-- /.sidebar-menu -->
             </section>
@@ -67,9 +57,9 @@
             <input type="text" class="knob" value="{{($mark*100)/20}}" data-skin="tron" data-thickness="0.2" data-width="240" data-height="240" data-fgColor="#3c8dbc" data-readonly="true">
 
             <div class="knob-label">
-                <p> <strong>your score is {{$mark}} / 20
+                <h3> <strong>Your score is {{$mark}} / 20
                     </strong>
-                </p>
+                </h3>
             </div>
         </div>
 
@@ -91,7 +81,8 @@
                                 </h3>
                                 <!-- text input -->
                                 <div class="form-group">
-                                    <h2>Question {{$c}} :<samp style="font-style: italic;">{{$Q->expression}}</samp></h2>
+                                    <h2>Question {{$c}} :</h2>
+                                    <h4><samp style="font-style: italic;">{{$Q->expression}}</samp></h4>
                                 </div>
                                 @if($Q->questiontable_type=="TFQuestion")
                                 <!-- radio -->
@@ -170,7 +161,7 @@
                                             <div class="box box-default"
                                                  style="border-top-color: #00a65a;background-color: #00a65a;">
                                                 <div class="col-md-6">
-                                                    <h4>your answer :{{$s->pivot->answer}}</h4>
+                                                    <h4>Your answer :{{$s->pivot->answer}}</h4>
                                                 </div>
 
                                                 <div class="col-md-6">
@@ -201,7 +192,7 @@
                                          @else class="callout callout-success" @endif>
 
                                     <div class="form-group " >
-                                        <h4>Right options :</h4>
+                                        <h4>Right Answers :</h4>
 
                                         @foreach ($Q->questiontable->choices()->get() as $mc)
                                             <h3 style="margin-right: 10px;font-size: larger;"> {{$mc->choice}}</h3>
@@ -209,7 +200,7 @@
 
                                         @foreach($Q->students->where('id_student',$id_student) as $s)
 
-                                            <h4>your answer :{{$s->pivot->answer}}</h4>
+                                            <h4>Your answer :{{$s->pivot->answer}}</h4>
                                         @endforeach
 
                                     </div>
@@ -243,11 +234,7 @@
                                     <input type="hidden" {{$c++}}>
                                     @endforeach
                                     <h3><input type="hidden" name="id_Exam" value="{{$exam->id_Exam }}"> </h3>
-                                    <div class="box-footer">
-                                        <button type="submit" class="btn btn-info pull-right">
-                                            Submit
-                                        </button>
-                                    </div>
+
                     </form>
                 </tr>
             </table>

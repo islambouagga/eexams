@@ -120,9 +120,9 @@ desired effect
         <!-- Logo -->
         <a href="{{url('/teacher')}}" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
-            <span class="logo-mini"><b>A</b>LT</span>
+            <span class="logo-mini"><b>E</b>IO</span>
             <!-- logo for regular state and mobile devices -->
-            <span class="logo-lg"><b>Admin</b>LTE</span>
+            <span class="logo-lg"><b>Exam</b>-IO</span>
         </a>
 
         <!-- Header Navbar -->
@@ -239,7 +239,7 @@ desired effect
                             <!-- The user image in the navbar-->
                             <img src="{{ asset('dist/img/avatar.png') }}" class="user-image" alt="User Image">
                             <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                            <span class="hidden-xs">Alexander Pierce</span>
+                            <span class="hidden-xs">Hamza Djebli</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- The user image in the menu -->
@@ -248,7 +248,7 @@ desired effect
                                      alt="User Image">
 
                                 <p>
-                                    Alexander Pierce - Web Developer
+                                    Hamza Djebli - Web Developer
                                     <small>Member since Nov. 2012</small>
                                 </p>
                             </li>
@@ -297,10 +297,13 @@ desired effect
     <footer class="main-footer">
         <!-- To the right -->
         <div class="pull-right hidden-xs">
-            Anything you want
+            Version 1.0
         </div>
         <!-- Default to the left -->
-        <strong>Copyright &copy; 2016 <a href="#">Company</a>.</strong> All rights reserved.
+        <strong>Copyright &copy; 2019 <a href="#">ExamIO Inc</a>.</strong> All rights reserved.
+        <a class="btn btn-social-icon btn-facebook"><i class="fa fa-facebook"></i></a>
+        <a class="btn btn-social-icon btn-instagram"><i class="fa fa-instagram"></i></a>
+        <a class="btn btn-social-icon btn-twitter"><i class="fa fa-twitter"></i></a>
     </footer>
 
     <!-- Control Sidebar -->
@@ -385,7 +388,7 @@ desired effect
         //Date range picker with time picker
         $('#reservationtime').daterangepicker({
             timePicker: true, startDate: moment().startOf('hour'),
-            endDate: moment().startOf('hour').add(2, 'hour'),
+            endDate: moment().startOf('hour').add(1.5, 'hour'),
             locale: {
                 format: 'MM/DD/YYYY HH:mm '
             }

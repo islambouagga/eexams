@@ -41,6 +41,7 @@ class ExamsController extends Controller
 //        dd($date) ;
 
 
+
         return view('student.exams.index')->with('groups', $student->groups)
             ->with('date', $date);
 
@@ -55,7 +56,12 @@ class ExamsController extends Controller
     {
 
         $id_Exam = Input::get('id');
+        $d = Input::get('key');
+//        dd($d);
         $e = Exam::find($id_Exam);
+foreach ($e->groupes as $g){
+    $tl=$g->pivot->Time_limit;
+}
 
         $numbers = range(1, count($e->questions));
         shuffle($numbers);
@@ -64,7 +70,8 @@ class ExamsController extends Controller
             $order[]=$number;
         }
 
-        return view('student.exams.create')->with('exam', $e)->with('order',$order);
+        return view('student.exams.create')->with('exam', $e)->with('order',$order)
+            ->with('tl',$tl)->with('d',$d);
     }
 
     /**
@@ -75,17 +82,12 @@ class ExamsController extends Controller
      */
     public function store(Request $request)
     {
-//        dd($request->all());
         $mark = 0;
         $m=0;
         $co = 0;
-        $sss = 0;
-
         $student = auth()->user();
-
         $id_exam = $request->id_Exam;
         $exam = Exam::find($id_exam);
-
         $current_date_time = Carbon::now()->toDateTimeString();
         foreach ($exam->questions()->orderBy('order')->get() as $Q) {
             if ($Q->questiontable_type == "MRQuestion") {
@@ -94,60 +96,31 @@ class ExamsController extends Controller
                 foreach ($mrq->choices->where('is_correct', 1) as $choice) {
                     $count++;
                 }
-
                 $a = request('answer' . $Q->id_Question);
-
-//                dd($a);
                 $z = collect([$a]);
-
                 $z->implode('.');
                 $z = str_replace('[', '', $z);
                 $z = str_replace('"', '', $z);
                 $z = str_replace(']', '', $z);
-//                dd($z);
                 $student->questions()->attach($Q, ['answer' => $z]);
-//                dd($student);
-
                 foreach ($student->questions->where('id_Question', $Q->id_Question) as $f) {
-//                    dd($f->pivot);
                     $g = $f->pivot->answer;
                     $g = str_replace('[', '', $g);
                     $g = str_replace('"', '', $g);
                     $g = str_replace(']', '', $g);
                     $split = explode(',', $g);
-//                    dd($split);
                     $i = 0;
-
-                    $sss = count($split);
-//                    dd($sss);
                     while ($i < count($split)) {
-//                        dd('ddd');
                         $op = MRChoice::where('id_m_r_choices', $split[$i])->firstOrFail();
-//                        echo $op;
                         if ($op->is_correct == 1) {
-
                             $co++;
-//                            echo $co;
-
                         } else {
-
                             break;
-
                         }
-
                         $i++;
-
                     }
-//                    dd($co);
-//                    dd($co);
-//                    dd($co==count($split));
-                    $ddd = $co == count($split);
-//                    dd($co);
-//$co=0;
                     if ($co == $count) {
-//                        dd($co);
                         $mark = $mark + $Q->pivot->score;
-//                        dd($mark);
                     }
 
                 }
@@ -156,35 +129,23 @@ class ExamsController extends Controller
             if ($Q->questiontable_type == "SAQuestion") {
                 $student->questions()->attach($Q, ['answer' => request('answer' . $Q->id_Question)]);
                 $saq = SAQuestion::find($Q->questiontable_id);
-                $count = 0;
-                $lentghco=0;
                 foreach ($saq->choices as $choice) {
                     $lentghco=strlen($choice->choice);
                    $cost= levenshtein($choice->choice, request('answer' . $Q->id_Question), 1, 1, 1);
-
                     if ((($cost*100)/$lentghco)<=$m){
-
                         $mark = $mark + $Q->pivot->score;
                         break;
                     }
-
                 }
-
-
             }
             if ($Q->questiontable_type == "TFQuestion" or $Q->questiontable_type == "MCQuestion") {
-
                 $student->questions()->attach($Q, ['answer' => request('answer' . $Q->id_Question)]);
                 $AQ = $Q->questiontable;
-
                 if ($AQ->correct_answer == request('answer' . $Q->id_Question)) {
                     $mark = $mark + $Q->pivot->score;
                 }
-//
             }
         }
-//        dd($mark);
-
         $student->exams()->attach($exam, ['date_passing' => $current_date_time, 'mark' => $mark]);
         return redirect('student/exams/result?id=' . $id_exam.'$key='.$m)->with('m',$m);
     }

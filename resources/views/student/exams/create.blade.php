@@ -18,36 +18,26 @@
 
                 <!-- Sidebar Menu -->
                 <ul class="sidebar-menu" data-widget="tree">
-                    <li class="header">HEADER</li>
+
                     <!-- Optionally, you can add icons to the links -->
-                    <li><a href="{{url('/student')}}"><i class="fa fa-link"></i> <span>Home</span></a></li>
+                    <li><a href="{{url('/student')}}"><i class="fa fa-dashboard"></i> <span>Home</span></a></li>
 
-                    <li><a href="{{route('student.exams.index')}}"><i class="fa fa-link"></i> <span>Exams List</span></a>
+                    <li class="active"><a href="{{route('student.exams.index')}}"><i class="fa fa-files-o"></i> <span>Exams List</span></a>
                     </li>
 
-                    <li class="treeview">
-                        <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
-                            <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li><a href="#">Link in level 2</a></li>
-                            <li><a href="#">Link in level 2</a></li>
-                        </ul>
-                    </li>
 
-                    <a href="{{ route('logout') }}"
-                       onclick="event.preventDefault();
+                    <li>
+                        <a href="{{ route('logout') }}"
+                           onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                        <i class="fa fa-circle-o text-red"></i><span>
+                            <i class="fa fa-sign-out"></i><span>
                     {{ __('Logout') }}
                </span> </a>
 
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                        @csrf
-                    </form>
-
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+                    </li>
                 </ul>
                 <!-- /.sidebar-menu -->
             </section>
@@ -76,6 +66,9 @@
             </div>
             <!-- /.box-body -->
         </div>
+        <h1 style="margin-left: 43%;">01:27:00</h1>
+
+
         <div class="box-body table-responsive no-padding">
             <table class="table table-hover">
                 <input type="hidden"  {{$c=1}}>
@@ -93,7 +86,8 @@
                             </h3>
                             <!-- text input -->
                             <div class="form-group">
-                                <h2>Question {{$c}} :<samp style="font-style: italic;">{{$Q->expression}}</samp></h2>
+                                <h2>Question {{$c}} : </h2>
+                                <h3><samp style="font-style: italic;">{{$Q->expression}}</samp></h3>
                             </div>
                             @if($Q->questiontable_type=="TFQuestion")
                             <!-- radio -->
@@ -156,7 +150,7 @@
 {{--                                @endfor--}}
 
                                 <h3><input type="hidden" value="{{$d=1}}"></h3>
-                                        <h3>choose right answer </h3>
+                                        <h3>Choose the right answer </h3>
                                 <select style="width: 20%;" class="form-control" name="answer{{$Q->id_Question}}"  >
                                     @while(count($Q->questiontable->choices()->get())>=$d)
 
@@ -170,7 +164,7 @@
                             @endif
                         @if($Q->questiontable_type=="SAQuestion")
                                 <div class="form-group " >
-                                    <h4 style="margin-right: 10px;font-size: larger;" class="col-md-3">write the answer</h4>
+                                   <i class="fa-chevron-right" ><h3 style="margin-right: 10px;" class="col-md-3">Write your answer</h3></i>
                                     <input type="text" name="answer{{$Q->id_Question}}" id="tit" class="form-control ">
 
                                 </div>
@@ -183,7 +177,7 @@
                         <span class="input-group-addon"  style="border-color: #f39c12;background-color: #f39c12;">
                           <input type="checkbox" name="answer{{$Q->id_Question}}[]" value="{{$mc->id_m_r_choices}}">
                         </span>
-                                            <label> {{$mc->choice}}</label>
+                                            <h4 style="font-size: larger;"> {{$mc->choice}}</h4>
                                         </div>
 
                                 @endforeach
@@ -207,4 +201,38 @@
     </section>
     <!-- /.content -->
     </div>
+
+{{--    <script>--}}
+{{--        // Set the date we're counting down to--}}
+{{--        var dd = new Date({{""+$d}}).getTime();--}}
+
+{{--        var countDownDate = dd.add(1.5, 'hour');--}}
+
+
+{{--        // Update the count down every 1 second--}}
+{{--        var x = setInterval(function() {--}}
+
+{{--            // Get today's date and time--}}
+{{--            var now = new Date().getTime();--}}
+
+{{--            // Find the distance between now and the count down date--}}
+{{--            var distance = countDownDate - now;--}}
+
+{{--            // Time calculations for days, hours, minutes and seconds--}}
+{{--            var days = Math.floor(distance / (1000 * 60 * 60 * 24));--}}
+{{--            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));--}}
+{{--            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));--}}
+{{--            var seconds = Math.floor((distance % (1000 * 60)) / 1000);--}}
+
+{{--            // Display the result in the element with id="demo"--}}
+{{--            document.getElementById("demo").innerHTML = days + "d " + hours + "h "--}}
+{{--                + minutes + "m " + seconds + "s ";--}}
+
+{{--            // If the count down is finished, write some text--}}
+{{--            if (distance < 0) {--}}
+{{--                clearInterval(x);--}}
+{{--                document.getElementById("demo").innerHTML = "EXPIRED";--}}
+{{--            }--}}
+{{--        }, 1000);--}}
+{{--    </script>--}}
 @endsection

@@ -22,20 +22,16 @@ class Question extends Model
 {
     protected $primaryKey = 'id_Question';
     public function exams(){
-        return $this->belongsToMany('App\Exam','exam_questions','id_Exam','id_Question')
-            ->withPivot([
-                'order','score'
-            ])
-
-            ;
+        return $this->belongsToMany('App\Exam','exam_questions',
+            'id_Exam','id_Question')
+            ->withPivot(['order','score']);
     }
     public function students(){
-    return $this->belongsToMany('App\Student','student_questions','id_Question','id_student')->withPivot(['answer']);
-
+    return $this->belongsToMany('App\Student','student_questions',
+        'id_Question','id_student')
+        ->withPivot(['answer']);
     }
-
     public function  questiontable(){
-
         return $this->morphTo();
     }
 }

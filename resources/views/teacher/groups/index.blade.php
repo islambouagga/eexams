@@ -16,7 +16,7 @@
                         <img src="{{ asset('dist/img/avatar.png') }}" class="img-circle" alt="User Image">
                     </div>
                     <div class="pull-left info">
-                        <p>Alexander Pierce</p>
+                        <p>Hamza Djebli</p>
                         <!-- Status -->
                         <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                     </div>
@@ -25,44 +25,44 @@
 
                 <!-- Sidebar Menu -->
                 <ul class="sidebar-menu" data-widget="tree">
-                    <li class="header">HEADER</li>
+
                     <!-- Optionally, you can add icons to the links -->
-                    <li><a href="{{url('/teacher')}}"><i class="fa fa-link"></i> <span>Home</span></a></li>
-                    <li><a href="{{route('teacher.exams.create')}}"><i class="fa fa-link"></i>
+                    <li><a href="{{url('/')}}"><i class="fa fa-dashboard"></i> <span>Home</span></a></li>
+                    <li ><a href="{{route('teacher.exams.create')}}"><i class="fa fa-file-text"></i>
                             <span>Create a new exam</span></a>
                     </li>
-                    <li><a href="{{route('teacher.exams.index')}}"><i class="fa fa-link"></i>
-                            <span>Exams' list</span></a>
+                    <li><a href="{{route('teacher.exams.index')}}"><i class="fa fa-files-o"></i>
+                            <span>View exams list</span></a>
                     </li>
-                    <li><a href="{{route('teacher.groups.create')}}"><i class="fa fa-link"></i>
+                    <li><a href="{{route('teacher.groups.create')}}"><i class="fa fa-group"></i>
                             <span>Create a new group</span></a>
                     </li>
-                    <li><a href="{{route('teacher.groups.index')}}"><i class="fa fa-link"></i> <span>Groups' List</span></a>
+                    <li class="active"><a href="{{route('teacher.groups.index')}}"><i class="fa fa-group"></i> <span>View groups List</span></a>
                     </li>
 
-                    <li class="treeview">
-                        <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
-                            <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li><a href="#">Link in level 2</a></li>
-                            <li><a href="#">Link in level 2</a></li>
-                        </ul>
-                    </li>
+                    {{--                    <li class="treeview">--}}
+                    {{--                        <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>--}}
+                    {{--                            <span class="pull-right-container">--}}
+                    {{--                <i class="fa fa-angle-left pull-right"></i>--}}
+                    {{--              </span>--}}
+                    {{--                        </a>--}}
+                    {{--                        <ul class="treeview-menu">--}}
+                    {{--                            <li><a href="#">Link in level 2</a></li>--}}
+                    {{--                            <li><a href="#">Link in level 2</a></li>--}}
+                    {{--                        </ul>--}}
+                    {{--                    </li>--}}
 
-                    <a href="{{ route('logout') }}"
-                       onclick="event.preventDefault();
+                    <li>  <a href="{{ route('logout') }}"
+                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                        <i class="fa fa-circle-o text-red"></i><span>
+                            <i class="fa fa-sign-out"></i><span>
                     {{ __('Logout') }}
                </span> </a>
 
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                        @csrf
-                    </form>
-
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+                    </li>
                 </ul>
                 <!-- /.sidebar-menu -->
             </section>
@@ -77,7 +77,7 @@
             </h1>
             <ol class="breadcrumb">
                 <li><a href="{{url('/')}}"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li class="active">Group's List</li>
+                <li class="active">Groups List</li>
             </ol>
         </section>
 
@@ -94,10 +94,10 @@
                     <div class="inner">
                         <h3>{{$gcout}}</h3>
 
-                        <p>Group number</p>
+                        <p>Groups</p>
                     </div>
                     <div class="icon">
-                        <i class="fa  fa-file-text-o"></i>
+                        <i class="fa  fa-group"></i>
                     </div>
 
                 </div>
@@ -110,7 +110,7 @@
                     <div class="inner">
                         <h3>{{$gschu}}</h3>
 
-                        <p>Scheduled Exams</p>
+                        <p>Scheduled Groups</p>
                     </div>
                     <div class="icon">
                         <i class="fa fa-clock-o"></i>
@@ -125,10 +125,10 @@
                     <div class="inner">
                         <h3>{{$gcout-$gschu}}</h3>
 
-                        <p>Rest of Exams</p>
+                        <p>Rest of Groups</p>
                     </div>
                     <div class="icon">
-                        <i class="fa   fa-file-text"></i>
+                        <i class="fa   fa-group"></i>
                     </div>
 
                 </div>
@@ -142,7 +142,7 @@
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                             <tr>
-                                <th>#</th>
+
                                 <th>Title</th>
                                 <th>Description</th>
                                 <th>Schedule</th>
@@ -154,7 +154,7 @@
                             <tbody>
                             @foreach($groups as $g)
                                 <tr>
-                                    <td>{{$g->id_Group}}</td>
+
                                     <td>{{$g->title}}</td>
                                     <td>{{$g->Description}}</td>
                                     <td>

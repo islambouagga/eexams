@@ -18,36 +18,26 @@
 
                 <!-- Sidebar Menu -->
                 <ul class="sidebar-menu" data-widget="tree">
-                    <li class="header">HEADER</li>
+
                     <!-- Optionally, you can add icons to the links -->
-                    <li><a href="{{url('/student')}}"><i class="fa fa-link"></i> <span>Home</span></a></li>
+                    <li><a href="{{url('/student')}}"><i class="fa fa-dashboard"></i> <span>Home</span></a></li>
 
-                    <li class="active"><a href="{{route('student.exams.index')}}"><i class="fa fa-link"></i> <span>Exams List</span></a>
+                    <li class="active"><a href="{{route('student.exams.index')}}"><i class="fa fa-files-o"></i> <span>Exams List</span></a>
                     </li>
 
-                    <li class="treeview">
-                        <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
-                            <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li><a href="#">Link in level 2</a></li>
-                            <li><a href="#">Link in level 2</a></li>
-                        </ul>
-                    </li>
 
+<li>
                     <a href="{{ route('logout') }}"
                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                        <i class="fa fa-circle-o text-red"></i><span>
+                        <i class="fa fa-sign-out"></i><span>
                     {{ __('Logout') }}
                </span> </a>
 
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         @csrf
                     </form>
-
+</li>
                 </ul>
                 <!-- /.sidebar-menu -->
             </section>
@@ -65,7 +55,7 @@
             <div class="col-xs-12">
                 <div class="box">
                     <div class="box-header">
-                        <h3 class="box-title">Responsive Hover Table</h3>
+                        <h3 class="box-title">Exams List</h3>
 
 
                     </div>
@@ -74,10 +64,11 @@
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                             <tr>
-                                <th>ID</th>
+
                                 <th>Name</th>
                                 <th>Description</th>
                                 <th>Exam's date and time</th>
+                                <th>Mark</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -86,20 +77,28 @@
                                 <tr>
 
 
-                                    <td>{{$e->id_Exam}}</td>
+
+                                    @if(count($e->students)==0)
                                     <td>
                                         @if($date>=$e->pivot->date_scheduling)
                                             @if($date>=($e->pivot->date_scheduling))
+
                                         <a class="btn btn-info" href="/eexams/public/student/exams/create?id={{$e->id_Exam}}" >
                                         {{$e->title}}
                                         </a>
                                             @endif
                                             @else
-                                           <samp class="btn btn-info" data-toggle="modal" data-target="#modal-warning"> {{$e->title}}</samp>
+                                           <samp class="btn btn-danger" data-toggle="modal" data-target="#modal-warning"> {{$e->title}}</samp>
                                             @endif
                                     </td>
+                                    @else
+                                        <td>
+                                            <samp class="btn btn-success" data-toggle="modal" data-target="#modal-warning"> {{$e->title}}</samp>
+                                        </td>
+                                        @endif
                                     <td>{{$e->Description}}</td>
                                     <td>{{$e->pivot->date_scheduling}}</td>
+                                    <td>Not yet passed</td>
 
 
 
@@ -107,14 +106,7 @@
                                 @endforeach
                             @endforeach
                             </tbody>
-                            <tfoot>
-                            <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Description</th>
-                                <th>Exam's date and time</th>
-                            </tr>
-                            </tfoot>
+
                         </table>
                         <div class="modal modal-warning fade" id="modal-warning">
                             <div class="modal-dialog">
@@ -122,16 +114,15 @@
                                     <div class="modal-header">
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span></button>
-                                        <h4 class="modal-title">Info Modal</h4>
+                                        <h4 class="modal-title">Access Denied</h4>
                                     </div>
                                     <div class="modal-body">
-                                        <p>One fine body&hellip;</p>
+                                        <p>you can't access to exam</p>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close
+                                        <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Got it
                                         </button>
-                                        <a href="{{url('/')}}"> <button type="button" class="btn btn-outline">Go Ahead
-                                            </button></a>
+
                                     </div>
                                 </div>
                                 <!-- /.modal-content -->

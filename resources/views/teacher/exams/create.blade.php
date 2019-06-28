@@ -16,7 +16,7 @@
                         <img src="{{ asset('dist/img/avatar.png') }}" class="img-circle" alt="User Image">
                     </div>
                     <div class="pull-left info">
-                        <p>Alexander Pierce</p>
+                        <p>Hamza Djebli</p>
                         <!-- Status -->
                         <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                     </div>
@@ -25,44 +25,44 @@
 
                 <!-- Sidebar Menu -->
                 <ul class="sidebar-menu" data-widget="tree">
-                    <li class="header">HEADER</li>
+
                     <!-- Optionally, you can add icons to the links -->
-                    <li><a href="{{url('/')}}"><i class="fa fa-link"></i> <span>Home</span></a></li>
-                    <li class="active"><a href="{{route('teacher.exams.create')}}"><i class="fa fa-link"></i>
+                    <li><a href="{{url('/')}}"><i class="fa fa-dashboard"></i> <span>Home</span></a></li>
+                    <li class="active"><a href="{{route('teacher.exams.create')}}"><i class="fa fa-file-text"></i>
                             <span>Create a new exam</span></a>
                     </li>
-                    <li><a href="{{route('teacher.exams.index')}}"><i class="fa fa-link"></i>
-                            <span>Exams' list</span></a>
+                    <li><a href="{{route('teacher.exams.index')}}"><i class="fa fa-files-o"></i>
+                            <span>View exams list</span></a>
                     </li>
-                    <li><a href="{{route('teacher.groups.create')}}"><i class="fa fa-link"></i>
+                    <li><a href="{{route('teacher.groups.create')}}"><i class="fa fa-group"></i>
                             <span>Create a new group</span></a>
                     </li>
-                    <li><a href="{{route('teacher.groups.index')}}"><i class="fa fa-link"></i> <span>Groups' List</span></a>
+                    <li><a href="{{route('teacher.groups.index')}}"><i class="fa fa-group"></i> <span>View groups List</span></a>
                     </li>
 
-                    <li class="treeview">
-                        <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
-                            <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li><a href="#">Link in level 2</a></li>
-                            <li><a href="#">Link in level 2</a></li>
-                        </ul>
-                    </li>
+{{--                    <li class="treeview">--}}
+{{--                        <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>--}}
+{{--                            <span class="pull-right-container">--}}
+{{--                <i class="fa fa-angle-left pull-right"></i>--}}
+{{--              </span>--}}
+{{--                        </a>--}}
+{{--                        <ul class="treeview-menu">--}}
+{{--                            <li><a href="#">Link in level 2</a></li>--}}
+{{--                            <li><a href="#">Link in level 2</a></li>--}}
+{{--                        </ul>--}}
+{{--                    </li>--}}
 
-                    <a href="{{ route('logout') }}"
+                  <li>  <a href="{{ route('logout') }}"
                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                        <i class="fa fa-circle-o text-red"></i><span>
+                        <i class="fa fa-sign-out"></i><span>
                     {{ __('Logout') }}
                </span> </a>
 
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         @csrf
                     </form>
-
+                  </li>
                 </ul>
                 <!-- /.sidebar-menu -->
             </section>
@@ -89,19 +89,7 @@
                                     </div>
                                     <div id="collapseTwo" class="panel-collapse collapse in">
                                         <div class="box-body">
-                                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
-                                            richardson ad squid. 3
-                                            wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck
-                                            quinoa nesciunt laborum
-                                            eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid
-                                            single-origin coffee nulla
-                                            assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore
-                                            wes anderson cred
-                                            nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo.
-                                            Leggings occaecat craft beer
-                                            farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard
-                                            of them accusamus
-                                            labore sustainable VHS.
+                                       This page allows you to create a new exam
                                         </div>
                                     </div>
                                 </div>
@@ -129,7 +117,7 @@
                     <!-- text input -->
                     <div class="form-group {{$errors->has('title') ? 'has-error ' : ''}}" >
                         <h2 class="col-md-3">Title</h2>
-                        <input type="text" name="title" id="tit" class="form-control "  value="{{old('title')}}">
+                        <input type="text" name="title" id="tit" class="form-control "  placeholder="Enter title" >
                        @if($errors->has('title'))
                         <span class="invalid-feedback help-block" role="alert">
                             <strong>{{$errors->first('title')}}</strong>
@@ -141,7 +129,7 @@
                     <div class="form-group {{$errors->has('Description') ? 'has-error ' : ''}}">
                         <h2 class="col-md-3">Description</h2>
                         <textarea type="text" name="Description" class="form-control" rows="3"
-                                  placeholder="Enter ..."></textarea>
+                                  placeholder="Enter description"></textarea>
                         @if($errors->has('Description'))
                             <span class="invalid-feedback help-block" role="alert">
                             <strong>{{$errors->first('Description')}}</strong>
@@ -164,10 +152,10 @@
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title">Info Modal</h4>
+                                <h4 class="modal-title">Cancel creation of exam </h4>
                             </div>
                             <div class="modal-body">
-                                <p>One fine body&hellip;</p>
+                                <p>Do you want cancel creation of exam !!!</p>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close

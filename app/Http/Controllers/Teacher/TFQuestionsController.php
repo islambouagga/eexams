@@ -68,6 +68,8 @@ class TFQuestionsController extends Controller
             ]);
         }
         $teacher = auth()->user();
+        $sum=0;
+
         $exam_current = $request->id_Exam;
         if($request->expression!=null and $request->score!=null and $request->order!=null and $request->correct_answer!=null ){
 
@@ -92,15 +94,37 @@ class TFQuestionsController extends Controller
             $question->id_teacher = auth()->user()->getAuthIdentifier();
         $question->save();
         Exam::find($exam_current)->questions()->attach($question, ['order' => $request->order, 'score' => $request->score]);
+            $exam=Exam::find($exam_current);
+            foreach($exam->questions  as $e){
+                $sum=$sum+$e->pivot->score;
+            }
         }
         switch ($request->submitbtn) {
             case'submit';
+                if ($sum>20){
+                    Exam::find($exam_current)->questions()->detach($question);
+                    $sm=$sum-$request->score;
+                    return redirect('teacher/questions/saquestions/'.$question->id_Question.'/edit?id='.$question->id_Question.'&key='.$exam_current.'&sm='.$sm.'&note='.$request->score)
+                        ->with('sm',$sm)->with('note',$request->score);
+                }
                 return redirect('teacher/exams');
                 break;
             case 'add';
+                if ($sum>20){
+                    Exam::find($exam_current)->questions()->detach($question);
+                    $sm=$sum-$request->score;
+                    return redirect('teacher/questions/tfquestions/'.$question->id_Question.'/edit?id='.$question->id_Question.'&key='.$exam_current.'&sm='.$sm.'&note='.$request->score)
+                        ->with('sm',$sm)->with('note',$request->score);
+                }
                 return redirect('teacher/questions/tfquestions/create?id=' . $exam_current);
                 break;
             case 'mit2';
+                if ($sum>20){
+                    Exam::find($exam_current)->questions()->detach($question);
+                    $sm=$sum-$request->score;
+                    return redirect('teacher/questions/tfquestions/'.$question->id_Question.'/edit?id='.$question->id_Question.'&key='.$exam_current.'&sm='.$sm.'&note='.$request->score)
+                        ->with('sm',$sm)->with('note',$request->score);
+                }
                 return redirect('/teacher/exams/' . $exam_current . '/edit');
                 break;
             case 'add3';
@@ -131,6 +155,7 @@ class TFQuestionsController extends Controller
     {
         $sum=0;
         $id_question = Input::get('id');
+        $sm = Input::get('sm');
         $id_exam = Input::get('key');
         $exam=Exam::find($id_exam);
         $ecount=count($exam->questions) ;
@@ -141,7 +166,7 @@ class TFQuestionsController extends Controller
 //        dd($question->id_Question);
 
         return view('teacher.questions.tfquestions.edit')->with('question', $question)->with('id_exam',$id_exam)
-            ->with('ecount',$ecount)->with('sumS',$sum);
+            ->with('ecount',$ecount)->with('sumS',$sum)->with('sm',$sm);
     }
 
     /**

@@ -16,7 +16,7 @@
                         <img src="{{ asset('dist/img/avatar.png') }}" class="img-circle" alt="User Image">
                     </div>
                     <div class="pull-left info">
-                        <p>Alexander Pierce</p>
+                        <p>Hamza Djebli</p>
                         <!-- Status -->
                         <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                     </div>
@@ -25,44 +25,44 @@
 
                 <!-- Sidebar Menu -->
                 <ul class="sidebar-menu" data-widget="tree">
-                    <li class="header">HEADER</li>
+
                     <!-- Optionally, you can add icons to the links -->
-                    <li><a href="{{url('/teacher')}}"><i class="fa fa-link"></i> <span>Home</span></a></li>
-                    <li class="active"><a href="{{route('teacher.exams.create')}}"><i class="fa fa-link"></i>
+                    <li><a href="{{url('/')}}"><i class="fa fa-dashboard"></i> <span>Home</span></a></li>
+                    <li class="active"><a href="{{route('teacher.exams.create')}}"><i class="fa fa-file-text"></i>
                             <span>Create a new exam</span></a>
                     </li>
-                    <li><a href="{{route('teacher.exams.index')}}"><i class="fa fa-link"></i>
-                            <span>Exams' list</span></a>
+                    <li><a href="{{route('teacher.exams.index')}}"><i class="fa fa-files-o"></i>
+                            <span>View exams list</span></a>
                     </li>
-                    <li><a href="{{route('teacher.groups.create')}}"><i class="fa fa-link"></i>
+                    <li><a href="{{route('teacher.groups.create')}}"><i class="fa fa-group"></i>
                             <span>Create a new group</span></a>
                     </li>
-                    <li><a href="{{route('teacher.groups.index')}}"><i class="fa fa-link"></i> <span>Groups' List</span></a>
+                    <li><a href="{{route('teacher.groups.index')}}"><i class="fa fa-group"></i> <span>View groups list</span></a>
                     </li>
 
-                    <li class="treeview">
-                        <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
-                            <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li><a href="#">Link in level 2</a></li>
-                            <li><a href="#">Link in level 2</a></li>
-                        </ul>
-                    </li>
+                    {{--                    <li class="treeview">--}}
+                    {{--                        <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>--}}
+                    {{--                            <span class="pull-right-container">--}}
+                    {{--                <i class="fa fa-angle-left pull-right"></i>--}}
+                    {{--              </span>--}}
+                    {{--                        </a>--}}
+                    {{--                        <ul class="treeview-menu">--}}
+                    {{--                            <li><a href="#">Link in level 2</a></li>--}}
+                    {{--                            <li><a href="#">Link in level 2</a></li>--}}
+                    {{--                        </ul>--}}
+                    {{--                    </li>--}}
 
-                    <a href="{{ route('logout') }}"
-                       onclick="event.preventDefault();
+                    <li>  <a href="{{ route('logout') }}"
+                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                        <i class="fa fa-circle-o text-red"></i><span>
+                            <i class="fa fa-sign-out"></i><span>
                     {{ __('Logout') }}
                </span> </a>
 
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                        @csrf
-                    </form>
-
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+                    </li>
                 </ul>
                 <!-- /.sidebar-menu -->
             </section>
@@ -93,8 +93,7 @@
                     <a href="{{url('/teacher/questions/tfquestions/create?id='.$id_Exam.'&key=0')}}">
                         <button type="button" class="btn btn-info" data-toggle="modal"
                                 data-target="#modal-default">
-                            True &
-                            false
+                            True/False
                         </button>
                     </a>
                     <a href="{{url('/teacher/questions/mcquestions/create?id='.$id_Exam.'&key=0')}}">
@@ -106,7 +105,7 @@
                     <a href="{{url('/teacher/questions/mrquestions/create?id='.$id_Exam.'&key=0')}}">
                         <button type="button" class="btn btn-danger" data-toggle="modal"
                                 data-target="#modal-danger">
-                            Multiple Responses
+                            Multiple Response
                         </button>
                     </a>
                     <a href="{{url('/teacher/questions/saquestions/create?id='.$id_Exam.'&key=0')}}">
@@ -123,9 +122,10 @@
 
 
             <!-- /.box-header -->
-            <div class="panel box box-body">
+            <div style="margin-bottom:0px " class="panel box box-body">
 
-                <p><strong>description for Multiple Choices Question</strong></p>
+                <p>In this page you can create a<strong> Multiple Response</strong> question. you have just to writhe the question's expression and add all answer options, and check the correct answer. </p>
+                <p>You may also specify the question's order, score, and estimated.</p>
             </div>
 
             <div class="box-body">
@@ -154,7 +154,7 @@
                     <div class="table-responsive">
 
                         <table class="table table-bordered" id="dynamic_field3">
-                            <button type="button" name="add" id="add" class="btn btn-success">Add More</button>
+                            <button type="button" name="add" id="add" class="btn btn-success">Add Option</button>
                             <tr id="row0">
 
                                 <td style="float: left">
@@ -189,6 +189,16 @@
                                 <input type="number" name="order" class="form-control" value="{{$ecount+1}}">
                             </div>
                         </div>
+                        <div class="progress col-md-3" style="margin-top: 69px;padding-left: 0px ;padding-right: 0px">
+                            <div class="progress-bar progress-bar-green" role="progressbar" aria-valuenow="40"
+                                 aria-valuemin="0" aria-valuemax="100" style="width: {{$sumS*5}}%">
+
+                            </div>
+                        </div>
+                        <div class="col-md-1"
+                             style="margin-top: 69px;padding-left: 0px ;padding-right: 0px;margin-left: 50px">
+                            <p class="text-red"><strong>rest:{{20-$sumS}}/20</strong></p>
+                        </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <h2>Score</h2>
@@ -201,18 +211,9 @@
                             </div>
                         </div>
 
-                        <div class="progress col-md-3" style="margin-top: 69px;padding-left: 0px ;padding-right: 0px">
-                            <div class="progress-bar progress-bar-green" role="progressbar" aria-valuenow="40"
-                                 aria-valuemin="0" aria-valuemax="100" style="width: {{$sumS*5}}%">
 
-                            </div>
-                        </div>
-                        <div class="col-md-1"
-                             style="margin-top: 69px;padding-left: 0px ;padding-right: 0px;margin-left: 50px">
-                            <p class="text-red"><strong>rest:{{20-$sumS}}/20</strong></p>
-                        </div>
                         <div class="col-md-3">
-                            <h2> Estimated Time:</h2>
+                            <h2> Estimated Time</h2>
                             <div class="input-group">
                                 <div class="input-group-addon">
                                     <i class="fa fa-clock-o"></i>
@@ -241,7 +242,7 @@
                                     class="btn btn-info pull-center">Create Question
                             </button>
                             <button type="submit" name="submitbtn" value="mit2" class="btn btn-info pull-right">Submit
-                                Eghhxam
+                                Exam
                             </button>
 
                         @else
@@ -249,9 +250,9 @@
                                 Create Question
                             </button>
                             <button type="submit" name="submitbtn" value="add3" class="btn btn-info pull-center">
-                                import Question from bank
+                                Import Question
                             </button>
-                            <button type="submit" name="submitbtn" value="submit" class="btn btn-info pull-right">Submit
+                            <button type="submit" name="submitbtn" value="submit" class="btn btn-success pull-right">Submit
                                 Exam
                             </button>
                         @endif
