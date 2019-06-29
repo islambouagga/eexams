@@ -5,12 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0936f078-a1c1-4b08-816a-23d5167a00a2" name="Default Changelist" comment="submit">
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Student/ExamsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Student/ExamsController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Teacher/GroupsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Teacher/GroupsController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Student.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Student.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/student.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/student.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/student/exams/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/student/exams/create.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/student/exams/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/student/exams/index.blade.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -67,8 +63,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/resources/views/student/exams/create.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="200">
-              <caret line="10" column="32" lean-forward="true" selection-start-line="10" selection-start-column="32" selection-end-line="10" selection-end-column="32" />
+            <state relative-caret-position="-246">
+              <caret line="890" column="62" selection-start-line="890" selection-start-column="62" selection-end-line="890" selection-end-column="62" />
               <folding>
                 <element signature="e#1600#1656#0#HTML" expanded="true" />
                 <element signature="e#8621#8648#0#HTML" expanded="true" />
@@ -80,10 +76,19 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/js/app.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="391">
+              <caret line="8167" lean-forward="true" selection-start-line="8167" selection-end-line="8167" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/views/layouts/student.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="348">
-              <caret line="634" column="9" lean-forward="true" selection-start-line="634" selection-start-column="9" selection-end-line="634" selection-end-column="9" />
+            <state relative-caret-position="368">
+              <caret line="635" selection-start-line="635" selection-end-line="635" />
             </state>
           </provider>
         </entry>
@@ -110,7 +115,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>Create Exam</find>
       <find>150</find>
       <find>Pending</find>
       <find>Expandable</find>
@@ -139,6 +143,7 @@
       <find>Alexander Pierce</find>
       <find>DOMContentLoaded</find>
       <find>str</find>
+      <find>window</find>
       <find>shadow</find>
     </findStrings>
     <replaceStrings>
@@ -152,7 +157,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/Exam.php" />
         <option value="D:/AdminLTE-2.4.5/pages/widgets.html" />
         <option value="$PROJECT_DIR$/public/dist/css/AdminLTE.min.css" />
         <option value="$PROJECT_DIR$/public/bower_components/select2/dist/css/select2.min.css" />
@@ -201,6 +205,7 @@
         <option value="$PROJECT_DIR$/app/Student.php" />
         <option value="$PROJECT_DIR$/resources/views/student/exams/index.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/Student/ExamsController.php" />
+        <option value="$PROJECT_DIR$/public/js/app.js" />
         <option value="$PROJECT_DIR$/resources/views/layouts/student.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/student/exams/create.blade.php" />
       </list>
@@ -357,6 +362,17 @@
             <path>
               <item name="eexams" type="b2602c69:ProjectViewProjectNode" />
               <item name="eexams" type="462c0819:PsiDirectoryNode" />
+              <item name="public" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="eexams" type="b2602c69:ProjectViewProjectNode" />
+              <item name="eexams" type="462c0819:PsiDirectoryNode" />
+              <item name="public" type="462c0819:PsiDirectoryNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="eexams" type="b2602c69:ProjectViewProjectNode" />
+              <item name="eexams" type="462c0819:PsiDirectoryNode" />
               <item name="resources" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -497,12 +513,12 @@
       <workItem from="1561389517004" duration="38889000" />
       <workItem from="1561510107373" duration="41360000" />
       <workItem from="1561669455931" duration="11643000" />
-      <workItem from="1561727068062" duration="35203000" />
+      <workItem from="1561727068062" duration="36487000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="614187000" />
+    <option name="totallyTimeSpent" value="615471000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -567,13 +583,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="submit" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/SAChoice.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="16" column="1" lean-forward="true" selection-start-line="16" selection-start-column="1" selection-end-line="16" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/MCChoice.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
@@ -933,17 +942,24 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="8167" lean-forward="true" selection-start-line="8167" selection-end-line="8167" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/layouts/student.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="348">
-          <caret line="634" column="9" lean-forward="true" selection-start-line="634" selection-start-column="9" selection-end-line="634" selection-end-column="9" />
+        <state relative-caret-position="368">
+          <caret line="635" selection-start-line="635" selection-end-line="635" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/student/exams/create.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="10" column="32" lean-forward="true" selection-start-line="10" selection-start-column="32" selection-end-line="10" selection-end-column="32" />
+        <state relative-caret-position="-246">
+          <caret line="890" column="62" selection-start-line="890" selection-start-column="62" selection-end-line="890" selection-end-column="62" />
           <folding>
             <element signature="e#1600#1656#0#HTML" expanded="true" />
             <element signature="e#8621#8648#0#HTML" expanded="true" />
