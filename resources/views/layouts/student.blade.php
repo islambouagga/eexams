@@ -45,6 +45,33 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="{{asset('dist/css/skins/_all-skins.min.css')}}">
+    <style>
+        *{padding:0;margin:0;}
+
+        body{
+            font-family:Verdana, Geneva, sans-serif;
+            font-size:18px;
+            background-color:#CCC;
+        }
+
+        .float{
+            position:fixed;
+
+            height:99px;
+            bottom:56px;
+            right:84%;
+            left: 0px;
+            background-color: #222d32;
+            color:#FFF;
+
+            text-align:center;
+            box-shadow: 2px 2px 3px #222d32;
+        }
+
+        .my-float{
+            margin-top:22px;
+        }
+    </style>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -600,5 +627,12 @@ desired effect
         setTimeout(mdraw, mrefreshinterval);
     }
 </script>
+<script>
+
+    $('.fixed-action-btn').floatingActionButton({
+        toolbarEnabled: true
+    });
+</script>
+
 </body>
 </html>

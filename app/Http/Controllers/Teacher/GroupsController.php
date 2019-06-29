@@ -144,7 +144,7 @@ class GroupsController extends Controller
         $startTime = Carbon::parse($startdate);
 //        dd($startTime);
         $finishTime = Carbon::parse($enddate);
-        dd($finishTime);
+//        dd($finishTime);
         $hours = $finishTime->diff($startTime);
         $minutes = $finishTime->diffInMinutes($startTime);
         $seconds = $finishTime->diffInSeconds($startTime);

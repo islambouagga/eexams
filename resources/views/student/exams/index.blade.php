@@ -22,7 +22,7 @@
                     <!-- Optionally, you can add icons to the links -->
                     <li><a href="{{url('/student')}}"><i class="fa fa-dashboard"></i> <span>Home</span></a></li>
 
-                    <li class="active"><a href="{{route('student.exams.index')}}"><i class="fa fa-files-o"></i> <span>Exams List</span></a>
+                    <li id="rr" class="active"><a href="{{route('student.exams.index')}}"><i class="fa fa-files-o"></i> <span>Exams List</span></a>
                     </li>
 
 
@@ -75,21 +75,35 @@
                             @foreach($groups as $g)
                                 @foreach($g->exams as $e)
                                 <tr>
+                               <input type="hidden" value="{{ $tl = $e->pivot->date_scheduling}} ">
 
+                                    <input type="hidden" value="{{ $dt = Carbon\Carbon::create($tl)}}">
+
+                                            <input type="hidden" value="{{ $drt = $dt->addMinutes(30)}}">
 
 
                                     @if(count($e->students)==0)
                                     <td>
-                                        @if($date>=$e->pivot->date_scheduling)
-                                            @if($date>=($e->pivot->date_scheduling))
 
-                                        <a class="btn btn-info" href="/eexams/public/student/exams/create?id={{$e->id_Exam}}" >
+
+                                        @if($date>=$e->pivot->date_scheduling and $date<$drt )
+
+{{--                                            {{$date>=$e->pivot->date_scheduling and $e->pivot->date_scheduling<$drt}}--}}
+
+                                        <a class="btn btn-info" href="/eexams/public/student/exams/create?id={{$e->id_Exam}}$key={{$e->pivot->date_scheduling}}" >
                                         {{$e->title}}
                                         </a>
-                                            @endif
-                                            @else
+
+
+
+
+                                            @elseif($date<($e->pivot->date_scheduling) or $date>$drt )
+
+
                                            <samp class="btn btn-danger" data-toggle="modal" data-target="#modal-warning"> {{$e->title}}</samp>
                                             @endif
+
+
                                     </td>
                                     @else
                                         <td>
@@ -142,4 +156,22 @@
     </section>
     <!-- /.content -->
     </div>
+{{--    <script>--}}
+{{--        if ("{{$date}}"==="{{$tl}}"){--}}
+{{--            location.reload(true);--}}
+{{--            window.onload--}}
+{{--        }--}}
+{{--    </script>--}}
+
+    <script>
+
+        <!--
+        function timedRefresh(timeoutPeriod) {
+            setTimeout("location.reload(true);",timeoutPeriod);
+        }
+
+        window.onload = timedRefresh(5000);
+
+        //   -->
+    </script>
 @endsection
