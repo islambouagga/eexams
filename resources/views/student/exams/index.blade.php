@@ -73,6 +73,7 @@
                             </thead>
                             <tbody>
                             @foreach($groups as $g)
+
                                 @foreach($g->exams as $e)
                                 <tr>
                                <input type="hidden" value="{{ $tl = $e->pivot->date_scheduling}} ">
@@ -82,7 +83,7 @@
                                             <input type="hidden" value="{{ $drt = $dt->addMinutes(30)}}">
 
 
-                                    @if(count($e->students)==0)
+                                    @if(count($student->exams)==0)
                                     <td>
 
 
@@ -90,7 +91,7 @@
 
 {{--                                            {{$date>=$e->pivot->date_scheduling and $e->pivot->date_scheduling<$drt}}--}}
 
-                                        <a class="btn btn-info" href="/eexams/public/student/exams/create?id={{$e->id_Exam}}$key={{$e->pivot->date_scheduling}}" >
+                                        <a class="btn btn-info" href="/eexams/public/student/exams/pass?id={{$e->id_Exam}}&key={{$e->pivot->date_scheduling}}" >
                                         {{$e->title}}
                                         </a>
 
@@ -156,12 +157,7 @@
     </section>
     <!-- /.content -->
     </div>
-{{--    <script>--}}
-{{--        if ("{{$date}}"==="{{$tl}}"){--}}
-{{--            location.reload(true);--}}
-{{--            window.onload--}}
-{{--        }--}}
-{{--    </script>--}}
+
 
     <script>
 

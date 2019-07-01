@@ -22,6 +22,7 @@ Route::post('/student/login','Auth\StudentLoginController@login')->name('student
 Route::get('/student', 'StudentController@index')->name('student');
 
 Route::get('/student/exams/result','Student\ExamsController@result',['as'=>'student'])->name('student.exams.result');
+Route::get('/student/exams/pass','Student\ExamsController@pass',['as'=>'student'])->name('student.exams.pass');
 
 Route::resource('/student/exams','Student\ExamsController',['as'=>'student']);
 
@@ -29,6 +30,8 @@ Route::get('/teacher', 'HomeController@index');
 
 Route::get('/teacher/exams/{exam}/schedule','Teacher\ExamsController@schedule',['as'=>'teacher'])->name('teacher.exams.schedule');
 Route::post('/teacher/exams/doschedule','Teacher\ExamsController@doschedule',['as'=>'teacher'])->name('teacher.exams.doschedule');
+Route::get('/teacher/exams/Schedulede','Teacher\ExamsController@Schedulede',['as'=>'teacher'])->name('teacher.exams.Schedulede');
+Route::get('/teacher/exams/{exam}/schedEst','Teacher\ExamsController@schedEst',['as'=>'teacher'])->name('teacher.exams.schedEst');
 
 Route::resource('/teacher/exams','Teacher\ExamsController',['as'=>'teacher']);
 

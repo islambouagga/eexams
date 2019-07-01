@@ -29,7 +29,7 @@
 
                     <!-- Optionally, you can add icons to the links -->
                     <li><a href="{{url('/')}}"><i class="fa fa-dashboard"></i> <span>Home</span></a></li>
-                    <li ><a href="{{route('teacher.exams.create')}}"><i class="fa fa-file-text"></i>
+                    <li><a href="{{route('teacher.exams.create')}}"><i class="fa fa-file-text"></i>
                             <span>Create a new exam</span></a>
                     </li>
                     <li><a href="{{route('teacher.exams.index')}}"><i class="fa fa-files-o"></i>
@@ -38,7 +38,8 @@
                     <li><a href="{{route('teacher.groups.create')}}"><i class="fa fa-group"></i>
                             <span>Create a new group</span></a>
                     </li>
-                    <li><a href="{{route('teacher.groups.index')}}"><i class="fa fa-group"></i> <span>View Groups' List</span></a>
+                    <li><a href="{{route('teacher.groups.index')}}"><i class="fa fa-group"></i>
+                            <span>View Groups' List</span></a>
                     </li>
 
                     {{--                    <li class="treeview">--}}
@@ -53,8 +54,8 @@
                     {{--                        </ul>--}}
                     {{--                    </li>--}}
 
-                    <li>  <a href="{{ route('logout') }}"
-                             onclick="event.preventDefault();
+                    <li><a href="{{ route('logout') }}"
+                           onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                             <i class="fa fa-sign-out"></i><span>
                     {{ __('Logout') }}
@@ -77,7 +78,8 @@
                 <!--  <small>Optional description</small> -->
             </h1>
             <ol class="breadcrumb">
-                <li><a href="/eexams/public/teacher/exams/{{$exams->id_Exam}}"><i class="fa fa-dashboard"></i>View Exam</a></li>
+                <li><a href="/eexams/public/teacher/exams/{{$exams->id_Exam}}"><i class="fa fa-dashboard"></i>View Exam</a>
+                </li>
                 <li class="active">Edit Exam</li>
             </ol>
         </section>
@@ -94,25 +96,25 @@
                 {{method_field('PATCH')}}
                 {{csrf_field()}}
                 <div class="form-group">
-                   <h2>Exam Tilte </h2>
+                    <h2>Exam Tilte </h2>
                     <input type="text" name="title" class="form-control"
                            value="{{$exams->title}}">
                     <h2>Exam Description</h2>
                     <textarea type="text" name="Description" class="form-control"
                               value="{{$exams->Description}}">{{$exams->Description}} </textarea>
                 </div>
-            <div class="box-body table-responsive no-padding">
-                <table class="table table-hover">
-                  <input type="hidden"  {{$c=1}}>
-                    @foreach ($exams->questions()->orderBy('order')->get() as $Q)
-                        <tr>
-
+                <div class="box-body table-responsive no-padding">
+                    <table class="table table-hover">
+                        <input type="hidden" {{$c=1}}>
+                        @foreach ($exams->questions()->orderBy('order')->get() as $Q)
+                            <tr>
 
 
                                 <h3><input type="hidden" name="id_Exam" value="{{ $exams->id_Exam }}"></h3>
                                 <!-- text input -->
                                 <div class="form-group">
-                                    <label><h2>Question {{$c}} <samp style="font-style: italic;">expression</samp></h2></label>
+                                    <label><h2>Question {{$c}} <samp style="font-style: italic;">expression</samp></h2>
+                                    </label>
                                     <input type="text" name="expression{{$Q->id_Question}}" class="form-control"
                                            value="{{$Q->expression}}">
 
@@ -152,37 +154,45 @@
 
                                             <div class="table-responsive">
 
-                                                <table class="table table-bordered" id="dynamic_field1">
-                                                    <button type="button" name="add2" id="add2"
+                                                <table class="table table-bordered" id="dynamic_field00">
+                                                    <button type="button" name="add00" id="add00"
                                                             class="btn btn-success">Add More
                                                     </button>
+                                                    <input type="hidden" value="{{$d0=1}}">
+                                                    @foreach ($Q->questiontable->choices()->get() as $mc)
+                                                        <tr>
 
-                                                    @foreach ($Q->questiontable->choices()->get() as $mc) <tr>
 
+                                                            <td style="float: left"><input style="width: 500px"
+                                                                                           type="text"
+                                                                                           name="choice{{$Q->id_Question}}[]"
+                                                                                           class="form-control name_list"
+                                                                                           value="{{$mc->choice}}"/>
+                                                            </td>
 
-                                                            <td style="float: left"><input style="width: 500px" type="text" name="choice{{$Q->id_Question}}[]"
-                                                                       class="form-control name_list"
-                                                                       value="{{$mc->choice}}"/></td>
+                                                            <td style="float: left">
 
-                                                        <td style="float: left">
+                                                                <button type="button" name="remove" id="0"
+                                                                        class="btn btn-danger btn_remove">X
+                                                                </button>
 
-                                                            <button type="button" name="remove" id="0" class="btn btn-danger btn_remove">X
-                                                            </button>
+                                                            </td>
 
-                                                        </td>
-
-                                                    </tr>
+                                                        </tr>
+                                                        {{$d0++}}
                                                     @endforeach
                                                 </table>
                                             </div>
 
-                                            <h2 style="float:left ;margin-right: 25px; padding: 0px;margin-top: 40px;">Right Answer</h2>
+                                            <h2 style="float:left ;margin-right: 25px; padding: 0px;margin-top: 40px;">
+                                                Right Answer</h2>
 
 
                                             <!-- select -->
                                             <div class="form-group">
                                                 <h3><input type="hidden" value="{{$d=1}}"></h3>
-                                                <select style="width: 150px; float:left ;margin-top: 20px" class="form-control" name="correct_answer{{$Q->id_Question}}"
+                                                <select style="width: 150px; float:left ;margin-top: 20px"
+                                                        class="form-control" name="correct_answer{{$Q->id_Question}}"
                                                         id="dynamic_field22">
                                                     <option value="{{$Q->questiontable->correct_answer}}">{{$Q->questiontable->correct_answer}}</option>
                                                     @while(count($Q->questiontable->choices()->get())>=$d)
@@ -206,41 +216,46 @@
 
                                             <div class="table-responsive">
 
-                                                <table class="table table-bordered" id="dynamic_field1">
+                                                <table class="table table-bordered" id="dynamic_field11">
                                                     <button type="button" name="add2" id="add2"
                                                             class="btn btn-success">Add More
                                                     </button>
 
-                                                    @foreach ($Q->questiontable->choices()->get() as $mc) <tr>
+                                                    @foreach ($Q->questiontable->choices()->get() as $mc)
+                                                        <tr>
 
 
-                                                        <td style="float: left"><input style="width: 500px" type="text" name="choice{{$Q->id_Question}}[]"
-                                                                                       class="form-control name_list"
-                                                                                       value="{{$mc->choice}}"/></td>
+                                                            <td style="float: left"><input style="width: 500px"
+                                                                                           type="text"
+                                                                                           name="choice{{$Q->id_Question}}[]"
+                                                                                           class="form-control name_list"
+                                                                                           value="{{$mc->choice}}"/>
+                                                            </td>
 
-                                                        <td style="float: left">
+                                                            <td style="float: left">
 
-                                                            <button type="button" name="remove" id="0" class="btn btn-danger btn_remove">X
-                                                            </button>
+                                                                <button type="button" name="remove" id="0"
+                                                                        class="btn btn-danger btn_remove">X
+                                                                </button>
 
-                                                        </td>
+                                                            </td>
 
-                                                    </tr>
+                                                        </tr>
                                                     @endforeach
                                                 </table>
                                             </div>
-                                            @endif
+                                        @endif
                                         @if($Q->questiontable_type=="MRQuestion")
                                             <h2>Answer Options</h2>
 
                                             <div class="table-responsive">
 
-                                                <table class="table table-bordered" id="dynamic_field3">
+                                                <table class="table table-bordered" id="dynamic_field33">
                                                     <button type="button" name="add" id="add"
                                                             class="btn btn-success">Add More
                                                     </button>
                                                     @foreach ($Q->questiontable->choices()->get() as $mc)
-                                                    <tr>
+                                                        <tr>
 
                                                             <td style="float: left">
                                                                 <div class="col-lg-12">
@@ -258,18 +273,20 @@
                                                                                 type="text"
                                                                                 name="choice{{$Q->id_Question}}[]"
                                                                                 value="{{$mc->choice}}"
-                                                                                class="form-control" style="width: 500px"></div>
+                                                                                class="form-control"
+                                                                                style="width: 500px"></div>
                                                                     <!-- /input-group -->
                                                                 </div>
                                                             </td>
 
 
-                                                        <td style="float: left">
-                                                            <button type="button" name="remove" id="0" class="btn btn-danger btn_remove">X
-                                                            </button>
-                                                        </td>
+                                                            <td style="float: left">
+                                                                <button type="button" name="remove" id="0"
+                                                                        class="btn btn-danger btn_remove">X
+                                                                </button>
+                                                            </td>
 
-                                                    </tr>
+                                                        </tr>
                                                     @endforeach
                                                 </table>
                                             </div>
@@ -279,14 +296,16 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <h2>Order</h2>
-                                                    <input type="number" name="order{{$Q->id_Question}}" class="form-control"
+                                                    <input type="number" name="order{{$Q->id_Question}}"
+                                                           class="form-control"
                                                            value="{{$Q->pivot->order}}">
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <h2>Score</h2>
-                                                    <input type="number" name="score{{$Q->id_Question}}" class="form-control"
+                                                    <input type="number" name="score{{$Q->id_Question}}"
+                                                           class="form-control"
                                                            value="{{$Q->pivot->score}}">
                                                 </div>
                                             </div>
@@ -319,22 +338,150 @@
                                             Submit Exam
                                         </button>
 
-                                        <a href="/eexams/public/teacher/questions/tfquestions/create?id={{$exams->id_Exam}}&key=2" class="btn btn-info">
+                                        <a href="/eexams/public/teacher/questions/tfquestions/create?id={{$exams->id_Exam}}&key=2"
+                                           class="btn btn-info">
 
-                                                Create Question
+                                            Create Question
 
                                         </a>
-                                </div>
+                                    </div>
 
 
-                        </tr>
+                            </tr>
 
 
-                </table>
+                    </table>
 
-            </div>
+                </div>
             </form>
         </section>
         <!-- /.content -->
     </div>
+    @foreach ($exams->questions()->orderBy('order')->get() as $Q)
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            var postURL = "<?php echo url('addmore'); ?>";
+
+            var i = "{{$d0}}";
+            var b = 0;
+            var co = 1;
+
+            $('#add00').click(function () {
+
+                i++;
+                co++;
+
+                $('#dynamic_field00').append('<tr id="row' + i + '" class="dynamic-added"><td><input type="text" name="choice[]{{$Q->id_Question}}" placeholder="Enter your Name" class="form-control name_list" /></td><td><button type="button" name="remove" id="' + i + '" class="btn btn-danger btn_remove">X</button></td></tr>');
+                $('#dynamic_field22').append('<option id="op' + co + '" value="' + co + '">' + co + '</option>');
+
+
+            });
+            $('#add2').click(function () {
+
+                i++;
+                co++;
+
+                $('#dynamic_field1').append('<tr id="row' + i + '" class="dynamic-added"><td><input type="text" name="choice[]" placeholder="Enter your Name" class="form-control name_list" /></td><td><button type="button" name="remove" id="' + i + '" class="btn btn-danger btn_remove">X</button></td></tr>');
+                $('#dynamic_field').append('<option id="op' + co + '" value="' + co + '">' + co + '</option>');
+
+
+            });
+
+            $('#add').click(function () {
+
+                b++;
+
+
+                $('#dynamic_field3').append('<tr id="row' + b + '" class="dynamic-added"><td style="float: left"><div  ><div class="input-group"><span class="input-group-addon"><input type="checkbox" name="is_correct[]" value="1"><input type="hidden" name="is_correct[]" value="0"></span><input type="text" name="choice[]" class="form-control" style="width: 500px"></div><!-- /input-group --></div></td><td style="float: left"><button type="button" name="remove" id="' + b + '" class="btn btn-danger btn_remove">X</button></td></tr>');
+
+            });
+
+            $(document).on('click', '.btn_remove', function () {
+
+                var button_id = $(this).attr("id");
+                var op_id = $(this).attr("op")
+
+                $('#row' + button_id + '').remove();
+                $('#op' + co + '').remove();
+
+                co--;
+            });
+
+
+            $.ajaxSetup({
+
+                headers: {
+
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+
+                }
+
+            });
+
+
+            $('#submit').click(function () {
+
+                $.ajax({
+
+                    url: postURL,
+
+                    method: "POST",
+
+                    data: $('#add_name').serialize(),
+
+                    type: 'json',
+
+                    success: function (data) {
+
+                        if (data.error) {
+
+                            printErrorMsg(data.error);
+
+                        } else {
+
+                            i = 1;
+                            !
+                                $('.dynamic-added').remove();
+
+                            $('#add_name')[0].reset();
+
+                            $(".print-success-msg").find("ul").html('');
+
+                            $(".print-success-msg").css('display', 'block');
+
+                            $(".print-error-msg").css('display', 'none');
+
+                            $(".print-success-msg").find("ul").append('<li>Record Inserted Successfully.</li>');
+
+                        }
+
+                    }
+
+                });
+
+            });
+
+
+            function printErrorMsg(msg) {
+
+                $(".print-error-msg").find("ul").html('');
+
+                $(".print-error-msg").css('display', 'block');
+
+                $(".print-success-msg").css('display', 'none');
+
+                $.each(msg, function (key, value) {
+
+                    $(".print-error-msg").find("ul").append('<li>' + value + '</li>');
+
+                });
+
+            }
+
+        });
+
+    </script>
+    @endforeach
 @endsection

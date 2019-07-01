@@ -40,6 +40,7 @@ class ExamsController extends Controller
      */
     public function index()
     {
+
         $m = 0;
         $r = 0;
         $s = null;
@@ -47,6 +48,7 @@ class ExamsController extends Controller
         $epassed = 0;
         $eschu = 0;
         $teacher = auth()->user();
+//        $g=[];
         $ecout = count($teacher->exams);
         foreach ($teacher->exams as $e) {
 
@@ -66,9 +68,11 @@ class ExamsController extends Controller
             }
             if (count($e->groupes) != 0) {
                 $eschu++;
+//                $g[]=$e;
             }
 
         }
+//        dd($g);
 //dd($eschu-$epassed);
 
         return view('teacher.exams.index')->with('exams', $teacher->exams)
@@ -207,6 +211,7 @@ class ExamsController extends Controller
                 $e->questions()->updateExistingPivot($question->id_Question, ['score' => request('score' . $Q->id_Question), 'order' => request('order' . $Q->id_Question)]);
             }
             if ($question->questiontable_type == "MCQuestion") {
+                dd($request->all());
                 $MCQuestion = MCQuestion::find($Q->questiontable_id);
                 $question->expression = request('expression' . $Q->id_Question);
                 $MCQuestion->correct_answer = request('correct_answer' . $Q->id_Question);
@@ -404,5 +409,52 @@ class ExamsController extends Controller
         }
         return view('teacher.exams.index')->with('exams', $teacher->exams)->with('ecount', $ecout)->with('epassed', $epassed)
             ->with('eschu', $eschu - $epassed)->with('pass10', $m);
+    }
+    public function Schedulede(){
+        $eschu = 0;
+        $teacher = auth()->user();
+        $g=[];
+        foreach ($teacher->exams as $exam){
+            if (count($exam->groupes) != 0 and count($exam->students) == 0) {
+                $eschu++;
+                $g[]=$exam;
+            }
+        }
+                return view('teacher.exams.Schedulede')->with('g',$g);
+
+    }
+    public function schedEst(Exam $exam){
+        $st=[];
+        $nota=0;
+        $epss=0;
+        $etak=0;
+        foreach ($exam->groupes as $groupe){
+
+            foreach ($groupe->students as $student){
+//                dd($student->pivot );
+                if (count($student->exams)==0){
+                    $nota++;
+                }
+foreach ($student->exams as $exam){
+//dd($exam->pivot);
+                if ($exam->pivot->date_passing== null){
+
+                    $etak++;
+                }else{
+
+                    $epss++;
+                }
+
+
+}
+                $st[]=$student;
+            }
+        }
+
+        $coute=count($st);
+//        dd($etak);
+
+return view('teacher.exams.schedEst')->with('st',$st)->with('coute',$coute)
+    ->with('nota',$nota)->with('epss',$epss)->with('etak',$etak);
     }
 }

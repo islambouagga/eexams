@@ -50,7 +50,7 @@ class Student extends Authenticatable
     {
         return $this->belongsToMany('App\Exam',
             'student_exams', 'id_student', 'id_Exam')
-            ->withPivot(['date_passing', 'mark']);
+            ->withPivot(['date_passing','date_taking', 'mark']);
 
     }
 

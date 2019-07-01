@@ -9,6 +9,7 @@ use App\Question;
 use App\SAQuestion;
 use App\Student;
 use Carbon\Carbon;
+use DateTime;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
@@ -33,6 +34,7 @@ class ExamsController extends Controller
 
 
         $student = auth()->user();
+
         foreach ($student->groups as $g){
             foreach ($g->exams as $e)
                 $tl = $g->pivot->date_scheduling;
@@ -46,7 +48,7 @@ class ExamsController extends Controller
         $dt = Carbon::create($tl);
         $drt = $dt->addMinutes(30);
         return view('student.exams.index')->with('groups', $student->groups)
-            ->with('date', $date)->with('da',$drt);
+            ->with('date', $date)->with('da',$drt)->with('student',$student);
 
     }
 
@@ -59,7 +61,7 @@ class ExamsController extends Controller
     {
 
         $id_Exam = Input::get('id');
-        $d = Input::get('key');
+
 
 
         $e = Exam::find($id_Exam);
@@ -68,7 +70,7 @@ class ExamsController extends Controller
         }
 //        dd($tl);
         $drt = Carbon::create($tl);
-$dt=$drt->addHours(5);
+//$dt=$drt->addHours(5);
         $dt = $drt->addMinutes(30);
 //dd($drt->addHours(24));
         $numbers = range(1, count($e->questions));
@@ -79,7 +81,7 @@ $dt=$drt->addHours(5);
         }
 
         return view('student.exams.create')->with('exam', $e)->with('order', $order)
-            ->with('tl', $dt)->with('d', $d);
+            ->with('tl', $dt);
     }
 
     /**
@@ -203,7 +205,87 @@ $dt=$drt->addHours(5);
      */
     public function update(Request $request, Exam $exam)
     {
-        //
+//        dd($request->all());
+        $mark = 0;
+        $m = 0;
+        $co = 0;
+        $student = auth()->user();
+        $id_exam = $request->id_Exam;
+        $exam = Exam::find($id_exam);
+        $current_time = Carbon::now()->toDateTimeString();
+        foreach ($exam->questions()->orderBy('order')->get() as $Q) {
+            if ($Q->questiontable_type == "MRQuestion") {
+                if ($request->answer == null) {
+                    $mark = $mark + 0;
+                } else {
+                    $mrq = MRQuestion::find($Q->questiontable_id);
+                    $count = 0;
+                    foreach ($mrq->choices->where('is_correct', 1) as $choice) {
+                        $count++;
+                    }
+                    $a = request('answer' . $Q->id_Question);
+                    $z = collect([$a]);
+                    $z->implode('.');
+                    $z = str_replace('[', '', $z);
+                    $z = str_replace('"', '', $z);
+                    $z = str_replace(']', '', $z);
+                    $student->questions()->attach($Q, ['answer' => $z]);
+                    foreach ($student->questions->where('id_Question', $Q->id_Question) as $f) {
+                        $g = $f->pivot->answer;
+                        $g = str_replace('[', '', $g);
+                        $g = str_replace('"', '', $g);
+                        $g = str_replace(']', '', $g);
+                        $split = explode(',', $g);
+                        $i = 0;
+                        while ($i < count($split)) {
+                            $op = MRChoice::where('id_m_r_choices', $split[$i])->firstOrFail();
+                            if ($op->is_correct == 1) {
+                                $co++;
+                            } else {
+                                break;
+                            }
+                            $i++;
+                        }
+                        if ($co == $count) {
+                            $mark = $mark + $Q->pivot->score;
+                        }
+
+                    }
+
+                }
+            }
+            if ($Q->questiontable_type == "SAQuestion") {
+                if ($request->answer == null) {
+                    $mark = $mark + 0;
+                } else {
+                    $student->questions()->attach($Q, ['answer' => request('answer' . $Q->id_Question)]);
+                    $saq = SAQuestion::find($Q->questiontable_id);
+                    foreach ($saq->choices as $choice) {
+                        $lentghco = strlen($choice->choice);
+                        $cost = levenshtein($choice->choice, request('answer' . $Q->id_Question), 1, 1, 1);
+                        if ((($cost * 100) / $lentghco) <= $m) {
+                            $mark = $mark + $Q->pivot->score;
+                            break;
+                        }
+                    }
+                }
+            }
+            if ($Q->questiontable_type == "TFQuestion" or $Q->questiontable_type == "MCQuestion") {
+                if ($request->answer == null) {
+                    $mark = $mark + 0;
+                } else {
+                    $student->questions()->attach($Q, ['answer' => request('answer' . $Q->id_Question)]);
+                    $AQ = $Q->questiontable;
+                    if ($AQ->correct_answer == request('answer' . $Q->id_Question)) {
+                        $mark = $mark + $Q->pivot->score;
+                    }
+                }
+            }
+            $student->exams()->updateExistingPivot($exam, ['date_passing' => $current_time, 'mark' => $mark]);
+            return redirect('student/exams/result?id=' . $id_exam . '$key=' . $m)->with('m', $m);
+
+
+        }
     }
 
     /**
@@ -212,9 +294,9 @@ $dt=$drt->addHours(5);
      * @param \App\Exam $exam
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Exam $exam)
+    public function destroy(Request $request,Exam $exam)
     {
-        //
+
     }
 
     public function result()
@@ -235,11 +317,7 @@ $dt=$drt->addHours(5);
             $order[] = $number;
         }
         $q = Question::find(71);
-//dd(count($q->students->where('id_student',$student->id_student)));
-//foreach ($q->students->where('id_student',$student->id_student) as $s){
-//////    dd('svsdg');
-//////            dd($s->pivot->answer);
-////}
+
         foreach ($exam->students()->get() as $e) {
 
 
@@ -252,6 +330,21 @@ $dt=$drt->addHours(5);
             }
 
         }
+
+    }
+    public function pass(Request $request){
+//        dd($request->all());
+//        dd("dd");
+        $mark=0;
+        $date_passing= "00:00:00";
+        $format = DateTime::createFromFormat('H:i:s', $date_passing);
+//        dd($format);
+        $current_date_time = Carbon::now()->toDateTimeString();
+        $student = auth()->user();
+        $exam= Exam::find($request->id);
+//        dd($exam);
+        $student->exams()->attach($exam, ['date_taking' => $current_date_time, 'mark' => $mark,'date_passing'=> null]);
+        return redirect('student/exams/create? id='.$exam->id_Exam)->with('exam',$exam);
 
     }
 }

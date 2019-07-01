@@ -22,7 +22,7 @@ class Exam extends Model
     {
         return $this->belongsToMany('App\Student', 'student_exams',
             'id_Exam', 'id_student')
-            ->withPivot(['date_passing', 'mark']);
+            ->withPivot(['date_passing','date_taking', 'mark']);
     }
 
     public function groupes()

@@ -19,7 +19,8 @@ class CreateStudentExamsTable extends Migration
             $table->foreign('id_student')->references('id_student')->on('students');
             $table->unsignedBigInteger('id_Exam');
             $table->foreign('id_Exam')->references('id_Exam')->on('exams');
-            $table->dateTime('date_passing');
+            $table->dateTime('date_passing')->nullable();
+            $table->dateTime('date_taking');
             $table->integer('mark');
             $table->timestamps();
         });

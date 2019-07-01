@@ -31,7 +31,7 @@
                     <li><a href="{{route('teacher.exams.create')}}"><i class="fa fa-file-text"></i>
                             <span>Create a new exam</span></a>
                     </li>
-                    <li class="active"><a href="{{route('teacher.exams.index')}}"><i class="fa fa-files-o"></i>
+                    <li ><a href="{{route('teacher.exams.index')}}"><i class="fa fa-files-o"></i>
                             <span>View exams list</span></a>
                     </li>
                     <li><a href="{{route('teacher.groups.create')}}"><i class="fa fa-group"></i>
@@ -87,68 +87,68 @@
             <!--------------------------
               | Your Page Content Here |
               -------------------------->
-            <div class="row">
-                <div class="col-lg-3 col-xs-6">
-                    <!-- small box -->
-                    <div class="small-box bg-aqua">
-                        <div class="inner">
-                            <h3>{{$ecount}}</h3>
+{{--            <div class="row">--}}
+{{--                <div class="col-lg-3 col-xs-6">--}}
+{{--                    <!-- small box -->--}}
+{{--                    <div class="small-box bg-aqua">--}}
+{{--                        <div class="inner">--}}
+{{--                            <h3>{{$ecount}}</h3>--}}
 
-                            <p>Total</p>
-                        </div>
-                        <div class="icon">
-                            <i class="fa  fa-file-text-o"></i>
-                        </div>
+{{--                            <p>Total</p>--}}
+{{--                        </div>--}}
+{{--                        <div class="icon">--}}
+{{--                            <i class="fa  fa-file-text-o"></i>--}}
+{{--                        </div>--}}
 
-                    </div>
-                </div>
-                <!-- ./col -->
-                <div class="col-lg-3 col-xs-6">
-                    <!-- small box -->
-                    <div class="small-box bg-green">
-                        <div class="inner">
-                            <h3>{{$epassed}}<sup style="font-size: 20px"></sup></h3>
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--                <!-- ./col -->--}}
+{{--                <div class="col-lg-3 col-xs-6">--}}
+{{--                    <!-- small box -->--}}
+{{--                    <div class="small-box bg-green">--}}
+{{--                        <div class="inner">--}}
+{{--                            <h3>{{$epassed}}<sup style="font-size: 20px"></sup></h3>--}}
 
-                            <p>Passed Exams</p>
-                        </div>
-                        <div class="icon">
-                            <i class="fa  fa-file-text-o"></i>
-                        </div>
+{{--                            <p>Passed Exams</p>--}}
+{{--                        </div>--}}
+{{--                        <div class="icon">--}}
+{{--                            <i class="fa  fa-file-text-o"></i>--}}
+{{--                        </div>--}}
 
-                    </div>
-                </div>
-                <!-- ./col -->
-                <div class="col-lg-3 col-xs-6">
-                    <!-- small box -->
-                    <div class="small-box bg-yellow">
-                        <div class="inner">
-                            <h3>{{$eschu}}</h3>
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--                <!-- ./col -->--}}
+{{--                <div class="col-lg-3 col-xs-6">--}}
+{{--                    <!-- small box -->--}}
+{{--                    <div class="small-box bg-yellow">--}}
+{{--                        <div class="inner">--}}
+{{--                            <h3>{{$eschu}}</h3>--}}
 
-                            <p>Scheduled Exams</p>
-                        </div>
-                        <div class="icon">
-                            <a href="{{route('teacher.exams.Schedulede')}}"><i class="fa fa-clock-o" style="color: #bbb7c4;"></i></a>
-                        </div>
+{{--                            <p>Scheduled Exams</p>--}}
+{{--                        </div>--}}
+{{--                        <div class="icon">--}}
+{{--                           <i class="fa fa-clock-o" style="color: #bbb7c4;"></i>--}}
+{{--                        </div>--}}
 
-                    </div>
-                </div>
-                <!-- ./col -->
-                <div class="col-lg-3 col-xs-6">
-                    <!-- small box -->
-                    <div class="small-box bg-red">
-                        <div class="inner">
-                            <h3>{{$ecount-$eschu-$epassed}}</h3>
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--                <!-- ./col -->--}}
+{{--                <div class="col-lg-3 col-xs-6">--}}
+{{--                    <!-- small box -->--}}
+{{--                    <div class="small-box bg-red">--}}
+{{--                        <div class="inner">--}}
+{{--                            <h3>{{$ecount-$eschu-$epassed}}</h3>--}}
 
-                            <p>Created Exams</p>
-                        </div>
-                        <div class="icon">
-                            <i class="fa  fa-file-text-o"></i>
-                        </div>
+{{--                            <p>Created Exams</p>--}}
+{{--                        </div>--}}
+{{--                        <div class="icon">--}}
+{{--                            <i class="fa  fa-file-text-o"></i>--}}
+{{--                        </div>--}}
 
-                    </div>
-                </div>
-                <!-- ./col -->
-            </div>
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--                <!-- ./col -->--}}
+{{--            </div>--}}
             <div class="row">
                 <div class="col-xs-12">
                     <div class="box">
@@ -160,40 +160,27 @@
                                     <tr>
                                         <th>Title</th>
                                         <th>Description</th>
-                                        <th>Creation date</th>
-                                        <th>Status</th>
-                                        <th>Download</th>
-                                        <th>Edit</th>
-                                        <th>Delete</th>
+                                        <th>Exam's date and time</th>
+                                        <th>Students status</th>
+
+
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach($exams as $e)
+                                    @foreach($g as $e)
                                         <tr>
                                             <td>{{$e->title}}</td>
                                             <td>{{$e->Description}}</td>
-                                            <td>{{$e->created_at}}</td>
-                                            @if(count($e->students)!=0)
-                                            <td><span class="label label-success">Passed</span></td>
-                                            @elseif(count($e->groupes)!=0)
-                                            <td><span class="label label-warning">Schedule</span></td>
-                                            @else
-                                            <td><span class="label label-danger">Created</span></td>
-                                            @endif
-                                            <td><i class="glyphicon glyphicon-download-alt"></i></td>
+
+                                            @foreach($e->groupes as $gg)
+                                            <td>{{$gg->pivot->date_scheduling}}</td>
+                                            @endforeach
                                             <td>
-                                                <a href="/eexams/public/teacher/exams/{{$e->id_Exam}}">
-                                                    <i class="fa fa-fw fa-edit"></i>
+                                                <a href="{{route('teacher.exams.schedEst',$e->id_Exam)}}">
+                                                    <i class="fa fa-group"></i>
                                                 </a>
                                             </td>
-                                            <td>
-                                                <form role="form" method="post"
-                                                      action="/eexams/public/teacher/exams/{{$e->id_Exam}}">
-                                                    @method('DELETE')
-                                                    @csrf
-                                                    <button class="fa fa-trash-o"></button>
-                                                </form>
-                                            </td>
+
                                         </tr>
                                     @endforeach
                                     </tbody>

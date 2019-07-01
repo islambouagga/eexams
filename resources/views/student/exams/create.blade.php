@@ -236,8 +236,9 @@ desired effect
             <table class="table table-hover">
                 <input type="hidden"  {{$c=1}}>
                 <tr>
-                    <form role="form" method="post" action="{{route('student.exams.store')}}">
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <form role="form" method="post" action="/eexams/public/student/exams/{{$exam->id_Exam}}">
+                        {{method_field('PATCH')}}
+                        {{csrf_field()}}
                         @foreach($order as $o)
 
                         @foreach($exam->questions()->where('order',$o)->get() as $Q)
@@ -935,7 +936,7 @@ desired effect
         if (distance < 0){
             clearInterval(x)
             document.getElementById("demo").innerHTML = "EXPIRED";
-            document.getElementById('btns').click();
+            // document.getElementById('btns').click();
         }
 
 
