@@ -171,7 +171,7 @@
                                             <td>{{$s->name}}</td>
 
 
-                                            @if(count($s->exams)==0)
+                                            @if(count($s->exams->where('id_Exam',$id))==0)
                                                 <td><span class="label label-danger">Not arrived </span></td>
                                             @else
                                                 @foreach($s->exams as $e)

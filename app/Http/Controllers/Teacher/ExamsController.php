@@ -186,7 +186,8 @@ class ExamsController extends Controller
      */
     public function update(Request $request, Exam $exam, TFQuestion $TFQuestion, SAQuestion $SAQuestion, MCQuestion $MCQuestion, MRQuestion $MRQuestion, Question $question)
     {
-//dd($request->all());
+
+dd($request->all());
         $exam_current = $request->id_Exam;
         $e = Exam::find($exam_current);
         $e->title = $request->title;
@@ -423,7 +424,8 @@ class ExamsController extends Controller
                 return view('teacher.exams.Schedulede')->with('g',$g);
 
     }
-    public function schedEst(Exam $exam){
+    public function schedEst(Exam $exam,Request $request){
+
         $st=[];
         $nota=0;
         $epss=0;
@@ -432,12 +434,12 @@ class ExamsController extends Controller
 
             foreach ($groupe->students as $student){
 //                dd($student->pivot );
-                if (count($student->exams)==0){
+                if (count($student->exams->where('id_Exam',$exam->id_Exam))==0){
                     $nota++;
                 }
-foreach ($student->exams as $exam){
+foreach ($student->exams->where('id_Exam',$exam->id_Exam) as $e){
 //dd($exam->pivot);
-                if ($exam->pivot->date_passing== null){
+                if ($e->pivot->date_passing== null){
 
                     $etak++;
                 }else{
@@ -453,8 +455,9 @@ foreach ($student->exams as $exam){
 
         $coute=count($st);
 //        dd($etak);
+//        dd($exam->id_Exam);
 
 return view('teacher.exams.schedEst')->with('st',$st)->with('coute',$coute)
-    ->with('nota',$nota)->with('epss',$epss)->with('etak',$etak);
+    ->with('nota',$nota)->with('epss',$epss)->with('etak',$etak)->with('id',$exam->id_Exam);
     }
 }

@@ -72,9 +72,9 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($groups as $g)
+                            @foreach($exams as $e)
 
-                                @foreach($g->exams as $e)
+
                                 <tr>
                                <input type="hidden" value="{{ $tl = $e->pivot->date_scheduling}} ">
 
@@ -82,8 +82,8 @@
 
                                             <input type="hidden" value="{{ $drt = $dt->addMinutes(30)}}">
 
+                                    @if(count($e->students)==0)
 
-                                    @if(count($student->exams)==0)
                                     <td>
 
 
@@ -119,7 +119,7 @@
 
                                 </tr>
                                 @endforeach
-                            @endforeach
+
                             </tbody>
 
                         </table>

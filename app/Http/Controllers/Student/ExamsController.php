@@ -34,11 +34,13 @@ class ExamsController extends Controller
 
 
         $student = auth()->user();
-
+        $exams=[];
         foreach ($student->groups as $g){
             foreach ($g->exams as $e)
+                $exams[]=$e;
                 $tl = $g->pivot->date_scheduling;
         }
+
 
         date_default_timezone_set('CET');
         $timezone = date_default_timezone_get();
@@ -47,7 +49,7 @@ class ExamsController extends Controller
 
         $dt = Carbon::create($tl);
         $drt = $dt->addMinutes(30);
-        return view('student.exams.index')->with('groups', $student->groups)
+        return view('student.exams.index')->with('exams', $exams)
             ->with('date', $date)->with('da',$drt)->with('student',$student);
 
     }
