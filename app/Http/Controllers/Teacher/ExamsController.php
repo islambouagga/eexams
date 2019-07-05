@@ -356,8 +356,9 @@ dd($request->all());
 
     public function schedule(Exam $exam)
     {
+        $teacher = auth()->user();
         $groups = Group::all();
-        return view('teacher.exams.schedule')->with('groups', $groups)->with('exam', $exam);
+        return view('teacher.exams.schedule')->with('groups',$teacher->groupes)->with('exam', $exam);
     }
 
     public function doschedule(Request $request, Exam $exam)

@@ -51,20 +51,16 @@
         <!--------------------------
           | Your Page Content Here |
           -------------------------->
+
         <div class="row">
             <div class="col-xs-12">
                 <div class="box">
-                    <div class="box-header">
-                        <h3 class="box-title">Exams List</h3>
 
-
-                    </div>
                     <!-- /.box-header -->
                     <div class="box-body">
-                        <table id="example1" class="table table-bordered table-striped">
+                        <table id="example2" class="table table-bordered table-hover">
                             <thead>
                             <tr>
-
                                 <th>Name</th>
                                 <th>Description</th>
                                 <th>Exam's date and time</th>
@@ -74,26 +70,29 @@
                             <tbody>
                             @foreach($exams as $e)
 
+                                @if($e->students->where('id_Exam',$e->id_Exam) != null)
 
                                 <tr>
-                               <input type="hidden" value="{{ $tl = $e->pivot->date_scheduling}} ">
+                                    <input type="hidden" value="{{ $tl = $e->pivot->date_scheduling}} ">
 
                                     <input type="hidden" value="{{ $dt = Carbon\Carbon::create($tl)}}">
 
-                                            <input type="hidden" value="{{ $drt = $dt->addMinutes(30)}}">
+                                    <input type="hidden" value="{{ $drt = $dt->addMinutes(30)}}">
 
-                                    @if(count($e->students)==0)
-
-                                    <td>
+                                    @if(count($student->exams)!=$gr )
 
 
-                                        @if($date>=$e->pivot->date_scheduling and $date<$drt )
 
-{{--                                            {{$date>=$e->pivot->date_scheduling and $e->pivot->date_scheduling<$drt}}--}}
+                                        <td>
 
-                                        <a class="btn btn-info" href="/eexams/public/student/exams/pass?id={{$e->id_Exam}}&key={{$e->pivot->date_scheduling}}" >
-                                        {{$e->title}}
-                                        </a>
+
+                                            @if($date>=$e->pivot->date_scheduling and $date<$drt )
+
+
+
+                                                <a class="btn btn-info" href="/eexams/public/student/exams/pass?id={{$e->id_Exam}}&key={{$e->pivot->date_scheduling}}" >
+                                                    {{$e->title}}
+                                                </a>
 
 
 
@@ -101,16 +100,14 @@
                                             @elseif($date<($e->pivot->date_scheduling) or $date>$drt )
 
 
-                                           <samp class="btn btn-danger" data-toggle="modal" data-target="#modal-warning"> {{$e->title}}</samp>
+                                                <samp class="btn btn-danger" data-toggle="modal" data-target="#modal-warning"> {{$e->title}}</samp>
                                             @endif
+                                    @endif
 
 
-                                    </td>
-                                    @else
-                                        <td>
-                                            <samp class="btn btn-success" data-toggle="modal" data-target="#modal-warning"> {{$e->title}}</samp>
                                         </td>
-                                        @endif
+
+                                    @endif
                                     <td>{{$e->Description}}</td>
                                     <td>{{$e->pivot->date_scheduling}}</td>
                                     <td>Not yet passed</td>
@@ -118,40 +115,59 @@
 
 
                                 </tr>
-                                @endforeach
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
 
+                <div class="box">
+
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <table id="example1" class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Exam's date and time</th>
+                                <th>Mark</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($student->exams as $ee)
+
+
+                                <tr>
+
+
+
+
+                                    <td><samp class="btn btn-success" data-toggle="modal" data-target="#modal-warning"> {{$ee->title}}</samp></td>
+
+
+
+
+                                    <td>{{$ee->Description}}</td>
+                                    <td>{{$ee->pivot->date_scheduling}}</td>
+                                    <td>{{$ee->pivot->mark}}</td>
+
+
+
+                                </tr>
+                            @endforeach
                             </tbody>
 
                         </table>
-                        <div class="modal modal-warning fade" id="modal-warning">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span></button>
-                                        <h4 class="modal-title">Access Denied</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        <p>you can't access to exam</p>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Got it
-                                        </button>
-
-                                    </div>
-                                </div>
-                                <!-- /.modal-content -->
-                            </div>
-                            <!-- /.modal-dialog -->
-                        </div>
-                        <!-- /.modal -->
                     </div>
-                    <!-- /.box-body     -->
+                    <!-- /.box-body -->
                 </div>
                 <!-- /.box -->
             </div>
+            <!-- /.col -->
         </div>
-
 
 
     </section>

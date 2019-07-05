@@ -32,16 +32,50 @@ class ExamsController extends Controller
     {
 
 
-
+$sd=0;
         $student = auth()->user();
+        $s=Student::find(4);
+//        dd(count($s->exams));
+        $gr=0;
         $exams=[];
+        $exas=[];
+        $exam=0;
         foreach ($student->groups as $g){
-            foreach ($g->exams as $e)
+            foreach ($g->exams as $e){
+                $gr++;
                 $exams[]=$e;
                 $tl = $g->pivot->date_scheduling;
+            }
+        }
+//        dd($exams);
+        foreach ($student->groups as $g){
+            foreach ($g->exams as $e){
+                foreach ($e->students->where('id_student',$student->id_student) as $ss){
+                    $id=$e->id_Exam;
+                    $exam=$e;
+                    $key= array_search($exam, $exams);
+                    unset($exams[$key]);
+
+                }
+                if ($exam ==null){
+                    $sd++;
+                }else{
+
+                    break;
+                }
+
+
+        }
         }
 
+        foreach($student->exams as $eee){
+            $exas[]=$eee;
 
+    }
+
+
+
+//        dd($exams);
         date_default_timezone_set('CET');
         $timezone = date_default_timezone_get();
 
@@ -50,7 +84,8 @@ class ExamsController extends Controller
         $dt = Carbon::create($tl);
         $drt = $dt->addMinutes(30);
         return view('student.exams.index')->with('exams', $exams)
-            ->with('date', $date)->with('da',$drt)->with('student',$student);
+            ->with('date', $date)->with('da',$drt)->with('student',$student)
+            ->with('gr',$gr);
 
     }
 
@@ -72,7 +107,7 @@ class ExamsController extends Controller
         }
 //        dd($tl);
         $drt = Carbon::create($tl);
-//$dt=$drt->addHours(5);
+//$dt=$drt->addHours(1);
         $dt = $drt->addMinutes(30);
 //dd($drt->addHours(24));
         $numbers = range(1, count($e->questions));
@@ -215,11 +250,12 @@ class ExamsController extends Controller
         $id_exam = $request->id_Exam;
         $exam = Exam::find($id_exam);
         $current_time = Carbon::now()->toDateTimeString();
+
         foreach ($exam->questions()->orderBy('order')->get() as $Q) {
+
             if ($Q->questiontable_type == "MRQuestion") {
-                if ($request->answer == null) {
-                    $mark = $mark + 0;
-                } else {
+
+
                     $mrq = MRQuestion::find($Q->questiontable_id);
                     $count = 0;
                     foreach ($mrq->choices->where('is_correct', 1) as $choice) {
@@ -251,15 +287,14 @@ class ExamsController extends Controller
                         if ($co == $count) {
                             $mark = $mark + $Q->pivot->score;
                         }
+//                        dd($mark);
 
                     }
 
                 }
-            }
+
             if ($Q->questiontable_type == "SAQuestion") {
-                if ($request->answer == null) {
-                    $mark = $mark + 0;
-                } else {
+
                     $student->questions()->attach($Q, ['answer' => request('answer' . $Q->id_Question)]);
                     $saq = SAQuestion::find($Q->questiontable_id);
                     foreach ($saq->choices as $choice) {
@@ -271,24 +306,25 @@ class ExamsController extends Controller
                         }
                     }
                 }
-            }
+
             if ($Q->questiontable_type == "TFQuestion" or $Q->questiontable_type == "MCQuestion") {
-                if ($request->answer == null) {
-                    $mark = $mark + 0;
-                } else {
+
+
                     $student->questions()->attach($Q, ['answer' => request('answer' . $Q->id_Question)]);
                     $AQ = $Q->questiontable;
                     if ($AQ->correct_answer == request('answer' . $Q->id_Question)) {
                         $mark = $mark + $Q->pivot->score;
+
                     }
                 }
             }
+//        dd($mark);
             $student->exams()->updateExistingPivot($exam, ['date_passing' => $current_time, 'mark' => $mark]);
             return redirect('student/exams/result?id=' . $id_exam . '$key=' . $m)->with('m', $m);
 
 
         }
-    }
+
 
     /**
      * Remove the specified resource from storage.

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Teacher;
 use App\Exam;
 use App\Group;
 use App\Student;
+use App\Teacher;
 use Carbon\Carbon;
 use DateTime;
 use Illuminate\Contracts\Session\Session;
@@ -26,6 +27,15 @@ class GroupsController extends Controller
      */
     public function index()
     {
+//        $s=0;
+//        $t=Teacher::find(2);
+//        foreach ($t->groupes as $gg){
+////            if (count($gg->exams)!=0){
+//                $s++;
+//
+////            }
+//        }
+//        dd($s);
         $gschu=0;
         $teacher = auth()->user();
         $gcout=count($teacher->groupes);
@@ -36,6 +46,7 @@ class GroupsController extends Controller
 
             }
         }
+//        dd($gschu);
         return view('teacher.groups.index')->with('groups', $teacher->groupes)
             ->with('gcout',$gcout)->with('gschu',$gschu);
     }
@@ -126,9 +137,12 @@ class GroupsController extends Controller
     }
 
     public function schedule(Group $group)
-    {
+    { $teacher = auth()->user();
+//    dd($teacher->exams);
+
+//   dd($t->exams);
         $exams = Exam::all();
-        return view('teacher.groups.schedule')->with('exams', $exams)->with('group', $group);
+        return view('teacher.groups.schedule')->with('exams',$teacher->exams)->with('group', $group);
     }
 
     public function doschedule(Request $request, Group $group)
