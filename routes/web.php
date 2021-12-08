@@ -18,6 +18,8 @@ Route::get('/', function () {
 Auth::routes();
 Route::get('/student/login','Auth\StudentLoginController@showLoginForm')->name('student.login');
 Route::post('/student/login','Auth\StudentLoginController@login')->name('student.login.submit');
+Route::get('/student/register','Auth\StudentLoginController@showregiqterForm')->name('student.register');
+Route::post('/student/register','Auth\StudentLoginController@registerStudent')->name('student.register.submit');
 
 Route::get('/student', 'StudentController@index')->name('student');
 
