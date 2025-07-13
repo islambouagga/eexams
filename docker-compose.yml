@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: eexams-app
+    ports:
+      - "8000:80"
+    volumes:
+      - .:/var/www
+    networks:
+      - eexams
+
+  mysql:
+    image: mysql:5.7
+    container_name: eexams-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: eexams
+      MYSQL_USER: eexams
+      MYSQL_PASSWORD: secret
+    ports:
+      - "3306:3306"
+    volumes:
+      - dbdata:/var/lib/mysql
+    networks:
+      - eexams
+
+volumes:
+  dbdata:
+
+networks:
+  eexams:
+    driver: bridge
